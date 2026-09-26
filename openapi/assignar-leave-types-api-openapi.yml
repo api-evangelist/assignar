@@ -1,0 +1,98 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Leave Types API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Leave Types
+paths:
+  /leave-types:
+    get:
+      summary: List all leave types
+      tags:
+      - Leave Types
+      operationId: getLeaveTypes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LeaveType'
+                  count:
+                    type: integer
+                    description: Total number of records
+                    example: 1
+  /leave-types/{leaveTypeId}:
+    get:
+      summary: Leave Type by ID
+      tags:
+      - Leave Types
+      operationId: getLeaveTypeById
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                    example: 200
+                  data:
+                    $ref: '#/components/schemas/LeaveType'
+components:
+  schemas:
+    LeaveType:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          example: annual
+        label:
+          type: string
+          example: Annual leave
+        code:
+          type: string
+          example: annual-leave
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

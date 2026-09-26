@@ -1,0 +1,1287 @@
+{
+  "@context": {
+    "@vocab": "https://assignar.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "assignar": "https://assignar.com/schema#",
+    "UrlAttachment": "assignar:UrlAttachment",
+    "url": {
+      "@id": "assignar:url",
+      "@type": "@id"
+    },
+    "expiry": {
+      "@id": "assignar:expiry",
+      "@type": "xsd:integer"
+    },
+    "Allocation": "assignar:Allocation",
+    "id": {
+      "@id": "assignar:id",
+      "@type": "xsd:integer"
+    },
+    "resource_id": {
+      "@id": "assignar:resource_id",
+      "@type": "xsd:integer"
+    },
+    "resource_date": {
+      "@id": "assignar:resource_date",
+      "@type": "xsd:string"
+    },
+    "status_id": {
+      "@id": "assignar:status_id",
+      "@type": "xsd:integer"
+    },
+    "notified": {
+      "@id": "assignar:notified",
+      "@type": "xsd:boolean"
+    },
+    "comments": {
+      "@id": "assignar:comments",
+      "@type": "xsd:string"
+    },
+    "timesheet_id": {
+      "@id": "assignar:timesheet_id",
+      "@type": "xsd:integer"
+    },
+    "resource": {
+      "@id": "assignar:resource",
+      "@type": "@id"
+    },
+    "status": {
+      "@id": "assignar:status"
+    },
+    "AssetWithTagId": "assignar:AssetWithTagId",
+    "name": {
+      "@id": "assignar:name",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "assignar:description",
+      "@type": "xsd:string"
+    },
+    "rego_number": {
+      "@id": "assignar:rego_number",
+      "@type": "xsd:string"
+    },
+    "active": {
+      "@id": "assignar:active",
+      "@type": "xsd:boolean"
+    },
+    "modified_by": {
+      "@id": "assignar:modified_by",
+      "@type": "xsd:string"
+    },
+    "modified_by_id": {
+      "@id": "assignar:modified_by_id",
+      "@type": "xsd:integer"
+    },
+    "modified_time": {
+      "@id": "assignar:modified_time",
+      "@type": "xsd:dateTime"
+    },
+    "year": {
+      "@id": "assignar:year",
+      "@type": "xsd:string"
+    },
+    "make": {
+      "@id": "assignar:make",
+      "@type": "xsd:string"
+    },
+    "model": {
+      "@id": "assignar:model",
+      "@type": "xsd:string"
+    },
+    "serial_number": {
+      "@id": "assignar:serial_number",
+      "@type": "xsd:string"
+    },
+    "charge_rate": {
+      "@id": "assignar:charge_rate",
+      "@type": "xsd:integer"
+    },
+    "number_reading": {
+      "@id": "assignar:number_reading",
+      "@type": "xsd:integer"
+    },
+    "external_id": {
+      "@id": "assignar:external_id",
+      "@type": "xsd:string"
+    },
+    "integration_id": {
+      "@id": "assignar:integration_id",
+      "@type": "xsd:string"
+    },
+    "deleted_at": {
+      "@id": "assignar:deleted_at",
+      "@type": "xsd:dateTime"
+    },
+    "deleted_by_id": {
+      "@id": "assignar:deleted_by_id",
+      "@type": "xsd:integer"
+    },
+    "asset_class_id": {
+      "@id": "assignar:asset_class_id",
+      "@type": "xsd:integer"
+    },
+    "tags": {
+      "@id": "assignar:tags",
+      "@container": "@list"
+    },
+    "attachments": {
+      "@id": "assignar:attachments",
+      "@container": "@list"
+    },
+    "AssetWithTagPart": "assignar:AssetWithTagPart",
+    "assetClass": {
+      "@id": "assignar:assetClass"
+    },
+    "Client": "assignar:Client",
+    "company_name": {
+      "@id": "assignar:company_name",
+      "@type": "xsd:string"
+    },
+    "abn": {
+      "@id": "assignar:abn",
+      "@type": "xsd:string"
+    },
+    "email": {
+      "@id": "assignar:email",
+      "@type": "xsd:string"
+    },
+    "office_phone": {
+      "@id": "assignar:office_phone",
+      "@type": "xsd:string"
+    },
+    "mobile": {
+      "@id": "assignar:mobile",
+      "@type": "xsd:string"
+    },
+    "address_1": {
+      "@id": "assignar:address_1",
+      "@type": "xsd:string"
+    },
+    "address_geo": {
+      "@id": "assignar:address_geo",
+      "@type": "xsd:string"
+    },
+    "address_2": {
+      "@id": "assignar:address_2",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "assignar:city",
+      "@type": "xsd:string"
+    },
+    "postcode": {
+      "@id": "assignar:postcode",
+      "@type": "xsd:string"
+    },
+    "state": {
+      "@id": "assignar:state",
+      "@type": "xsd:string"
+    },
+    "CreateUpdateAssetAttachmentRequest": "assignar:CreateUpdateAssetAttachmentRequest",
+    "AssetAttachment": "assignar:AssetAttachment",
+    "AssetAttachmentSummary": "assignar:AssetAttachmentSummary",
+    "attachment_id": {
+      "@id": "assignar:attachment_id",
+      "@type": "xsd:integer"
+    },
+    "Supplier": "assignar:Supplier",
+    "date_added": {
+      "@id": "assignar:date_added",
+      "@type": "xsd:date"
+    },
+    "date_modified": {
+      "@id": "assignar:date_modified",
+      "@type": "xsd:date"
+    },
+    "SupplierWithTagId": "assignar:SupplierWithTagId",
+    "ProjectResponse": "assignar:ProjectResponse",
+    "client_id": {
+      "@id": "assignar:client_id",
+      "@type": "xsd:integer"
+    },
+    "address": {
+      "@id": "assignar:address",
+      "@type": "xsd:string"
+    },
+    "suburb": {
+      "@id": "assignar:suburb",
+      "@type": "xsd:string"
+    },
+    "parent_id": {
+      "@id": "assignar:parent_id",
+      "@type": "xsd:integer"
+    },
+    "root_path": {
+      "@id": "assignar:root_path",
+      "@type": "xsd:string"
+    },
+    "charge_code_id": {
+      "@id": "assignar:charge_code_id",
+      "@type": "xsd:integer"
+    },
+    "client": {
+      "@id": "assignar:client"
+    },
+    "parent": {
+      "@id": "assignar:parent"
+    },
+    "sub_projects": {
+      "@id": "assignar:sub_projects",
+      "@container": "@list"
+    },
+    "charge_code": {
+      "@id": "assignar:charge_code"
+    },
+    "activities": {
+      "@id": "assignar:activities",
+      "@container": "@list"
+    },
+    "supervisors": {
+      "@id": "assignar:supervisors",
+      "@container": "@list"
+    },
+    "ProjectCreateResponse": "assignar:ProjectCreateResponse",
+    "ProjectRequest": "assignar:ProjectRequest",
+    "AssetDocument": "assignar:AssetDocument",
+    "asset_id": {
+      "@id": "assignar:asset_id",
+      "@type": "xsd:integer"
+    },
+    "document_id": {
+      "@id": "assignar:document_id",
+      "@type": "xsd:integer"
+    },
+    "asset": {
+      "@id": "assignar:asset"
+    },
+    "document": {
+      "@id": "assignar:document"
+    },
+    "label": {
+      "@id": "assignar:label",
+      "@type": "xsd:string"
+    },
+    "disabled": {
+      "@id": "assignar:disabled",
+      "@type": "xsd:boolean"
+    },
+    "attachment": {
+      "@id": "assignar:attachment",
+      "@type": "xsd:string"
+    },
+    "attachment_url": {
+      "@id": "assignar:attachment_url"
+    },
+    "expiry_date": {
+      "@id": "assignar:expiry_date",
+      "@type": "xsd:date"
+    },
+    "expiry_date_alert": {
+      "@id": "assignar:expiry_date_alert",
+      "@type": "xsd:date"
+    },
+    "expiry_number": {
+      "@id": "assignar:expiry_number",
+      "@type": "xsd:integer"
+    },
+    "expiry_number_alert": {
+      "@id": "assignar:expiry_number_alert",
+      "@type": "xsd:integer"
+    },
+    "created_time": {
+      "@id": "assignar:created_time",
+      "@type": "xsd:dateTime"
+    },
+    "Document": "assignar:Document",
+    "type": {
+      "@id": "assignar:type",
+      "@type": "xsd:integer"
+    },
+    "public": {
+      "@id": "assignar:public",
+      "@type": "xsd:boolean"
+    },
+    "ProjectDocument": "assignar:ProjectDocument",
+    "project_id": {
+      "@id": "assignar:project_id",
+      "@type": "xsd:integer"
+    },
+    "project": {
+      "@id": "assignar:project"
+    },
+    "OrderAttachment": "assignar:OrderAttachment",
+    "order_id": {
+      "@id": "assignar:order_id",
+      "@type": "xsd:integer"
+    },
+    "size": {
+      "@id": "assignar:size",
+      "@type": "xsd:string"
+    },
+    "date_created": {
+      "@id": "assignar:date_created",
+      "@type": "xsd:dateTime"
+    },
+    "Tag": "assignar:Tag",
+    "taxonomy": {
+      "@id": "assignar:taxonomy",
+      "@type": "xsd:string"
+    },
+    "color": {
+      "@id": "assignar:color",
+      "@type": "xsd:string"
+    },
+    "Task": "assignar:Task",
+    "req_machines": {
+      "@id": "assignar:req_machines",
+      "@type": "xsd:boolean"
+    },
+    "pay_level": {
+      "@id": "assignar:pay_level",
+      "@type": "xsd:string"
+    },
+    "payroll_acc": {
+      "@id": "assignar:payroll_acc",
+      "@type": "xsd:string"
+    },
+    "supervisor": {
+      "@id": "assignar:supervisor",
+      "@type": "xsd:boolean"
+    },
+    "TaskGroup": "assignar:TaskGroup",
+    "Order": "assignar:Order",
+    "job_number": {
+      "@id": "assignar:job_number",
+      "@type": "xsd:string"
+    },
+    "po_number": {
+      "@id": "assignar:po_number",
+      "@type": "xsd:string"
+    },
+    "order_owner": {
+      "@id": "assignar:order_owner",
+      "@type": "xsd:integer"
+    },
+    "location": {
+      "@id": "assignar:location",
+      "@type": "xsd:string"
+    },
+    "location2": {
+      "@id": "assignar:location2",
+      "@type": "xsd:string"
+    },
+    "job_description": {
+      "@id": "assignar:job_description",
+      "@type": "xsd:string"
+    },
+    "start_time": {
+      "@id": "assignar:start_time",
+      "@type": "xsd:string"
+    },
+    "shift_duration": {
+      "@id": "assignar:shift_duration",
+      "@type": "xsd:string"
+    },
+    "start_date": {
+      "@id": "assignar:start_date",
+      "@type": "xsd:string"
+    },
+    "end_date": {
+      "@id": "assignar:end_date",
+      "@type": "xsd:string"
+    },
+    "type_id": {
+      "@id": "assignar:type_id",
+      "@type": "xsd:integer"
+    },
+    "supplier_id": {
+      "@id": "assignar:supplier_id",
+      "@type": "xsd:integer"
+    },
+    "geolocation": {
+      "@id": "assignar:geolocation"
+    },
+    "geolocation2": {
+      "@id": "assignar:geolocation2"
+    },
+    "OrderActivity": "assignar:OrderActivity",
+    "activity_id": {
+      "@id": "assignar:activity_id",
+      "@type": "xsd:integer"
+    },
+    "uom_code": {
+      "@id": "assignar:uom_code",
+      "@type": "xsd:string"
+    },
+    "quantity": {
+      "@id": "assignar:quantity",
+      "@type": "xsd:decimal"
+    },
+    "OrderType": "assignar:OrderType",
+    "OrderStatus": "assignar:OrderStatus",
+    "OrderTemplate": "assignar:OrderTemplate",
+    "order_comment": {
+      "@id": "assignar:order_comment",
+      "@type": "xsd:string"
+    },
+    "order_duration": {
+      "@id": "assignar:order_duration",
+      "@type": "xsd:integer"
+    },
+    "created_by": {
+      "@id": "assignar:created_by",
+      "@type": "xsd:integer"
+    },
+    "created_at": {
+      "@id": "assignar:created_at",
+      "@type": "xsd:dateTime"
+    },
+    "modified_at": {
+      "@id": "assignar:modified_at",
+      "@type": "xsd:dateTime"
+    },
+    "tasks": {
+      "@id": "assignar:tasks",
+      "@container": "@list"
+    },
+    "OrderTemplateTask": "assignar:OrderTemplateTask",
+    "task_id": {
+      "@id": "assignar:task_id",
+      "@type": "xsd:integer"
+    },
+    "task_description": {
+      "@id": "assignar:task_description",
+      "@type": "xsd:string"
+    },
+    "task_quantity": {
+      "@id": "assignar:task_quantity",
+      "@type": "xsd:integer"
+    },
+    "task_start_time": {
+      "@id": "assignar:task_start_time",
+      "@type": "xsd:string"
+    },
+    "task_end_time": {
+      "@id": "assignar:task_end_time",
+      "@type": "xsd:string"
+    },
+    "task_offset": {
+      "@id": "assignar:task_offset",
+      "@type": "xsd:integer"
+    },
+    "task_duration": {
+      "@id": "assignar:task_duration",
+      "@type": "xsd:integer"
+    },
+    "task": {
+      "@id": "assignar:task"
+    },
+    "forms": {
+      "@id": "assignar:forms",
+      "@container": "@list"
+    },
+    "OrderTemplateTaskForm": "assignar:OrderTemplateTaskForm",
+    "form_id": {
+      "@id": "assignar:form_id",
+      "@type": "xsd:integer"
+    },
+    "title": {
+      "@id": "assignar:title",
+      "@type": "xsd:string"
+    },
+    "archived": {
+      "@id": "assignar:archived",
+      "@type": "xsd:boolean"
+    },
+    "OrderTemplateActivity": "assignar:OrderTemplateActivity",
+    "OrderTemplateTag": "assignar:OrderTemplateTag",
+    "tag_id": {
+      "@id": "assignar:tag_id",
+      "@type": "xsd:integer"
+    },
+    "OrderTask": "assignar:OrderTask",
+    "shift_date": {
+      "@id": "assignar:shift_date",
+      "@type": "xsd:string"
+    },
+    "end_time": {
+      "@id": "assignar:end_time",
+      "@type": "xsd:string"
+    },
+    "OrderTaskWithOrderAndTask": "assignar:OrderTaskWithOrderAndTask",
+    "total_hours": {
+      "@id": "assignar:total_hours",
+      "@type": "xsd:integer"
+    },
+    "shift_index": {
+      "@id": "assignar:shift_index",
+      "@type": "xsd:integer"
+    },
+    "order": {
+      "@id": "assignar:order"
+    },
+    "OrderResource": "assignar:OrderResource",
+    "user_id": {
+      "@id": "assignar:user_id",
+      "@type": "xsd:integer"
+    },
+    "order_task": {
+      "@id": "assignar:order_task",
+      "@type": "@id"
+    },
+    "OrderTaskShiftDate": "assignar:OrderTaskShiftDate",
+    "date": {
+      "@id": "assignar:date",
+      "@type": "xsd:string"
+    },
+    "OrderTaskChargeItem": "assignar:OrderTaskChargeItem",
+    "charge_item_id": {
+      "@id": "assignar:charge_item_id",
+      "@type": "xsd:integer"
+    },
+    "units": {
+      "@id": "assignar:units",
+      "@type": "xsd:decimal"
+    },
+    "rate": {
+      "@id": "assignar:rate",
+      "@type": "xsd:decimal"
+    },
+    "OrderActivityCreate": "assignar:OrderActivityCreate",
+    "OrderActivityUpdate": "assignar:OrderActivityUpdate",
+    "order_activity_id": {
+      "@id": "assignar:order_activity_id",
+      "@type": "xsd:integer"
+    },
+    "ChargeCodeRequest": "assignar:ChargeCodeRequest",
+    "code": {
+      "@id": "assignar:code",
+      "@type": "xsd:string"
+    },
+    "ChargeCodeResponse": "assignar:ChargeCodeResponse",
+    "ChargeItem": "assignar:ChargeItem",
+    "PayCode": "assignar:PayCode",
+    "time_code_id": {
+      "@id": "assignar:time_code_id",
+      "@type": "xsd:integer"
+    },
+    "created_by_id": {
+      "@id": "assignar:created_by_id",
+      "@type": "xsd:integer"
+    },
+    "TimeCode": "assignar:TimeCode",
+    "is_default": {
+      "@id": "assignar:is_default",
+      "@type": "xsd:boolean"
+    },
+    "TimeCodeRule": "assignar:TimeCodeRule",
+    "is_active": {
+      "@id": "assignar:is_active",
+      "@type": "xsd:boolean"
+    },
+    "TimeCodeGroup": "assignar:TimeCodeGroup",
+    "TimeCodeGroupVersion": "assignar:TimeCodeGroupVersion",
+    "time_code_group_id": {
+      "@id": "assignar:time_code_group_id",
+      "@type": "xsd:integer"
+    },
+    "version": {
+      "@id": "assignar:version",
+      "@type": "xsd:integer"
+    },
+    "time_code_group": {
+      "@id": "assignar:time_code_group",
+      "@type": "@id"
+    },
+    "TimeCodeGroupPayCode": "assignar:TimeCodeGroupPayCode",
+    "pay_code_id": {
+      "@id": "assignar:pay_code_id",
+      "@type": "xsd:integer"
+    },
+    "time_code": {
+      "@id": "assignar:time_code",
+      "@type": "@id"
+    },
+    "pay_code": {
+      "@id": "assignar:pay_code",
+      "@type": "@id"
+    },
+    "Timesheet": "assignar:Timesheet",
+    "start_datetime": {
+      "@id": "assignar:start_datetime",
+      "@type": "xsd:string"
+    },
+    "end_datetime": {
+      "@id": "assignar:end_datetime",
+      "@type": "xsd:string"
+    },
+    "break_time": {
+      "@id": "assignar:break_time",
+      "@type": "xsd:string"
+    },
+    "travel_time_to": {
+      "@id": "assignar:travel_time_to",
+      "@type": "xsd:string"
+    },
+    "travel_time_from": {
+      "@id": "assignar:travel_time_from",
+      "@type": "xsd:string"
+    },
+    "total_time": {
+      "@id": "assignar:total_time",
+      "@type": "xsd:string"
+    },
+    "office_use": {
+      "@id": "assignar:office_use",
+      "@type": "xsd:string"
+    },
+    "submitted_date": {
+      "@id": "assignar:submitted_date",
+      "@type": "xsd:string"
+    },
+    "date_of_creation": {
+      "@id": "assignar:date_of_creation",
+      "@type": "xsd:string"
+    },
+    "submitted_by": {
+      "@id": "assignar:submitted_by",
+      "@type": "xsd:string"
+    },
+    "checked": {
+      "@id": "assignar:checked",
+      "@type": "xsd:boolean"
+    },
+    "locked": {
+      "@id": "assignar:locked",
+      "@type": "xsd:boolean"
+    },
+    "latitude": {
+      "@id": "assignar:latitude",
+      "@type": "xsd:decimal"
+    },
+    "longitude": {
+      "@id": "assignar:longitude",
+      "@type": "xsd:decimal"
+    },
+    "latitude2": {
+      "@id": "assignar:latitude2",
+      "@type": "xsd:decimal"
+    },
+    "longitude2": {
+      "@id": "assignar:longitude2",
+      "@type": "xsd:decimal"
+    },
+    "signature_name": {
+      "@id": "assignar:signature_name",
+      "@type": "xsd:string"
+    },
+    "signature": {
+      "@id": "assignar:signature",
+      "@type": "xsd:string"
+    },
+    "client_signature_name": {
+      "@id": "assignar:client_signature_name",
+      "@type": "xsd:string"
+    },
+    "completed_by_id": {
+      "@id": "assignar:completed_by_id",
+      "@type": "xsd:integer"
+    },
+    "completed_at": {
+      "@id": "assignar:completed_at",
+      "@type": "xsd:string"
+    },
+    "is_processed": {
+      "@id": "assignar:is_processed",
+      "@type": "xsd:boolean"
+    },
+    "processed_by_id": {
+      "@id": "assignar:processed_by_id",
+      "@type": "xsd:integer"
+    },
+    "processed_at": {
+      "@id": "assignar:processed_at",
+      "@type": "xsd:string"
+    },
+    "deleted_time": {
+      "@id": "assignar:deleted_time",
+      "@type": "xsd:string"
+    },
+    "user": {
+      "@id": "assignar:user"
+    },
+    "digitaldocket": {
+      "@id": "assignar:digitaldocket"
+    },
+    "supplier": {
+      "@id": "assignar:supplier"
+    },
+    "assets": {
+      "@id": "assignar:assets",
+      "@container": "@list"
+    },
+    "allowances": {
+      "@id": "assignar:allowances",
+      "@container": "@list"
+    },
+    "docket": {
+      "@id": "assignar:docket"
+    },
+    "asset_times": {
+      "@id": "assignar:asset_times",
+      "@container": "@list"
+    },
+    "client_signature_url": {
+      "@id": "assignar:client_signature_url",
+      "@type": "@id"
+    },
+    "signature_url": {
+      "@id": "assignar:signature_url",
+      "@type": "@id"
+    },
+    "site_diary": {
+      "@id": "assignar:site_diary"
+    },
+    "TimesheetsExpandedList": "assignar:TimesheetsExpandedList",
+    "count": {
+      "@id": "assignar:count",
+      "@type": "xsd:integer"
+    },
+    "rows": {
+      "@id": "assignar:rows",
+      "@container": "@list"
+    },
+    "TimesheetExpanded": "assignar:TimesheetExpanded",
+    "document_url": {
+      "@id": "assignar:document_url",
+      "@type": "@id"
+    },
+    "activity_entries": {
+      "@id": "assignar:activity_entries",
+      "@container": "@list"
+    },
+    "asset_entries": {
+      "@id": "assignar:asset_entries",
+      "@container": "@list"
+    },
+    "leave_request_entries": {
+      "@id": "assignar:leave_request_entries",
+      "@container": "@list"
+    },
+    "ActivityEntry": "assignar:ActivityEntry",
+    "start_at": {
+      "@id": "assignar:start_at",
+      "@type": "xsd:dateTime"
+    },
+    "start_at_tz": {
+      "@id": "assignar:start_at_tz",
+      "@type": "xsd:string"
+    },
+    "end_at": {
+      "@id": "assignar:end_at",
+      "@type": "xsd:dateTime"
+    },
+    "end_at_tz": {
+      "@id": "assignar:end_at_tz",
+      "@type": "xsd:string"
+    },
+    "start_at_naive": {
+      "@id": "assignar:start_at_naive",
+      "@type": "xsd:string"
+    },
+    "end_at_naive": {
+      "@id": "assignar:end_at_naive",
+      "@type": "xsd:string"
+    },
+    "is_naive_datetime": {
+      "@id": "assignar:is_naive_datetime",
+      "@type": "xsd:boolean"
+    },
+    "duration": {
+      "@id": "assignar:duration",
+      "@type": "xsd:integer"
+    },
+    "activity": {
+      "@id": "assignar:activity"
+    },
+    "related_asset_entries": {
+      "@id": "assignar:related_asset_entries",
+      "@container": "@list"
+    },
+    "RelatedAssetEntry": "assignar:RelatedAssetEntry",
+    "asset_entry_id": {
+      "@id": "assignar:asset_entry_id",
+      "@type": "xsd:integer"
+    },
+    "activity_asset_usage_minutes": {
+      "@id": "assignar:activity_asset_usage_minutes",
+      "@type": "xsd:integer"
+    },
+    "AssetEntry": "assignar:AssetEntry",
+    "uses_whole_shift": {
+      "@id": "assignar:uses_whole_shift",
+      "@type": "xsd:boolean"
+    },
+    "LeaveRequestEntry": "assignar:LeaveRequestEntry",
+    "leave_type": {
+      "@id": "assignar:leave_type"
+    },
+    "TimesheetExpandedAllowance": "assignar:TimesheetExpandedAllowance",
+    "allowance_id": {
+      "@id": "assignar:allowance_id",
+      "@type": "xsd:integer"
+    },
+    "allowance": {
+      "@id": "assignar:allowance"
+    },
+    "UserReference": "assignar:UserReference",
+    "username": {
+      "@id": "assignar:username",
+      "@type": "xsd:string"
+    },
+    "first_name": {
+      "@id": "assignar:first_name",
+      "@type": "xsd:string"
+    },
+    "last_name": {
+      "@id": "assignar:last_name",
+      "@type": "xsd:string"
+    },
+    "AssetClass": "assignar:AssetClass",
+    "Activity": "assignar:Activity",
+    "rule": {
+      "@id": "assignar:rule",
+      "@type": "xsd:integer"
+    },
+    "billable": {
+      "@id": "assignar:billable",
+      "@type": "xsd:integer"
+    },
+    "sortorder": {
+      "@id": "assignar:sortorder",
+      "@type": "xsd:integer"
+    },
+    "is_payable": {
+      "@id": "assignar:is_payable",
+      "@type": "xsd:boolean"
+    },
+    "activity_type": {
+      "@id": "assignar:activity_type"
+    },
+    "TimesheetActivity": "assignar:TimesheetActivity",
+    "TimesheetChargeItem": "assignar:TimesheetChargeItem",
+    "TimesheetPayItem": "assignar:TimesheetPayItem",
+    "CodedTimesheetWeeklyStatus": "assignar:CodedTimesheetWeeklyStatus",
+    "is_default_time_code_group_configured": {
+      "@id": "assignar:is_default_time_code_group_configured",
+      "@type": "xsd:boolean"
+    },
+    "is_week_in_progress": {
+      "@id": "assignar:is_week_in_progress",
+      "@type": "xsd:boolean"
+    },
+    "all_timesheets_approved": {
+      "@id": "assignar:all_timesheets_approved",
+      "@type": "xsd:boolean"
+    },
+    "has_processed_timesheets": {
+      "@id": "assignar:has_processed_timesheets",
+      "@type": "xsd:boolean"
+    },
+    "has_coded_timesheets": {
+      "@id": "assignar:has_coded_timesheets",
+      "@type": "xsd:boolean"
+    },
+    "has_manual_overrides": {
+      "@id": "assignar:has_manual_overrides",
+      "@type": "xsd:boolean"
+    },
+    "has_uncoded_time": {
+      "@id": "assignar:has_uncoded_time",
+      "@type": "xsd:boolean"
+    },
+    "CodedTime": "assignar:CodedTime",
+    "timesheet_time_id": {
+      "@id": "assignar:timesheet_time_id",
+      "@type": "xsd:integer"
+    },
+    "timesheet_date": {
+      "@id": "assignar:timesheet_date",
+      "@type": "xsd:string"
+    },
+    "time_code_group_pay_code_id": {
+      "@id": "assignar:time_code_group_pay_code_id",
+      "@type": "xsd:integer"
+    },
+    "time_code_group_version_id": {
+      "@id": "assignar:time_code_group_version_id",
+      "@type": "xsd:integer"
+    },
+    "time_code_rule_id": {
+      "@id": "assignar:time_code_rule_id",
+      "@type": "xsd:integer"
+    },
+    "coded_by_id": {
+      "@id": "assignar:coded_by_id",
+      "@type": "xsd:integer"
+    },
+    "coded_at": {
+      "@id": "assignar:coded_at",
+      "@type": "xsd:string"
+    },
+    "override_pay_code_id": {
+      "@id": "assignar:override_pay_code_id",
+      "@type": "xsd:integer"
+    },
+    "overriden_at": {
+      "@id": "assignar:overriden_at",
+      "@type": "xsd:string"
+    },
+    "overriden_by_id": {
+      "@id": "assignar:overriden_by_id",
+      "@type": "xsd:integer"
+    },
+    "default_pay_code": {
+      "@id": "assignar:default_pay_code",
+      "@type": "@id"
+    },
+    "time_code_rule": {
+      "@id": "assignar:time_code_rule",
+      "@type": "@id"
+    },
+    "coded_by": {
+      "@id": "assignar:coded_by",
+      "@type": "@id"
+    },
+    "override_pay_code": {
+      "@id": "assignar:override_pay_code"
+    },
+    "overriden_by": {
+      "@id": "assignar:overriden_by",
+      "@type": "@id"
+    },
+    "time_code_group_version": {
+      "@id": "assignar:time_code_group_version",
+      "@type": "@id"
+    },
+    "TimesheetTime": "assignar:TimesheetTime",
+    "asset_uses_timesheet_duration": {
+      "@id": "assignar:asset_uses_timesheet_duration",
+      "@type": "xsd:boolean"
+    },
+    "minutes": {
+      "@id": "assignar:minutes",
+      "@type": "xsd:integer"
+    },
+    "coded_times": {
+      "@id": "assignar:coded_times",
+      "@container": "@list"
+    },
+    "CodedWorkerTimes": "assignar:CodedWorkerTimes",
+    "full_name": {
+      "@id": "assignar:full_name",
+      "@type": "xsd:string"
+    },
+    "employee_id": {
+      "@id": "assignar:employee_id",
+      "@type": "xsd:string"
+    },
+    "timesheets": {
+      "@id": "assignar:timesheets",
+      "@container": "@list"
+    },
+    "User": "assignar:User",
+    "user_type_id": {
+      "@id": "assignar:user_type_id",
+      "@type": "xsd:integer"
+    },
+    "dob": {
+      "@id": "assignar:dob",
+      "@type": "xsd:string"
+    },
+    "suppliers": {
+      "@id": "assignar:suppliers",
+      "@container": "@list"
+    },
+    "contact": {
+      "@id": "assignar:contact",
+      "@type": "xsd:string"
+    },
+    "employment_type": {
+      "@id": "assignar:employment_type",
+      "@type": "xsd:integer"
+    },
+    "emergency_contact": {
+      "@id": "assignar:emergency_contact",
+      "@type": "xsd:string"
+    },
+    "emergency_contact_name": {
+      "@id": "assignar:emergency_contact_name",
+      "@type": "xsd:string"
+    },
+    "user_pic": {
+      "@id": "assignar:user_pic",
+      "@type": "xsd:string"
+    },
+    "eula": {
+      "@id": "assignar:eula",
+      "@type": "xsd:integer"
+    },
+    "usi": {
+      "@id": "assignar:usi",
+      "@type": "xsd:string"
+    },
+    "UserCreateUpdate": "assignar:UserCreateUpdate",
+    "UserWithTagId": "assignar:UserWithTagId",
+    "UserType": "assignar:UserType",
+    "user_type": {
+      "@id": "assignar:user_type",
+      "@type": "xsd:string"
+    },
+    "UserSkill": "assignar:UserSkill",
+    "skill_id": {
+      "@id": "assignar:skill_id",
+      "@type": "xsd:integer"
+    },
+    "skill": {
+      "@id": "assignar:skill"
+    },
+    "UserSkillUpdateCreate": "assignar:UserSkillUpdateCreate",
+    "UserCompetency": "assignar:UserCompetency",
+    "competency_id": {
+      "@id": "assignar:competency_id",
+      "@type": "xsd:integer"
+    },
+    "issue_date": {
+      "@id": "assignar:issue_date",
+      "@type": "xsd:string"
+    },
+    "expiry_time": {
+      "@id": "assignar:expiry_time",
+      "@type": "xsd:string"
+    },
+    "competency": {
+      "@id": "assignar:competency"
+    },
+    "UserCompetencyUpdateCreate": "assignar:UserCompetencyUpdateCreate",
+    "UserInduction": "assignar:UserInduction",
+    "induction_id": {
+      "@id": "assignar:induction_id",
+      "@type": "xsd:integer"
+    },
+    "induction": {
+      "@id": "assignar:induction"
+    },
+    "UserInductionUpdateCreate": "assignar:UserInductionUpdateCreate",
+    "EmploymentType": "assignar:EmploymentType",
+    "DigitalDocket": "assignar:DigitalDocket",
+    "docket_template_id": {
+      "@id": "assignar:docket_template_id",
+      "@type": "xsd:integer"
+    },
+    "supervisor_id": {
+      "@id": "assignar:supervisor_id",
+      "@type": "xsd:integer"
+    },
+    "responses": {
+      "@id": "assignar:responses",
+      "@container": "@list"
+    },
+    "DigitalDockets": "assignar:DigitalDockets",
+    "Contact": "assignar:Contact",
+    "company": {
+      "@id": "assignar:company",
+      "@type": "xsd:string"
+    },
+    "job_title": {
+      "@id": "assignar:job_title",
+      "@type": "xsd:string"
+    },
+    "ClientContactCreated": "assignar:ClientContactCreated",
+    "contact_id": {
+      "@id": "assignar:contact_id",
+      "@type": "xsd:integer"
+    },
+    "is_docket_contact": {
+      "@id": "assignar:is_docket_contact",
+      "@type": "xsd:boolean"
+    },
+    "OrderContactCreated": "assignar:OrderContactCreated",
+    "ProjectContactCreated": "assignar:ProjectContactCreated",
+    "OrderTaskCreated": "assignar:OrderTaskCreated",
+    "order_task_id": {
+      "@id": "assignar:order_task_id",
+      "@type": "xsd:integer"
+    },
+    "OrderTaskChargeItemCreated": "assignar:OrderTaskChargeItemCreated",
+    "is_reconciled": {
+      "@id": "assignar:is_reconciled",
+      "@type": "xsd:boolean"
+    },
+    "Skill": "assignar:Skill",
+    "subskill": {
+      "@id": "assignar:subskill"
+    },
+    "SkillUpdate": "assignar:SkillUpdate",
+    "subskill_id": {
+      "@id": "assignar:subskill_id",
+      "@type": "xsd:integer"
+    },
+    "Induction": "assignar:Induction",
+    "expiry_required": {
+      "@id": "assignar:expiry_required",
+      "@type": "xsd:boolean"
+    },
+    "issue_required": {
+      "@id": "assignar:issue_required",
+      "@type": "xsd:boolean"
+    },
+    "Competency": "assignar:Competency",
+    "exp_req": {
+      "@id": "assignar:exp_req",
+      "@type": "xsd:boolean"
+    },
+    "comp_date_req": {
+      "@id": "assignar:comp_date_req",
+      "@type": "xsd:integer"
+    },
+    "licence_number": {
+      "@id": "assignar:licence_number",
+      "@type": "xsd:string"
+    },
+    "issue_req": {
+      "@id": "assignar:issue_req",
+      "@type": "xsd:boolean"
+    },
+    "FormResultFields": "assignar:FormResultFields",
+    "worker_id": {
+      "@id": "assignar:worker_id",
+      "@type": "xsd:integer"
+    },
+    "submitted_time": {
+      "@id": "assignar:submitted_time",
+      "@type": "xsd:dateTime"
+    },
+    "creator_id": {
+      "@id": "assignar:creator_id",
+      "@type": "xsd:integer"
+    },
+    "assignee_id": {
+      "@id": "assignar:assignee_id",
+      "@type": "xsd:integer"
+    },
+    "order_resource_id": {
+      "@id": "assignar:order_resource_id",
+      "@type": "xsd:integer"
+    },
+    "FormResultTail": "assignar:FormResultTail",
+    "creator_name": {
+      "@id": "assignar:creator_name",
+      "@type": "xsd:string"
+    },
+    "assignee_name": {
+      "@id": "assignar:assignee_name",
+      "@type": "xsd:string"
+    },
+    "form": {
+      "@id": "assignar:form"
+    },
+    "creator": {
+      "@id": "assignar:creator"
+    },
+    "modifier": {
+      "@id": "assignar:modifier"
+    },
+    "assignee": {
+      "@id": "assignar:assignee"
+    },
+    "ClientContactsPayload": "assignar:ClientContactsPayload",
+    "ProjectContactsPayload": "assignar:ProjectContactsPayload",
+    "OrderContactsPayload": "assignar:OrderContactsPayload",
+    "SiteDiary": "assignar:SiteDiary",
+    "site_diary_date": {
+      "@id": "assignar:site_diary_date",
+      "@type": "xsd:dateTime"
+    },
+    "weather": {
+      "@id": "assignar:weather",
+      "@type": "xsd:string"
+    },
+    "deleted_by": {
+      "@id": "assignar:deleted_by",
+      "@type": "xsd:integer"
+    },
+    "submitted_at": {
+      "@id": "assignar:submitted_at",
+      "@type": "xsd:dateTime"
+    },
+    "supervisor_signature_url": {
+      "@id": "assignar:supervisor_signature_url",
+      "@type": "@id"
+    },
+    "activity_progress": {
+      "@id": "assignar:activity_progress",
+      "@container": "@list"
+    },
+    "print_document": {
+      "@id": "assignar:print_document"
+    },
+    "chargeable_items": {
+      "@id": "assignar:chargeable_items",
+      "@container": "@list"
+    },
+    "SiteDiaryChargeableItem": "assignar:SiteDiaryChargeableItem",
+    "site_diary_id": {
+      "@id": "assignar:site_diary_id",
+      "@type": "xsd:integer"
+    },
+    "chargeable_item": {
+      "@id": "assignar:chargeable_item"
+    },
+    "SiteDiaryTimesheet": "assignar:SiteDiaryTimesheet",
+    "timesheet": {
+      "@id": "assignar:timesheet"
+    },
+    "TagPart": "assignar:TagPart",
+    "LeaveType": "assignar:LeaveType",
+    "LeaveRequest": "assignar:LeaveRequest",
+    "leave_type_id": {
+      "@id": "assignar:leave_type_id",
+      "@type": "xsd:integer"
+    },
+    "is_approved": {
+      "@id": "assignar:is_approved",
+      "@type": "xsd:boolean"
+    },
+    "approved_by_id": {
+      "@id": "assignar:approved_by_id",
+      "@type": "xsd:integer"
+    },
+    "responded_by_id": {
+      "@id": "assignar:responded_by_id",
+      "@type": "xsd:integer"
+    },
+    "responded_at": {
+      "@id": "assignar:responded_at",
+      "@type": "xsd:dateTime"
+    },
+    "attachment_path": {
+      "@id": "assignar:attachment_path",
+      "@type": "xsd:string"
+    },
+    "leave_dates": {
+      "@id": "assignar:leave_dates",
+      "@container": "@list"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Assignar API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Assignar's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-09-26) from openapi/assignar-openapi.yaml.",
+  "dcterms:created": "2026-09-26",
+  "dcterms:source": [
+    "openapi/assignar-openapi.yaml"
+  ]
+}

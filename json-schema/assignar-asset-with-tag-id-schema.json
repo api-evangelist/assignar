@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/assignar/main/json-schema/assignar-asset-with-tag-id-schema.json",
+  "title": "Asset",
+  "x-generated": "2026-09-26",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/assignar-openapi.yaml#/components/schemas/AssetWithTagId",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0,
+      "readOnly": true
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the asset"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Description of the asset"
+    },
+    "rego_number": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The alpha-numberic id on the asset's number or license plate"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Active or archived state of the asset"
+    },
+    "modified_by": {
+      "type": "string",
+      "description": "System managed",
+      "readOnly": true
+    },
+    "modified_by_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "readOnly": true
+    },
+    "modified_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "system managed",
+      "readOnly": true
+    },
+    "year": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Production year of the asset"
+    },
+    "make": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Manufacturer or brand of the asset"
+    },
+    "model": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Model of the asset"
+    },
+    "serial_number": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Serial number of the asset"
+    },
+    "charge_rate": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Charge rate of the asset"
+    },
+    "number_reading": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Odometer or hour meter value of the asset"
+    },
+    "external_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "External system identifier of the asset"
+    },
+    "integration_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Integration identifier of the asset"
+    },
+    "deleted_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "System managed",
+      "readOnly": true
+    },
+    "deleted_by_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "System managed",
+      "readOnly": true
+    },
+    "asset_class_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Identifier of the asset class the asset was created with, echoed back when `asset_class_id` was sent in the request body. Unlike `GET /assets` and `GET /assets/{assetId}`, the create response does not include the nested `assetClass` object."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Collection of tags of the asset",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag_id": {
+            "type": "string",
+            "description": "Tag identifier of the asset"
+          }
+        }
+      }
+    },
+    "attachments": {
+      "type": "array",
+      "description": "The attachment links the asset was created with, as ids only. Unlike `GET /assets` and `GET /assets/{assetId}`, the create response does not hydrate them — expect `attachment_id` and nothing else here. Always present, as an empty array when the request sent no attachments, so it can be read unconditionally.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "attachment_id": {
+            "type": "integer",
+            "description": "Identifier of the linked asset attachment"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

@@ -1,0 +1,579 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Site Diary API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Site Diary
+paths:
+  /site-diaries/:
+    get:
+      summary: List all site diaries
+      tags:
+      - Site Diary
+      operationId: getSiteDiaries
+      parameters:
+      - name: site_diary_date
+        required: false
+        in: query
+        schema:
+          type: string
+          default: ''
+      description: print_document field is available on all site diaries created from 29th of June 2020
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/SiteDiaries'
+  /site-diaries/{siteDiaryId}:
+    get:
+      summary: Site Diary
+      description: print_document field is available on all site diaries created from the 29th of June 2020
+      tags:
+      - Site Diary
+      operationId: 3fa60d53-b155-4b63-9b5c-b281b0a4a770
+      parameters:
+      - name: siteDiaryId
+        required: true
+        in: path
+        schema:
+          type: string
+          minimum: 1
+          default: ''
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/SiteDiary'
+      security:
+      - oauth_2_auth: []
+  /site-diaries/{siteDiaryId}/charge-items:
+    get:
+      summary: Site Diary Charge Items
+      tags:
+      - Site Diary
+      operationId: 8262a0d4-6d97-4ab5-8531-43117a917ee3
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: siteDiaryId
+        required: true
+        in: path
+        schema:
+          type: string
+          minimum: 1
+          default: ''
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/SiteDiaryChargeableItems'
+  /site-diaries/{siteDiaryId}/timesheets:
+    get:
+      summary: Site Diary Timesheets
+      tags:
+      - Site Diary
+      operationId: 8262a0d4-6d97-4ab5-8531-43117917ee3
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: siteDiaryId
+        required: true
+        in: path
+        schema:
+          type: string
+          minimum: 1
+          default: ''
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/SiteDiaryTimesheets'
+  /site-diaries/{siteDiaryId}/timesheets/{timesheetId}:
+    get:
+      summary: Site Diary Timesheets
+      tags:
+      - Site Diary
+      operationId: 52792613-0164-4434-bbc3-a9f9b482d7ca
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: siteDiaryId
+        required: true
+        in: path
+        schema:
+          type: string
+          minimum: 1
+          default: ''
+      - name: timesheetId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/SiteDiaryTimesheet'
+components:
+  schemas:
+    SiteDiaryChargeableItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        site_diary_id:
+          type: integer
+        chargeable_item:
+          type: object
+          properties:
+            id:
+              type: integer
+            material_id:
+              type: integer
+            order_id:
+              type: integer
+            quantity:
+              type: integer
+            rate:
+              type: number
+            supplier_id:
+              type: integer
+            asset_id:
+              type: integer
+            comments:
+              type: string
+            created_by:
+              type: integer
+            created_time:
+              type: string
+              format: date-time
+            modified_by:
+              type: integer
+            modified_time:
+              type: string
+              format: date-time
+            work_item_id:
+              type: integer
+        site_diary:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            client_id:
+              type: integer
+            project_id:
+              type: integer
+            order_id:
+              type: integer
+            site_diary_date:
+              type: string
+              format: date-time
+            client_signature_name:
+              type: string
+            client_signature_url:
+              type: object
+              readOnly: true
+              properties:
+                url:
+                  type: string
+                  format: url
+                  description: Download URL for the file.
+                expiry:
+                  type: integer
+                  description: Expiry date of the download url in timestamp.
+    SiteDiaryTimesheets:
+      type: array
+      items:
+        $ref: '#/components/schemas/SiteDiaryTimesheet'
+    SiteDiaryChargeableItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/SiteDiaryChargeableItem'
+    SiteDiary:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client_id:
+          type: integer
+        project_id:
+          type: integer
+        order_id:
+          type: integer
+        site_diary_date:
+          type: string
+          format: date-time
+        weather:
+          type: string
+        client_signature_name:
+          type: string
+        client_signature_url:
+          $ref: '#/components/schemas/UrlAttachment'
+        created_time:
+          type: string
+          format: date-time
+        created_by:
+          type: integer
+        modified_time:
+          type: string
+          format: date-time
+        modified_by:
+          type: integer
+        deleted_by:
+          type: integer
+        deleted_time:
+          type: string
+          format: date-time
+        submitted_at:
+          type: string
+          format: date-time
+        submitted_by:
+          type: integer
+        supervisor_signature_url:
+          $ref: '#/components/schemas/UrlAttachment'
+        activity_progress:
+          type: array
+          items:
+            type: object
+            properties:
+              current_amount:
+                type:
+                - string
+                - 'null'
+                description: Current amount for this activity
+              images:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: Unique identifier for the image
+                    path:
+                      type: string
+                      description: File path of the image
+                    created_at:
+                      type: string
+                      format: date-time
+                      description: When the image was created
+                    created_by_id:
+                      type: integer
+                      description: ID of the user who created the image
+                    modified_at:
+                      type: string
+                      format: date-time
+                      description: When the image was last modified
+                    modified_by_id:
+                      type:
+                      - integer
+                      - 'null'
+                      description: ID of the user who last modified the image
+                    signed_url:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: url
+                          description: Pre-signed URL for accessing the image
+                        expiry:
+                          type: integer
+                          description: Expiry timestamp for the signed URL
+                description: Array of image objects with metadata and signed URLs
+              comment:
+                type:
+                - string
+                - 'null'
+                description: Optional comment for this activity progress
+              activity:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Site Diary Activity Progress ID
+                  activity_id:
+                    type: integer
+                    description: Activity ID
+                  external_id:
+                    type: string
+                    description: External identifier for the activity
+                  name:
+                    type: string
+                    description: Activity name
+                  unit_of_measure_label:
+                    type:
+                    - string
+                    - 'null'
+                    description: Unit of measure label
+              activity_label:
+                type: string
+                description: Formatted activity label with ID and name
+              cumulative_amount:
+                type: number
+                description: Cumulative amount for this activity (less the current_amount)
+              budgeted_amount:
+                type: number
+                description: Budgeted amount for this activity
+              labor_hours:
+                type: number
+                description: Labor hours spent on this activity
+              date_added:
+                type:
+                - string
+                - 'null'
+                format: date-time
+                description: Date when this progress entry was added
+        status:
+          type: string
+        client:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        project:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        print_document:
+          description: 'PDF document for this site diary. Returns the PDF based on what has been printed: Custom template PDF (if printed, highest priority) > Standard PDF (if printed and no custom exists) > null (if neither has been printed). If both have been printed, custom template PDF always takes precedence.
+
+            '
+          allOf:
+          - $ref: '#/components/schemas/UrlAttachment'
+        chargeable_items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              material_id:
+                type: integer
+              order_id:
+                type: integer
+              quantity:
+                type: number
+              rate:
+                type: number
+              supplier_id:
+                type: integer
+              asset_id:
+                type: integer
+              comments:
+                type: string
+              created_by:
+                type: integer
+              created_time:
+                type: string
+                format: date-time
+              modified_by:
+                type: integer
+              modified_time:
+                type: string
+                format: date-time
+              deleted_time:
+                type: string
+                format: date-time
+    SiteDiaryTimesheet:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        site_diary_id:
+          type: integer
+        timesheet_id:
+          type: integer
+        timesheet:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            client_id:
+              type: integer
+            user_id:
+              type: integer
+            project_id:
+              type: integer
+            task_id:
+              type: integer
+            location:
+              type: string
+            order_id:
+              type: integer
+            job_number:
+              type: string
+            start_time:
+              type: string
+            end_time:
+              type: string
+            break_time:
+              type: string
+            travel_time_to:
+              type: string
+            travel_time_from:
+              type: string
+            total_time:
+              type: string
+            comments:
+              type: string
+            office_use:
+              type: string
+            submitted_date:
+              type: string
+            date_of_creation:
+              type: string
+            modified_time:
+              type: string
+            modified_by:
+              type: string
+            submitted_by:
+              type: string
+            checked:
+              type: boolean
+            locked:
+              type: boolean
+            latitude:
+              type: number
+            longitude:
+              type: number
+            latitude2:
+              type: number
+            longitude2:
+              type: number
+            signature_name:
+              type: string
+            signature_url:
+              type: object
+              readOnly: true
+              properties:
+                url:
+                  type: string
+                  format: url
+                  description: Download URL for the file.
+                expiry:
+                  type: integer
+                  description: Expiry date of the download url in timestamp.
+        site_diary:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            client_id:
+              type: integer
+            project_id:
+              type: integer
+            order_id:
+              type: integer
+            site_diary_date:
+              type: string
+              format: date-time
+            client_signature_name:
+              type: string
+            client_signature_url:
+              type: object
+              readOnly: true
+              properties:
+                url:
+                  type: string
+                  format: url
+                  description: Download URL for the file.
+                expiry:
+                  type: integer
+                  description: Expiry date of the download url in timestamp.
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
+    SiteDiaries:
+      type: array
+      items:
+        $ref: '#/components/schemas/SiteDiary'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

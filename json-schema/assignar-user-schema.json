@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/assignar/main/json-schema/assignar-user-schema.json",
+  "title": "User",
+  "x-generated": "2026-09-26",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/assignar-openapi.yaml#/components/schemas/User",
+  "type": "object",
+  "required": [
+    "user_type_id",
+    "first_name",
+    "last_name",
+    "username",
+    "suppliers",
+    "tags"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "readOnly": true
+    },
+    "user_type_id": {
+      "type": "integer"
+    },
+    "employee_id": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "dob": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "address_geo": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "Point"
+          ]
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "description": "Collection of user tasks",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "Task identifier of the task"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the task"
+          },
+          "external_id": {
+            "type": "string",
+            "description": "External system identifier of the task"
+          }
+        }
+      }
+    },
+    "suppliers": {
+      "type": "array",
+      "description": "Collection of suppliers related to the user. Always present, and empty when the user has no related suppliers.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "supplier_id": {
+            "type": "integer",
+            "description": "Identifier of the supplier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the supplier"
+          },
+          "external_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "External system identifier of the supplier"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the supplier is active"
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Collection of tags applied to the user. Always present, and empty when the user has no tags.",
+      "items": {
+        "$ref": "#/$defs/TagPart"
+      }
+    },
+    "suburb": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "postcode": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "contact": {
+      "type": "string"
+    },
+    "employment_type": {
+      "type": "integer"
+    },
+    "emergency_contact": {
+      "type": "string"
+    },
+    "emergency_contact_name": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "modified_by": {
+      "type": "string"
+    },
+    "modified_time": {
+      "type": "string"
+    },
+    "comments": {
+      "type": "string"
+    },
+    "user_pic": {
+      "type": "string"
+    },
+    "eula": {
+      "type": "integer"
+    },
+    "usi": {
+      "type": "string"
+    },
+    "integration_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "$defs": {
+    "TagPart": {
+      "title": "TagPart",
+      "x-stoplight": {
+        "id": "epsk9hslhfq0q"
+      },
+      "type": "object",
+      "description": "",
+      "properties": {
+        "tag_id": {
+          "type": "integer",
+          "description": "Identifier of the tag"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the tag"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Description of the tag"
+        },
+        "color": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Color to render the tag formated as Hex color code. Ex #0000FF"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  }
+}

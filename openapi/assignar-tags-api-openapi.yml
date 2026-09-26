@@ -1,0 +1,168 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Tags API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Tags
+paths:
+  /tags/:
+    get:
+      summary: List all existing tags
+      tags:
+      - Tags
+      operationId: getTags
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Tags'
+    post:
+      summary: Create a new tag
+      tags:
+      - Tags
+      operationId: newTag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/Tag'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 100022
+                      taxonomy: client_tag
+                      name: VIP Client
+                      color: '#795548'
+  /tags/{tagId}:
+    get:
+      summary: Get a tag
+      tags:
+      - Tags
+      operationId: getTagById
+      parameters:
+      - name: taxonomy
+        description: One of user_tag, project_tag, order_tag, client_tag, contact_tag, *machine_tag*, attachment_tag, document_tag, client_tag, supplier_tag, invoice_tag
+        required: false
+        in: query
+        schema:
+          type: string
+          default: order_tag
+      - name: tagId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Tag'
+    put:
+      summary: Update an existing tag
+      tags:
+      - Tags
+      operationId: updateTag
+      parameters:
+      - in: path
+        name: tagId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    Tags:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tag'
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        taxonomy:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+          description: Nullable varchar(255) with uniqueness constraint. Used for external system integration identifiers.
+      required:
+      - taxonomy
+      - name
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

@@ -1,0 +1,210 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Documents API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Documents
+paths:
+  /documents:
+    get:
+      summary: List the document catalog
+      description: 'Documents are the tenant''s document *definitions* — named requirements such as "Vehicle Registration" or "Safety Inspection Certificate", each tied to a document type. They are not files in themselves.
+
+
+        Use this endpoint to discover which `document_id` to attach when creating an asset document (`POST /assets/{assetId}/documents`) or a project document (`POST /projects/{projectId}/documents`).
+
+
+        Read-only: POST, PUT and DELETE all respond 405.'
+      tags:
+      - Documents
+      operationId: getDocuments
+      parameters:
+      - name: page
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: page_size
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: sort
+        required: false
+        in: query
+        description: Sort by any root field, prefixed with `-` to reverse (e.g. `-name`).
+        schema:
+          type: string
+      - name: name
+        required: false
+        in: query
+        description: Filter by name. Operators apply, e.g. `name__starts_with=Vehicle`.
+        schema:
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: Filter by document type id.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  count:
+                    type: integer
+                    description: The number of documents that satisfies the query.
+                  data:
+                    $ref: '#/components/schemas/Documents'
+  /documents/{documentId}:
+    get:
+      summary: Retrieve a single document definition
+      tags:
+      - Documents
+      operationId: getDocument
+      parameters:
+      - name: documentId
+        required: true
+        in: path
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Document'
+        '404':
+          description: Not Found
+components:
+  schemas:
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
+    TagPart:
+      title: TagPart
+      x-stoplight:
+        id: epsk9hslhfq0q
+      type: object
+      description: ''
+      properties:
+        tag_id:
+          type: integer
+          description: Identifier of the tag
+          example: 301
+        name:
+          type: string
+          description: Name of the tag
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the tag
+        color:
+          type:
+          - string
+          - 'null'
+          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
+          example: '#795548'
+      required:
+      - name
+    Document:
+      type: object
+      description: A document definition in the tenant's catalog. Attach one to an asset or a project by its `id`; the catalog itself is read-only.
+      readOnly: true
+      properties:
+        id:
+          type: integer
+        type:
+          type: integer
+          description: The document type id, which determines what the definition requires (expiry date, attachment, or number and expiry).
+        name:
+          type: string
+        public:
+          type: boolean
+        attachment:
+          type: string
+          description: Template or blank form held against the definition itself, if any.
+        attachment_url:
+          allOf:
+          - $ref: '#/components/schemas/UrlAttachment'
+          description: Signed download URL, valid for two hours. Null when the definition has no attachment.
+        tags:
+          type: array
+          description: 'Collection of tags applied to the document definition. Always present, and empty when the definition has no tags. Read-only here: the catalog does not accept writes, so there is no request-body counterpart.'
+          items:
+            $ref: '#/components/schemas/TagPart'
+          example:
+          - tag_id: 45
+            name: Service Program
+            description: null
+            color: '#5bc0de'
+      example:
+        id: 25
+        type: 2
+        name: Vehicle Registration
+        public: false
+        attachment: null
+        attachment_url: null
+        tags:
+        - tag_id: 45
+          name: Service Program
+          description: null
+          color: '#5bc0de'
+    Documents:
+      type: array
+      items:
+        $ref: '#/components/schemas/Document'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

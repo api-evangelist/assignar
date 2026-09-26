@@ -1,0 +1,215 @@
+generated: '2026-09-26'
+method: derived
+generator: derive-mcp-candidate.py
+source:
+- openapi/assignar-openapi.yaml
+status: candidate
+deployment:
+  mode: none
+  auth: unknown
+  verified: probed
+note: 'No MCP server was found. The pre-flight posted tools/list to /mcp on api.assignar.com, apidocs.assignar.com, status.assignar.com, trust.assignar.com;
+  verdict opaque (https://api.assignar.com/mcp answered 403: the edge authenticates before it routes, which proves nothing either way). Candidate
+  tools below are derived from the 207 operation(s) in the provider''s own OpenAPI (40 listed); they describe what a server WOULD expose, not
+  one that exists.'
+tools:
+- name: get_activities
+  operationId: getActivities
+  method: GET
+  path: /activities
+  description: List all existing activities
+- name: new_activity
+  operationId: newActivity
+  method: POST
+  path: /activities
+  description: Create a new activity
+- name: get_activity
+  operationId: getActivity
+  method: GET
+  path: /activities/{activityId}
+  description: Retrieve an existing activity
+- name: update_activity
+  operationId: updateActivity
+  method: PUT
+  path: /activities/{activityId}
+  description: Update an existing activity
+- name: delete_activity
+  operationId: deleteActivity
+  method: DELETE
+  path: /activities/{activityId}
+  description: Delete an existing activity
+- name: get_allocations
+  operationId: GET /allocations
+  method: GET
+  path: /allocations
+  description: List all allocations
+- name: 1de7d87a_ee23_4147_935c_3204ebcf64a9
+  operationId: 1de7d87a-ee23-4147-935c-3204ebcf64a9
+  method: GET
+  path: /allocations/{allocationId}
+  description: Allocation by ID
+- name: 7bce061a_68d2_4346_9df1_34cf668b066d
+  operationId: 7bce061a-68d2-4346-9df1-34cf668b066d
+  method: GET
+  path: /users/{userId}/allocations
+  description: User Allocations
+- name: get_allowances
+  operationId: getAllowances
+  method: GET
+  path: /allowances
+  description: List all allowances
+- name: get_allowance
+  operationId: getAllowance
+  method: GET
+  path: /allowances/{allowanceId}
+  description: Get allowance by ID
+- name: get_asset-attachments
+  operationId: GET /asset-attachments
+  method: GET
+  path: /asset-attachments
+  description: Get all asset attachments
+- name: create_asset-attachments
+  operationId: POST /asset-attachments
+  method: POST
+  path: /asset-attachments
+  description: Create a new asset attachment
+- name: update_asset-attachments
+  operationId: PUT /asset-attachments/{attachmentId}
+  method: PUT
+  path: /asset-attachments/{attachmentId}
+  description: Update asset attachment
+- name: get_asset_classes
+  operationId: getAssetClasses
+  method: GET
+  path: /asset-classes
+  description: List all existing asset classes
+- name: create_asset_class
+  operationId: createAssetClass
+  method: POST
+  path: /asset-classes
+  description: Create a new asset class
+- name: get_asset_class_by_id
+  operationId: getAssetClassById
+  method: GET
+  path: /asset-classes/{assetClassId}
+  description: Retrieve an existing asset class
+- name: update_asset_class
+  operationId: updateAssetClass
+  method: PUT
+  path: /asset-classes/{assetClassId}
+  description: Update an existing asset class
+- name: delete_asset_class
+  operationId: deleteAssetClass
+  method: DELETE
+  path: /asset-classes/{assetClassId}
+  description: Delete an existing asset class
+- name: get_asset_list
+  operationId: getAssetList
+  method: GET
+  path: /assets
+  description: List all existing assets
+- name: create_asset
+  operationId: createAsset
+  method: POST
+  path: /assets
+  description: Create a new asset
+- name: get_asset_by_id
+  operationId: getAssetById
+  method: GET
+  path: /assets/{assetId}
+  description: Retrieve an existing asset
+- name: update_asset
+  operationId: updateAsset
+  method: PUT
+  path: /assets/{assetId}
+  description: Update an existing asset
+- name: delete_asset
+  operationId: deleteAsset
+  method: DELETE
+  path: /assets/{assetId}
+  description: Delete an existing asset
+- name: get_asset_documents
+  operationId: getAssetDocuments
+  method: GET
+  path: /assets/{assetId}/documents
+  description: Get a list of documents attached to the asset.
+- name: post_asset_document
+  operationId: postAssetDocument
+  method: POST
+  path: /assets/{assetId}/documents
+  description: Attach a document to an asset
+- name: get_asset_document
+  operationId: getAssetDocument
+  method: GET
+  path: /assets/{assetId}/documents/{assetDocumentId}
+  description: Retrieve a document attached to the asset.
+- name: put_asset_document
+  operationId: putAssetDocument
+  method: PUT
+  path: /assets/{assetId}/documents/{assetDocumentId}
+  description: Update a document attached to the asset.
+- name: delete_asset_document
+  operationId: deleteAssetDocument
+  method: DELETE
+  path: /assets/{assetId}/documents/{assetDocumentId}
+  description: Remove a document attached to the asset.
+- name: post_asset_document_upload_url
+  operationId: postAssetDocumentUploadUrl
+  method: POST
+  path: /upload-urls/asset-document
+  description: Calculate an S3 signed URL for uploading a file for an Asset Document.
+- name: get_clients
+  operationId: getClients
+  method: GET
+  path: /clients/
+  description: List all existing clients
+- name: post_client
+  operationId: postClient
+  method: POST
+  path: /clients/
+  description: Create a new client
+- name: get_client
+  operationId: getClient
+  method: GET
+  path: /clients/{clientId}
+  description: Retrieve an existing client
+- name: update_client
+  operationId: updateClient
+  method: PUT
+  path: /clients/{clientId}
+  description: Update an existing client
+- name: delete_client
+  operationId: deleteClient
+  method: DELETE
+  path: /clients/{clientId}
+  description: Delete an existing client
+- name: get_client_inductions
+  operationId: getClientInductions
+  method: GET
+  path: /clients/{clientId}/inductions
+  description: List Client Inductions
+- name: get_client_contacts
+  operationId: getClientContacts
+  method: GET
+  path: /clients/{clientId}/contacts
+  description: List Client Contacts
+- name: post_client_contact
+  operationId: postClientContact
+  method: POST
+  path: /clients/{clientId}/contacts
+  description: Add a contact to a Client
+- name: delete_client_contact
+  operationId: deleteClientContact
+  method: DELETE
+  path: /clients/{clientId}/contacts/{clientContactId}
+  description: Removing a contact from a client
+- name: get_client_task_groups
+  operationId: getClientTaskGroups
+  method: GET
+  path: /clients/{clientId}/task-groups
+  description: List task groups assigned to a client
+- name: create_client_task_group
+  operationId: createClientTaskGroup
+  method: POST
+  path: /clients/{clientId}/task-groups
+  description: Assign a task group to a client

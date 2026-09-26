@@ -1,0 +1,395 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Form Results API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Form Results
+paths:
+  /form-results:
+    get:
+      summary: List all existing form results
+      description: Each item omits `result_data` so list responses stay lightweight. Call `GET /form-results/{formResultId}` for the full payload including field values in `result_data`.
+      tags:
+      - Form Results
+      operationId: getFormResults
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/FormResults'
+                  count:
+                    type: integer
+                    description: the number of form results that satisfies the query.
+  /form-results/{formResultId}:
+    get:
+      summary: Retrieve an existing form result
+      tags:
+      - Form Results
+      operationId: getFormResult
+      parameters:
+      - in: path
+        name: formResultId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/FormResult'
+components:
+  schemas:
+    FormResult:
+      description: Full form result including `result_data`, as returned by `GET /form-results/{formResultId}`.
+      allOf:
+      - $ref: '#/components/schemas/FormResultFields'
+      - type: object
+        properties:
+          result_data:
+            type: array
+            items:
+              anyOf:
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:number:
+                    type: integer
+                  value:
+                    type: number
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:text:
+                    type: integer
+                  value:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:textarea:
+                    type: integer
+                  value:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:date:
+                    type: integer
+                  value:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:time:
+                    type: integer
+                  value:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:datetime:
+                    type: integer
+                  value:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:datetime:
+                    type: integer
+                  value:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:signature:
+                    type: integer
+                  attachment:
+                    type: string
+                  filepath:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:imagecapture:
+                    type: integer
+                  filenames:
+                    type: array
+                    items:
+                      type: string
+                  filepaths:
+                    type: array
+                    items:
+                      type: string
+                  attachments:
+                    type: array
+                    items:
+                      type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:file:
+                    type: integer
+                  filenames:
+                    type: array
+                    items:
+                      type: string
+                  filepaths:
+                    type: array
+                    items:
+                      type: string
+                  attachments:
+                    type: array
+                    items:
+                      type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:dropahead:
+                    type: integer
+                  label:
+                    type: string
+                  value:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:radio:
+                    type: integer
+                  value:
+                    type: string
+                  other:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:checkbox:
+                    type: integer
+                  value:
+                    type: array
+                    items:
+                      type: string
+                  other:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:dropdown:
+                    type: integer
+                  value:
+                    type: string
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:fieldgroup:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+              - type: object
+                properties:
+                  field_id:
+                    type: integer
+                  $type:array:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field_id:
+                          type: integer
+                        $type:fieldgroup:
+                          type: integer
+                        results:
+                          type: array
+                          items:
+                            type: object
+      - $ref: '#/components/schemas/FormResultTail'
+    FormResultListItem:
+      description: Same shape as a full form result except `result_data` is not included on list responses. Use the single-result endpoint for `result_data`.
+      allOf:
+      - $ref: '#/components/schemas/FormResultFields'
+      - $ref: '#/components/schemas/FormResultTail'
+    FormResults:
+      type: array
+      description: List responses intentionally omit `result_data` on each item to keep payloads lightweight. Use `GET /form-results/{formResultId}` to retrieve full field values including `result_data`.
+      items:
+        $ref: '#/components/schemas/FormResultListItem'
+    FormResultTail:
+      type: object
+      properties:
+        creator_name:
+          type: string
+        assignee_name:
+          type: string
+        form:
+          type: object
+          properties:
+            display_meta:
+              type: object
+              properties:
+                fields:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      id:
+                        type: number
+                      is_required:
+                        type: boolean
+                      question:
+                        type: string
+                      is_conditional:
+                        type: boolean
+                      has_url:
+                        type: boolean
+            id:
+              type: integer
+            title:
+              type: string
+        creator:
+          type: object
+          properties:
+            full_name:
+              type: string
+            user_id:
+              type: integer
+            first_name:
+              type: string
+            last_name:
+              type: string
+        modifier:
+          type: object
+          properties:
+            full_name:
+              type: string
+            user_id:
+              type: integer
+            first_name:
+              type: string
+            last_name:
+              type: string
+        assignee:
+          type: object
+          properties:
+            full_name:
+              type: string
+            user_id:
+              type: integer
+            first_name:
+              type: string
+            last_name:
+              type: string
+        status:
+          type: object
+          properties:
+            id:
+              type: integer
+            label:
+              type: string
+    FormResultFields:
+      type: object
+      properties:
+        id:
+          type: integer
+        form_id:
+          type: integer
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        client_id:
+          type: integer
+        project_id:
+          type: integer
+        asset_id:
+          type: integer
+        worker_id:
+          type: integer
+        supplier_id:
+          type: integer
+        order_id:
+          type: integer
+        date_created:
+          type: string
+          format: date-time
+        submitted_time:
+          type: string
+          format: date-time
+        modified_time:
+          type: string
+          format: date-time
+        modified_by:
+          type: integer
+        creator_id:
+          type: integer
+        status_id:
+          type: integer
+        assignee_id:
+          type: integer
+        order_resource_id:
+          type: integer
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

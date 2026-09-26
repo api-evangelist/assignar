@@ -1,0 +1,17 @@
+generated: '2026-09-26'
+method: derived
+source: openapi/assignar-openapi.yaml
+summary:
+  types:
+  - oauth2
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: OAuth2
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://login.assignar.com/oauth2/token
+    scopes: 1
+  sources:
+  - openapi/assignar-openapi.yaml

@@ -1,0 +1,489 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Suppliers API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Suppliers
+paths:
+  /suppliers:
+    get:
+      summary: List all existing suppliers
+      tags:
+      - Suppliers
+      operationId: getSuppliers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Suppliers'
+              examples:
+                example-1:
+                  value:
+                    status: 200
+                    data:
+                    - id: 1
+                      name: ABC Supplies
+                      abn: '12345678901'
+                      email: contact@abcsupplies.com
+                      office_phone: +61 2 1234 5678
+                      mobile: +61 412 345 678
+                      address_1: 123 Main Street
+                      address_2: Suite 100
+                      city: Sydney
+                      postcode: '2000'
+                      state: NSW
+                      comments: Preferred supplier
+                      external_id: ext_001
+                      active: true
+                      date_added: '2023-01-15'
+                      date_modified: '2023-06-20'
+                      modified_by: 123
+                      modified_time: '2023-06-20'
+                      tags:
+                      - tag_id: 301
+                        name: VIP
+                        description: VIP Supplier
+                        color: '#795548'
+    post:
+      summary: Create a new supplier
+      tags:
+      - Suppliers
+      operationId: newSupplier
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateSupplierRequest'
+      security:
+      - Assignar Tenant Auth: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/SupplierWithTagId'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 1
+                      name: ABC Supplies
+                      abn: '12345678901'
+                      email: contact@abcsupplies.com
+                      office_phone: +61 2 1234 5678
+                      mobile: +61 412 345 678
+                      address_1: 123 Main Street
+                      address_2: Suite 100
+                      city: Sydney
+                      postcode: '2000'
+                      state: NSW
+                      comments: Preferred supplier
+                      external_id: ext_001
+                      active: true
+                      date_added: '2023-01-15'
+                      date_modified: '2023-01-15'
+                      modified_by: 123
+                      modified_time: '2023-01-15'
+                      tags:
+                      - tag_id: '301'
+  /suppliers/{supplierId}:
+    get:
+      summary: Retrieve an existing supplier
+      tags:
+      - Suppliers
+      operationId: getSupplier
+      parameters:
+      - in: path
+        name: supplierId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Supplier'
+              examples:
+                Success:
+                  value:
+                    status: 200
+                    data:
+                      id: 1
+                      name: ABC Supplies
+                      abn: '12345678901'
+                      email: contact@abcsupplies.com
+                      office_phone: +61 2 1234 5678
+                      mobile: +61 412 345 678
+                      address_1: 123 Main Street
+                      address_2: Suite 100
+                      city: Sydney
+                      postcode: '2000'
+                      state: NSW
+                      comments: Preferred supplier
+                      external_id: ext_001
+                      active: true
+                      date_added: '2023-01-15'
+                      date_modified: '2023-06-20'
+                      modified_by: 123
+                      modified_time: '2023-06-20'
+                      tags:
+                      - tag_id: 301
+                        name: VIP
+                        description: VIP Supplier
+                        color: '#795548'
+    put:
+      summary: Update a supplier
+      tags:
+      - Suppliers
+      operationId: updateSupplierId
+      parameters:
+      - in: path
+        name: supplierId
+        required: true
+        schema:
+          type: integer
+      security:
+      - Assignar Tenant Auth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateSupplierRequest'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing supplier
+      tags:
+      - Suppliers
+      operationId: deleteSupplier
+      parameters:
+      - in: path
+        name: supplierId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    Supplier:
+      type: object
+      required:
+      - name
+      - active
+      - date_added
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        abn:
+          type: string
+        email:
+          type: string
+        office_phone:
+          type: string
+        mobile:
+          type: string
+        address_1:
+          type: string
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                example:
+                - -33.865143
+                - 151.2099
+        address_2:
+          type: string
+        city:
+          type: string
+        postcode:
+          type: string
+        state:
+          type: string
+        comments:
+          type: string
+        external_id:
+          type: string
+        active:
+          type: boolean
+        date_added:
+          type: string
+          format: date
+        date_modified:
+          type: string
+          format: date
+        modified_by:
+          type: integer
+        modified_time:
+          type: string
+          format: date
+        tags:
+          type: array
+          description: Collection of tags of the supplier
+          items:
+            $ref: '#/components/schemas/TagPart'
+    Suppliers:
+      type: array
+      items:
+        $ref: '#/components/schemas/Supplier'
+    TagPart:
+      title: TagPart
+      x-stoplight:
+        id: epsk9hslhfq0q
+      type: object
+      description: ''
+      properties:
+        tag_id:
+          type: integer
+          description: Identifier of the tag
+          example: 301
+        name:
+          type: string
+          description: Name of the tag
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the tag
+        color:
+          type:
+          - string
+          - 'null'
+          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
+          example: '#795548'
+      required:
+      - name
+    SupplierWithTagId:
+      type: object
+      required:
+      - name
+      - active
+      - date_added
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        abn:
+          type: string
+        email:
+          type: string
+        office_phone:
+          type: string
+        mobile:
+          type: string
+        address_1:
+          type: string
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                example:
+                - -33.865143
+                - 151.2099
+        address_2:
+          type: string
+        city:
+          type: string
+        postcode:
+          type: string
+        state:
+          type: string
+        comments:
+          type: string
+        external_id:
+          type: string
+        active:
+          type: boolean
+        date_added:
+          type: string
+          format: date
+        date_modified:
+          type: string
+          format: date
+        modified_by:
+          type: integer
+        modified_time:
+          type: string
+          format: date
+        tags:
+          type: array
+          description: Collection of tags of the supplier
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: string
+                description: Tag identifier of the supplier
+                example: '301'
+  requestBodies:
+    CreateUpdateSupplierRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the supplier
+                example: ABC Supplies
+              abn:
+                type: string
+                description: Australian Business Number
+                example: '12345678901'
+              email:
+                type: string
+                description: Email address of the supplier
+                example: contact@abcsupplies.com
+              office_phone:
+                type: string
+                description: Office phone number
+                example: +61 2 1234 5678
+              mobile:
+                type: string
+                description: Mobile phone number
+                example: +61 412 345 678
+              address_1:
+                type: string
+                description: Primary address line
+                example: 123 Main Street
+              address_geo:
+                type: object
+                description: Geographic coordinates of the address
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - Point
+                  coordinates:
+                    type: array
+                    items:
+                      type: number
+                    example:
+                    - -33.865143
+                    - 151.2099
+              address_2:
+                type: string
+                description: Secondary address line
+                example: Suite 100
+              city:
+                type: string
+                description: City or suburb
+                example: Sydney
+              postcode:
+                type: string
+                description: Postal code
+                example: '2000'
+              state:
+                type: string
+                description: State or territory
+                example: NSW
+              comments:
+                type: string
+                description: Additional comments
+                example: Preferred supplier
+              external_id:
+                type: string
+                description: External system identifier
+                example: ext_001
+              active:
+                type: boolean
+                description: Active status
+                default: true
+              tags:
+                type: array
+                description: Collection of tags of the supplier
+                items:
+                  type: object
+                  properties:
+                    tag_id:
+                      type: integer
+                      description: Tag identifier of the supplier
+                      example: 301
+            required:
+            - name
+            - active
+          examples:
+            Request:
+              value:
+                name: ABC Supplies
+                abn: '12345678901'
+                email: contact@abcsupplies.com
+                office_phone: +61 2 1234 5678
+                mobile: +61 412 345 678
+                address_1: 123 Main Street
+                address_2: Suite 100
+                city: Sydney
+                postcode: '2000'
+                state: NSW
+                comments: Preferred supplier
+                external_id: ext_001
+                active: true
+                tags:
+                - tag_id: 301
+      description: ''
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/assignar/main/json-schema/assignar-site-diary-schema.json",
+  "title": "SiteDiary",
+  "x-generated": "2026-09-26",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/assignar-openapi.yaml#/components/schemas/SiteDiary",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "readOnly": true
+    },
+    "client_id": {
+      "type": "integer"
+    },
+    "project_id": {
+      "type": "integer"
+    },
+    "order_id": {
+      "type": "integer"
+    },
+    "site_diary_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "weather": {
+      "type": "string"
+    },
+    "client_signature_name": {
+      "type": "string"
+    },
+    "client_signature_url": {
+      "$ref": "#/$defs/UrlAttachment"
+    },
+    "created_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "integer"
+    },
+    "modified_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "modified_by": {
+      "type": "integer"
+    },
+    "deleted_by": {
+      "type": "integer"
+    },
+    "deleted_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "submitted_by": {
+      "type": "integer"
+    },
+    "supervisor_signature_url": {
+      "$ref": "#/$defs/UrlAttachment"
+    },
+    "activity_progress": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "current_amount": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Current amount for this activity"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Unique identifier for the image"
+                },
+                "path": {
+                  "type": "string",
+                  "description": "File path of the image"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "When the image was created"
+                },
+                "created_by_id": {
+                  "type": "integer",
+                  "description": "ID of the user who created the image"
+                },
+                "modified_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "When the image was last modified"
+                },
+                "modified_by_id": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "description": "ID of the user who last modified the image"
+                },
+                "signed_url": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "url",
+                      "description": "Pre-signed URL for accessing the image"
+                    },
+                    "expiry": {
+                      "type": "integer",
+                      "description": "Expiry timestamp for the signed URL"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Array of image objects with metadata and signed URLs"
+          },
+          "comment": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Optional comment for this activity progress"
+          },
+          "activity": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Site Diary Activity Progress ID"
+              },
+              "activity_id": {
+                "type": "integer",
+                "description": "Activity ID"
+              },
+              "external_id": {
+                "type": "string",
+                "description": "External identifier for the activity"
+              },
+              "name": {
+                "type": "string",
+                "description": "Activity name"
+              },
+              "unit_of_measure_label": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Unit of measure label"
+              }
+            }
+          },
+          "activity_label": {
+            "type": "string",
+            "description": "Formatted activity label with ID and name"
+          },
+          "cumulative_amount": {
+            "type": "number",
+            "description": "Cumulative amount for this activity (less the current_amount)"
+          },
+          "budgeted_amount": {
+            "type": "number",
+            "description": "Budgeted amount for this activity"
+          },
+          "labor_hours": {
+            "type": "number",
+            "description": "Labor hours spent on this activity"
+          },
+          "date_added": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "Date when this progress entry was added"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string"
+    },
+    "client": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "print_document": {
+      "nullable": true,
+      "description": "PDF document for this site diary. Returns the PDF based on what has been printed: Custom template PDF (if printed, highest priority) > Standard PDF (if printed and no custom exists) > null (if neither has been printed). If both have been printed, custom template PDF always takes precedence.\n",
+      "allOf": [
+        {
+          "$ref": "#/$defs/UrlAttachment"
+        }
+      ]
+    },
+    "chargeable_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "material_id": {
+            "type": "integer"
+          },
+          "order_id": {
+            "type": "integer"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "supplier_id": {
+            "type": "integer"
+          },
+          "asset_id": {
+            "type": "integer"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "created_by": {
+            "type": "integer"
+          },
+          "created_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modified_by": {
+            "type": "integer"
+          },
+          "modified_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deleted_time": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "UrlAttachment": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "url",
+          "description": "Download URL for the file."
+        },
+        "expiry": {
+          "type": "integer",
+          "description": "Expiry date of the download url in timestamp."
+        }
+      }
+    }
+  }
+}

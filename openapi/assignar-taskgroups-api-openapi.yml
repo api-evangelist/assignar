@@ -1,0 +1,206 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Task Groups API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: TaskGroups
+paths:
+  /task-groups:
+    get:
+      summary: List all existing task groups
+      tags:
+      - TaskGroups
+      operationId: getTaskGroups
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/TaskGroups'
+    post:
+      summary: Create a new task group
+      tags:
+      - TaskGroups
+      operationId: createTaskGroup
+      security:
+      - oauth_2_auth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: Unique name of the task group.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/TaskGroup'
+  /task-groups/{groupId}/tasks:
+    get:
+      summary: List tasks in a task group
+      tags:
+      - TaskGroups
+      operationId: getTaskGroupTasks
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: groupId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  count:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        group_id:
+                          type: integer
+                        task_id:
+                          type: integer
+    post:
+      summary: Add a task to a task group (group side)
+      description: Associates a task with the task group. Duplicate (group, task) pairs are rejected with 400.
+      tags:
+      - TaskGroups
+      operationId: createTaskGroupTask
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: groupId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - task_id
+              properties:
+                task_id:
+                  type: integer
+                  description: The id of the task to add to the task group.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      group_id:
+                        type: integer
+                      task_id:
+                        type: integer
+  /task-groups/{groupId}/tasks/{id}:
+    delete:
+      summary: Remove a task from a task group (group side)
+      description: '`id` is the association id returned when the task was added (the `id` of the task group-task record), not the task''s own id.'
+      tags:
+      - TaskGroups
+      operationId: deleteTaskGroupTask
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: groupId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    TaskGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+      - id
+      - name
+    TaskGroups:
+      type: array
+      items:
+        $ref: '#/components/schemas/TaskGroup'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

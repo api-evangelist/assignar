@@ -1,0 +1,803 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/assignar/main/json-schema/assignar-timesheet-expanded-schema.json",
+  "title": "TimesheetExpanded",
+  "x-generated": "2026-09-26",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/assignar-openapi.yaml#/components/schemas/TimesheetExpanded",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "client_id": {
+      "type": "integer"
+    },
+    "user_id": {
+      "type": "integer"
+    },
+    "project_id": {
+      "type": "integer"
+    },
+    "task_id": {
+      "type": "integer"
+    },
+    "location": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "order_id": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "supplier_id": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "job_number": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "start_time": {
+      "type": "string"
+    },
+    "start_datetime": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string"
+    },
+    "end_datetime": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "total_time": {
+      "type": "string"
+    },
+    "comments": {
+      "type": "string"
+    },
+    "office_use": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "submitted_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "date_of_creation": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by_id": {
+      "type": "integer"
+    },
+    "modified_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "modified_by": {
+      "type": "string"
+    },
+    "submitted_by": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "latitude": {
+      "type": "number",
+      "format": "float"
+    },
+    "longitude": {
+      "type": "number",
+      "format": "float"
+    },
+    "latitude2": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "format": "float"
+    },
+    "longitude2": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "format": "float"
+    },
+    "signature_name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "signature_url": {
+      "$ref": "#/$defs/UrlAttachment",
+      "nullable": true
+    },
+    "client_signature_name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "client_signature_url": {
+      "$ref": "#/$defs/UrlAttachment",
+      "nullable": true
+    },
+    "document_url": {
+      "$ref": "#/$defs/UrlAttachment",
+      "nullable": true,
+      "description": "Signed URL for the auto-generated timesheet PDF. Refreshed every time the timesheet is created, updated, approved, processed, or its site diary is signed. Null for timesheets that have not been mutated since the feature was introduced.\n"
+    },
+    "completed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "completed_by_id": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "processed_by_id": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "processed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "deleted_time": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "integration_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "type": "string"
+    },
+    "client": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "external_id": {
+          "type": "string"
+        }
+      }
+    },
+    "project": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "external_id": {
+          "type": "string"
+        }
+      }
+    },
+    "task": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "external_id": {
+          "type": "string"
+        }
+      }
+    },
+    "user": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "employee_id": {
+          "type": "string"
+        },
+        "employment_type_id": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "supplier": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "external_id": {
+          "type": "string"
+        }
+      }
+    },
+    "order": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "job_number": {
+          "type": "string"
+        },
+        "job_description": {
+          "type": "string"
+        }
+      }
+    },
+    "digitaldocket": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "activity_entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ActivityEntry"
+      }
+    },
+    "asset_entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AssetEntry"
+      }
+    },
+    "leave_request_entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LeaveRequestEntry"
+      }
+    },
+    "docket": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "docket_id": {
+          "type": "integer"
+        },
+        "timesheet_id": {
+          "type": "integer"
+        },
+        "docket": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "number": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "allowances": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TimesheetExpandedAllowance"
+      }
+    },
+    "site_diary": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "client_signature_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "supervisor_signature_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "client_signature_url": {
+          "$ref": "#/$defs/UrlAttachment",
+          "nullable": true
+        },
+        "supervisor_signature_url": {
+          "$ref": "#/$defs/UrlAttachment",
+          "nullable": true
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ActivityEntry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "start_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "start_at_tz": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "end_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "end_at_tz": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "start_at_naive": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "end_at_naive": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "is_naive_datetime": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modified_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration": {
+          "type": "integer",
+          "description": "Duration in minutes"
+        },
+        "activity": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            },
+            "external_id": {
+              "type": "string"
+            },
+            "is_payable": {
+              "type": "boolean"
+            }
+          }
+        },
+        "created_by": {
+          "$ref": "#/$defs/UserReference"
+        },
+        "modified_by": {
+          "$ref": "#/$defs/UserReference"
+        },
+        "related_asset_entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RelatedAssetEntry"
+          }
+        }
+      }
+    },
+    "AssetClass": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "AssetEntry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "start_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "start_at_tz": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "end_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "end_at_tz": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "start_at_naive": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "end_at_naive": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "is_naive_datetime": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modified_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration": {
+          "type": "integer",
+          "description": "Duration in minutes"
+        },
+        "uses_whole_shift": {
+          "type": "boolean"
+        },
+        "asset": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            },
+            "external_id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "make": {
+              "type": "string"
+            },
+            "model": {
+              "type": "string"
+            },
+            "year": {
+              "type": "string"
+            },
+            "assetClass": {
+              "$ref": "#/$defs/AssetClass"
+            }
+          }
+        },
+        "created_by": {
+          "$ref": "#/$defs/UserReference"
+        },
+        "modified_by": {
+          "$ref": "#/$defs/UserReference"
+        }
+      }
+    },
+    "LeaveRequestEntry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "start_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "start_at_tz": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "end_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "end_at_tz": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "start_at_naive": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "end_at_naive": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "is_naive_datetime": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modified_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration": {
+          "type": "integer",
+          "description": "Duration in minutes"
+        },
+        "leave_type": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "type": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            }
+          }
+        },
+        "created_by": {
+          "$ref": "#/$defs/UserReference"
+        },
+        "modified_by": {
+          "$ref": "#/$defs/UserReference"
+        }
+      }
+    },
+    "RelatedAssetEntry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "asset_entry_id": {
+          "type": "integer"
+        },
+        "activity_asset_usage_minutes": {
+          "type": "integer"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modified_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "asset": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            },
+            "external_id": {
+              "type": "string"
+            },
+            "assetClass": {
+              "$ref": "#/$defs/AssetClass"
+            }
+          }
+        },
+        "created_by": {
+          "$ref": "#/$defs/UserReference"
+        },
+        "modified_by": {
+          "$ref": "#/$defs/UserReference"
+        }
+      }
+    },
+    "TimesheetExpandedAllowance": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "timesheet_id": {
+          "type": "integer"
+        },
+        "allowance_id": {
+          "type": "integer"
+        },
+        "quantity": {
+          "type": "number",
+          "format": "float"
+        },
+        "allowance": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            },
+            "active": {
+              "type": "boolean"
+            },
+            "code": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "UrlAttachment": {
+      "type": "object",
+      "readOnly": true,
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "url",
+          "description": "Download URL for the file."
+        },
+        "expiry": {
+          "type": "integer",
+          "description": "Expiry date of the download url in timestamp."
+        }
+      }
+    },
+    "UserReference": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

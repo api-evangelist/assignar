@@ -1,0 +1,78 @@
+generated: '2026-09-26'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: aws-api-gateway
+  name: Amazon API Gateway
+  area: api-gateway
+  host: api.assignar.com
+  evidence: header:x-amz-apigw-id
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: cloudfront
+  name: Amazon CloudFront
+  area: cdn
+  host: status.assignar.com
+  evidence: cname:cloudfront.net
+  signal: cname
+  confidence: high
+  kin_score: []
+- vendor: fastly
+  name: Fastly
+  area: cdn
+  host: apidocs.assignar.com
+  evidence: header:x-served-by:cache-
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: github-pages
+  name: GitHub Pages
+  area: hosting
+  host: apidocs.assignar.com
+  evidence: cname:assignar.github.io
+  signal: docs-platform
+  confidence: medium
+  kin_score: []
+- vendor: zendesk
+  name: Zendesk
+  area: support
+  host: support.assignar.com
+  evidence: cname:zendesk.com
+  signal: cname
+  confidence: high
+  kin_score:
+  - support_channel
+reliance:
+  areas_vendor_served:
+  - api-gateway
+  - cdn
+  - hosting
+  - support
+  vendor_count: 5
+  areas_observed: 12
+  share_of_observable_areas: 0.333
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: custom'
+- support.assignar.com (Support)
+- support.assignar.com (GettingStarted)
+- assignar.com (Website)
+- apidocs.assignar.com (Documentation)
+- status.assignar.com (StatusPage)
+- api.assignar.com (baseURL)

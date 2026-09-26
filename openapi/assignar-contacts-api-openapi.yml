@@ -1,0 +1,214 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Contacts API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Contacts
+paths:
+  /contacts/:
+    get:
+      summary: List all existing contacts
+      tags:
+      - Contacts
+      operationId: getContacts
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Contacts'
+    post:
+      summary: Create a new contact
+      tags:
+      - Contacts
+      operationId: postContact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/Contact'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 782
+                      first_name: Jane
+                      last_name: Doe
+                      email: jane.doe@example.com
+                Success with tags:
+                  value:
+                    status: 201
+                    data:
+                      id: 783
+                      first_name: Jane
+                      last_name: Doe
+                      email: jane.doe@example.com
+                      tags:
+                      - tag_id: 1
+  /contacts/{contactId}:
+    get:
+      summary: Retrieve an existing contact
+      tags:
+      - Contacts
+      operationId: getContact
+      parameters:
+      - in: path
+        name: contactId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Contact'
+    put:
+      summary: Update an existing contact
+      tags:
+      - Contacts
+      operationId: updateContact
+      parameters:
+      - in: path
+        name: contactId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing contact
+      tags:
+      - Contacts
+      operationId: deleteContact
+      parameters:
+      - in: path
+        name: contactId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    Contact:
+      type: object
+      required:
+      - first_name
+      - last_name
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+        last_name:
+          type: string
+        company:
+          type: string
+        office_phone:
+          type: string
+        mobile:
+          type: string
+        email:
+          type: string
+        job_title:
+          type: string
+        address_1:
+          type: string
+        address_2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        comments:
+          type: string
+        external_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        tags:
+          type: array
+          description: Tag associations. Supply on create or update; echoed back on create when the request included tags.
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: integer
+    Contacts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Contact'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

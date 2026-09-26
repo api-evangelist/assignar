@@ -1,0 +1,210 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Allocations API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Allocations
+paths:
+  /allocations:
+    get:
+      summary: List all allocations
+      tags:
+      - Allocations
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Allocations'
+      operationId: getAllocations
+      x-operation-id-source: derived
+  /allocations/{allocationId}:
+    get:
+      summary: Allocation by ID
+      tags:
+      - Allocations
+      operationId: 1de7d87a-ee23-4147-935c-3204ebcf64a9
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Allocation'
+      parameters:
+      - name: allocationId
+        schema:
+          type: string
+          minimum: 1
+          default: ''
+        required: true
+        in: path
+  /users/{userId}/allocations:
+    get:
+      summary: User Allocations
+      tags:
+      - Allocations
+      operationId: 7bce061a-68d2-4346-9df1-34cf668b066d
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Allocations'
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: userId
+        schema:
+          type: string
+          default: ''
+        required: true
+        in: path
+      - name: allocationId
+        schema:
+          type: string
+          minimum: 1
+          default: ''
+        required: true
+        in: path
+components:
+  schemas:
+    OrderTaskWithOrderAndTask:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        total_hours:
+          type: integer
+        order_id:
+          type: integer
+        task_id:
+          type: integer
+        shift_index:
+          type: integer
+        description:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+        order:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            client_id:
+              type: integer
+            project_id:
+              type: integer
+            supplier_id:
+              type: integer
+            start_date:
+              type: string
+            end_date:
+              type: string
+        task:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+    Allocations:
+      type: array
+      items:
+        $ref: '#/components/schemas/Allocation'
+    OrderResource:
+      title: OrderResource
+      type: object
+      description: ''
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        asset_id:
+          type: integer
+        user_id:
+          type: integer
+        order_id:
+          type: integer
+        order_task:
+          $ref: '#/components/schemas/OrderTaskWithOrderAndTask'
+    Allocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        resource_id:
+          type: integer
+        resource_date:
+          type: string
+        status_id:
+          type: integer
+        notified:
+          type: boolean
+        comments:
+          type: string
+        timesheet_id:
+          type: integer
+        resource:
+          $ref: '#/components/schemas/OrderResource'
+        status:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            name:
+              type: string
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

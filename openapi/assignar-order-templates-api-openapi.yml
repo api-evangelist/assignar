@@ -1,0 +1,317 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Order Templates API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Order Templates
+paths:
+  /order-templates:
+    get:
+      summary: List all existing order templates
+      description: Returns order templates with their full nested contents (tasks and their forms, activities, and tags). Soft-deleted templates (deleted_at is set) are included by default; filter them out with deleted_at__is=null.
+      tags:
+      - Order Templates
+      operationId: getOrderTemplates
+      parameters:
+      - name: page
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: page_size
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: sort
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: deleted_at__is
+        required: false
+        in: query
+        description: Filter by soft-delete status. Use `deleted_at__is=null` to return only active (non-deleted) templates.
+        schema:
+          type: string
+      - name: deleted_at__not
+        required: false
+        in: query
+        description: Use `deleted_at__not=null` to return only soft-deleted templates.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  count:
+                    type: integer
+                    description: Total number of matching templates
+                  data:
+                    $ref: '#/components/schemas/OrderTemplates'
+  /order-templates/{id}:
+    get:
+      summary: Retrieve an existing order template
+      description: Returns a single order template with its full nested contents. Soft-deleted templates are returned by id (they are not hidden); responds 404 if no template exists with the given id.
+      tags:
+      - Order Templates
+      operationId: getOrderTemplate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderTemplate'
+        '404':
+          description: Not Found
+components:
+  schemas:
+    OrderTemplateTaskForm:
+      type: object
+      properties:
+        id:
+          type: integer
+        form_id:
+          type: integer
+        title:
+          type:
+          - string
+          - 'null'
+        active:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the underlying form is active; null if the form no longer resolves
+        archived:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the underlying form is archived; null if the form no longer resolves
+    OrderTemplate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        order_comment:
+          type:
+          - string
+          - 'null'
+        order_duration:
+          type: integer
+          description: Template duration in days
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        modified_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+          description: Soft-delete timestamp; null for active templates
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+          description: User id who soft-deleted the template; null for active templates
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderTemplateTask'
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderTemplateActivity'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderTemplateTag'
+    OrderTemplateTag:
+      type: object
+      properties:
+        tag_id:
+          type: integer
+          description: Identifier of the tag
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        color:
+          type:
+          - string
+          - 'null'
+    OrderTemplateTask:
+      type: object
+      properties:
+        id:
+          type: integer
+        task_id:
+          type: integer
+        task_description:
+          type: string
+        task_quantity:
+          type: integer
+        task_start_time:
+          type: string
+          description: Shift start time in "HH:MM" (24-hour) format
+          pattern: ^([01]\d|2[0-3]):[0-5]\d$
+          example: 07:00
+        task_end_time:
+          type: string
+          description: Shift end time in "HH:MM" (24-hour) format
+          pattern: ^([01]\d|2[0-3]):[0-5]\d$
+          example: '17:00'
+        task_offset:
+          type: integer
+          description: Days after the order start date this task begins
+        task_duration:
+          type: integer
+          description: Task duration in days
+        task:
+          type:
+          - object
+          - 'null'
+          description: The underlying task this template line references
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            external_id:
+              type:
+              - string
+              - 'null'
+            active:
+              type: boolean
+            deleted_at:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              description: Soft-delete timestamp on the underlying task; null when the task is not deleted
+            deleted_by_id:
+              type:
+              - integer
+              - 'null'
+              description: User id who soft-deleted the underlying task; null when the task is not deleted
+            integration_id:
+              type:
+              - string
+              - 'null'
+              description: External system identifier for the underlying task
+        forms:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderTemplateTaskForm'
+    OrderTemplateActivity:
+      type: object
+      properties:
+        id:
+          type: integer
+        activity_id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        external_id:
+          type:
+          - string
+          - 'null'
+        uom_code:
+          type:
+          - string
+          - 'null'
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Soft-delete timestamp on the underlying activity; null when the activity is not deleted
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+          description: User id who soft-deleted the underlying activity; null when the activity is not deleted
+        integration_id:
+          type:
+          - string
+          - 'null'
+          description: External system identifier for the underlying activity
+    OrderTemplates:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTemplate'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

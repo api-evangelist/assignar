@@ -1,0 +1,469 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Invoices API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Invoices
+paths:
+  /charge-codes:
+    get:
+      summary: List all existing charge-codes
+      tags:
+      - Invoices
+      operationId: getChargeCodes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/ChargeCodes'
+    post:
+      summary: Create a new charge code
+      tags:
+      - Invoices
+      operationId: newChargeCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeCodeRequest'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/ChargeCodeResponse'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 117
+                      code: TRV
+                      label: Travel
+                      modified_by: 40
+  /charge-codes/{chargeCodeId}:
+    get:
+      summary: Retrieve an existing charge code
+      tags:
+      - Invoices
+      operationId: getChargeCode
+      parameters:
+      - in: path
+        name: chargeCodeId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/ChargeCodeResponse'
+    put:
+      summary: Update an existing charge code
+      tags:
+      - Invoices
+      operationId: updateChargeCode
+      parameters:
+      - in: path
+        name: chargeCodeId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeCodeRequest'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete a existing charge code
+      tags:
+      - Invoices
+      operationId: deleteChargeCode
+      parameters:
+      - in: path
+        name: chargeCodeId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /charge-items:
+    get:
+      summary: List all existing charge items
+      tags:
+      - Invoices
+      operationId: getChargeItems
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/ChargeItems'
+    post:
+      summary: Create a new charge item
+      tags:
+      - Invoices
+      operationId: newChargeItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeItem'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/ChargeItem'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 166
+                      name: Materials
+                      rate: '12.50'
+  /charge-items/{chargeItemId}:
+    get:
+      summary: Retrieve an existing charge item
+      tags:
+      - Invoices
+      operationId: getChargeItem
+      parameters:
+      - in: path
+        name: chargeItemId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/ChargeItem'
+    put:
+      summary: Update an existing charge item
+      tags:
+      - Invoices
+      operationId: updateChargeItem
+      parameters:
+      - in: path
+        name: chargeItemId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeItem'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete a existing charge item
+      tags:
+      - Invoices
+      operationId: deleteChargeItem
+      parameters:
+      - in: path
+        name: chargeItemId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /pay-codes:
+    get:
+      summary: List all existing pay codes
+      tags:
+      - Invoices
+      operationId: getPayCodes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/PayCodes'
+    post:
+      summary: Create a new pay code
+      tags:
+      - Invoices
+      operationId: newPayCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayCode'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/PayCode'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 137
+                      code: ORD
+                      label: Ordinary
+                      created_by_id: 40
+                      modified_by_id: 40
+                      created_at: '2026-08-25T02:14:07.000Z'
+                      modified_at: '2026-08-25T02:14:07.000Z'
+  /pay-codes/{payCodeId}:
+    get:
+      summary: Retrieve an existing pay code
+      tags:
+      - Invoices
+      operationId: getPayCode
+      parameters:
+      - in: path
+        name: payCodeId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/PayCode'
+    put:
+      summary: Update an existing pay code
+      tags:
+      - Invoices
+      operationId: updatePayCode
+      parameters:
+      - in: path
+        name: payCodeId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayCode'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete a existing pay code
+      tags:
+      - Invoices
+      operationId: deletePayCode
+      parameters:
+      - in: path
+        name: payCodeId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    ChargeItem:
+      type: object
+      required:
+      - name
+      - rate
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        rate:
+          type: string
+        charge_code_id:
+          type: integer
+    ChargeCodeResponse:
+      type: object
+      required:
+      - code
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+        label:
+          type: string
+        modified_by:
+          type: integer
+        modified_at:
+          type: string
+          format: date-time
+        integration_id:
+          type:
+          - string
+          - 'null'
+    ChargeCodes:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChargeCodeResponse'
+    PayCodes:
+      type: array
+      items:
+        $ref: '#/components/schemas/PayCode'
+    PayCode:
+      type: object
+      required:
+      - code
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+        label:
+          type: string
+        time_code_id:
+          type:
+          - integer
+          - 'null'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by_id:
+          type: integer
+          readOnly: true
+        modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_by_id:
+          type: integer
+          readOnly: true
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+    ChargeCodeRequest:
+      type: object
+      required:
+      - code
+      properties:
+        code:
+          type: string
+        label:
+          type: string
+        integration_id:
+          type: string
+    ChargeItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChargeItem'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

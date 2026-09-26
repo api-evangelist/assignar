@@ -1,0 +1,24 @@
+generated: '2026-09-26'
+method: generated
+generator: extract-docs-artifacts.py skills (local)
+source: openapi/assignar-openapi.yaml
+skills:
+- file: skills/assignar-create-order-with-task.md
+  name: assignar-create-order-with-task
+  api: openapi/assignar-openapi.yaml
+  operations:
+  - newOrder
+  - newOrderTask
+- file: skills/assignar-create-user-with-skill.md
+  name: assignar-create-user-with-skill
+  api: openapi/assignar-openapi.yaml
+  operations:
+  - newUser
+  - createUserSkill
+  - getUserSkills
+- file: skills/assignar-create-and-retrieve-contact.md
+  name: assignar-create-and-retrieve-contact
+  api: openapi/assignar-openapi.yaml
+  operations:
+  - postContact
+  - getContact

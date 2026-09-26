@@ -1,0 +1,270 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Asset Attachments API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Asset Attachments
+paths:
+  /asset-attachments:
+    get:
+      summary: Get all asset attachments
+      tags:
+      - Asset Attachments
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AssetAttachment'
+      operationId: getAssetAttachments
+      x-operation-id-source: derived
+    post:
+      summary: Create a new asset attachment
+      tags:
+      - Asset Attachments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateAssetAttachmentRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/AssetAttachment'
+      operationId: postAssetAttachments
+      x-operation-id-source: derived
+  /asset-attachments/{attachmentId}:
+    get:
+      summary: Retrieve asset attachment
+      tags:
+      - Asset Attachments
+      parameters:
+      - in: path
+        name: attachmentId
+        required: true
+        schema:
+          type: string
+        description: The ID of the asset attachment
+      responses:
+        '200':
+          description: Asset attachment retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/AssetAttachment'
+        '404':
+          description: Asset attachment not found
+      operationId: getAssetAttachmentsByAttachmentId
+      x-operation-id-source: derived
+    put:
+      summary: Update asset attachment
+      tags:
+      - Asset Attachments
+      parameters:
+      - in: path
+        name: attachmentId
+        required: true
+        schema:
+          type: integer
+        description: The ID of the asset attachment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateAssetAttachmentRequest'
+      responses:
+        '200':
+          description: Asset attachment updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+        '400':
+          description: Could not process payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+        '404':
+          description: Asset attachment not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorType:
+                    type: string
+                    description: The type of the error returned in the response
+                  errorMessage:
+                    type: string
+                    description: '[404] Object Not Found - AssetAttachment (id)'
+                  trace:
+                    type: array
+                    description: Trace of the error
+                    items: {}
+      operationId: putAssetAttachmentsByAttachmentId
+      x-operation-id-source: derived
+components:
+  schemas:
+    AssetAttachment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Unique identifier for the asset attachment.
+        name:
+          type: string
+          description: Name of the asset attachment.
+        description:
+          type: string
+          description: Description of the asset attachment.
+        rego_number:
+          type: string
+          description: Registration number of the asset attachment.
+        active:
+          type: boolean
+          description: Indicates if the asset attachment is active.
+        modified_by:
+          type: integer
+          format: int32
+          description: ID of the user who last modified the asset attachment.
+        modified_time:
+          type: string
+          format: date-time
+          description: Date and time when the asset attachment was last modified.
+        year:
+          type: string
+          description: Year of the asset attachment.
+        make:
+          type: string
+          description: Make of the asset attachment.
+        model:
+          type: string
+          description: Model of the asset attachment.
+        serial_number:
+          type: string
+          description: Serial number of the asset attachment.
+        charge_rate:
+          type: integer
+          description: Charge rate of the asset attachment.
+        number_reading:
+          type: integer
+          description: Number reading of the asset attachment.
+        comments:
+          type:
+          - string
+          - 'null'
+          description: Free-text notes on the asset attachment. Stored as MEDIUMTEXT, so there is no practical length limit.
+          example: Serviced quarterly
+        external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 50
+          description: Your own identifier for this asset attachment, unique across the tenant. This is the field to filter on when you need to turn an identifier from your own system into the `attachment_id` that `POST`/`PUT /assets` expects — for example `GET /asset-attachments?external_id=YOUR-KEY`.
+          example: GB-01-GRAB-BUCKET
+    CreateUpdateAssetAttachmentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the asset attachment.
+        description:
+          type: string
+          description: Description of the asset attachment.
+        rego_number:
+          type: string
+          description: Registration number of the asset attachment.
+        active:
+          type: boolean
+          description: Indicates if the asset attachment is active.
+        year:
+          type: string
+          description: Year of the asset attachment.
+        make:
+          type: string
+          description: Make of the asset attachment.
+        model:
+          type: string
+          description: Model of the asset attachment.
+        serial_number:
+          type: string
+          description: Serial number of the asset attachment.
+        charge_rate:
+          type: integer
+          description: Charge rate of the asset attachment.
+        number_reading:
+          type: integer
+          description: Number reading of the asset attachment.
+        comments:
+          type: string
+          description: Free-text notes on the asset attachment.
+          example: Serviced quarterly
+        external_id:
+          type: string
+          maxLength: 50
+          description: Your own identifier for this asset attachment. Must be unique across the tenant — reusing a value is rejected with `[400] Unique Constraint Error - external_id`. A value longer than 50 characters is rejected with `[400] external_id must be 50 characters or fewer, received <n>.` rather than being truncated.
+          example: GB-01-GRAB-BUCKET
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

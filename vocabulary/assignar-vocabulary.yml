@@ -1,0 +1,450 @@
+generated: '2026-09-26'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/assignar-openapi.yaml
+vocabulary:
+  name: Assignar Domain Vocabulary
+  description: 'Terms declared by Assignar''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-09-26'
+  terms:
+  - term: UrlAttachment
+    definition: 'Object declared by the contract with fields: url, expiry.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UrlAttachment
+  - term: Allocation
+    definition: 'Object declared by the contract with fields: id, resource_id, resource_date, status_id, notified, comments, timesheet_id, resource,
+      status.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Allocation
+  - term: Asset
+    definition: 'Object declared by the contract with fields: id, name, description, rego_number, active, modified_by, modified_by_id, modified_time,
+      year, make, model, serial_number. (9 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/AssetWithTagId
+  - term: Asset
+    definition: 'Object declared by the contract with fields: id, name, description, rego_number, active, modified_by, modified_by_id, modified_time,
+      year, make, model, serial_number. (10 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/AssetWithTagPart
+  - term: Client
+    definition: 'Object declared by the contract with fields: id, name, company_name, abn, email, office_phone, mobile, address_1, address_geo,
+      address_2, city, postcode. (7 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Client
+  - term: CreateUpdateAssetAttachmentRequest
+    definition: 'Object declared by the contract with fields: name, description, rego_number, active, year, make, model, serial_number, charge_rate,
+      number_reading, comments, external_id.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/CreateUpdateAssetAttachmentRequest
+  - term: AssetAttachment
+    definition: 'Object declared by the contract with fields: id, name, description, rego_number, active, modified_by, modified_time, year, make,
+      model, serial_number, charge_rate. (3 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/AssetAttachment
+  - term: Asset attachment on an asset
+    definition: An asset attachment as it appears inside an asset's `attachments` array. These eight fields are exhaustive — the asset endpoints
+      rebuild each entry from named keys, so the other columns on `/asset-attachments` (`comments`, `external_id`, `charge_rate`, …) are not included.
+      Read the attachment itself if you need them.
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/AssetAttachmentSummary
+  - term: Supplier
+    definition: 'Object declared by the contract with fields: id, name, abn, email, office_phone, mobile, address_1, address_geo, address_2, city,
+      postcode, state. (8 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Supplier
+  - term: SupplierWithTagId
+    definition: 'Object declared by the contract with fields: id, name, abn, email, office_phone, mobile, address_1, address_geo, address_2, city,
+      postcode, state. (8 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/SupplierWithTagId
+  - term: ProjectResponse
+    definition: 'Object declared by the contract with fields: id, client_id, name, email, address, address_geo, suburb, state, postcode, external_id,
+      integration_id, active. (14 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/ProjectResponse
+  - term: ProjectCreateResponse
+    definition: 'Object declared by the contract with fields: id, client_id, name, email, address, address_geo, suburb, state, postcode, external_id,
+      integration_id, active. (6 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/ProjectCreateResponse
+  - term: ProjectRequest
+    definition: 'Object declared by the contract with fields: client_id, name, email, address, address_geo, suburb, state, postcode, external_id,
+      integration_id, active, parent_id. (3 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/ProjectRequest
+  - term: AssetDocument
+    definition: A document definition attached to an asset, with the uploaded file.
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/AssetDocument
+  - term: Document
+    definition: A document definition in the tenant's catalog. Attach one to an asset or a project by its `id`; the catalog itself is read-only.
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Document
+  - term: ProjectDocument
+    definition: 'Object declared by the contract with fields: id, project_id, document_id, project, document, label, comments, external_id, active,
+      disabled, attachment, attachment_url. (6 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/ProjectDocument
+  - term: OrderAttachment
+    definition: 'Object declared by the contract with fields: id, order_id, name, size, attachment, attachment_url, date_created.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderAttachment
+  - term: Tag
+    definition: 'Object declared by the contract with fields: id, taxonomy, name, description, color, integration_id.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Tag
+  - term: Task
+    definition: 'Object declared by the contract with fields: id, name, external_id, active, modified_by, modified_time, req_machines, pay_level,
+      payroll_acc, charge_code_id, supervisor, integration_id.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Task
+  - term: TaskGroup
+    definition: 'Object declared by the contract with fields: id, name.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TaskGroup
+  - term: Order
+    definition: 'Object declared by the contract with fields: id, active, job_number, po_number, client_id, order_owner, project_id, location,
+      location2, job_description, start_time, shift_duration. (14 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Order
+  - term: OrderActivity
+    definition: 'Object declared by the contract with fields: id, activity_id, name, external_id, uom_code, quantity.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderActivity
+  - term: OrderType
+    definition: 'Object declared by the contract with fields: id, label.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderType
+  - term: OrderStatus
+    definition: 'Object declared by the contract with fields: id, name.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderStatus
+  - term: OrderTemplate
+    definition: 'Object declared by the contract with fields: id, name, order_comment, order_duration, created_by, created_at, modified_by, modified_at,
+      deleted_at, deleted_by_id, tasks, activities. (1 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderTemplate
+  - term: OrderTemplateTask
+    definition: 'Object declared by the contract with fields: id, task_id, task_description, task_quantity, task_start_time, task_end_time, task_offset,
+      task_duration, task, forms.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderTemplateTask
+  - term: OrderTemplateTaskForm
+    definition: 'Object declared by the contract with fields: id, form_id, title, active, archived.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderTemplateTaskForm
+  - term: OrderTemplateActivity
+    definition: 'Object declared by the contract with fields: id, activity_id, name, external_id, uom_code, deleted_at, deleted_by_id, integration_id.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderTemplateActivity
+  - term: OrderTemplateTag
+    definition: 'Object declared by the contract with fields: tag_id, name, description, color.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderTemplateTag
+  - term: OrderTask
+    definition: 'Object declared by the contract with fields: task_id, task_quantity, shift_date, start_time, end_time, description.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderTask
+  - term: OrderTaskWithOrderAndTask
+    definition: 'Object declared by the contract with fields: id, total_hours, order_id, task_id, shift_index, description, start_time, end_time,
+      order, task.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderTaskWithOrderAndTask
+  - term: OrderResource
+    definition: 'Object declared by the contract with fields: id, asset_id, user_id, order_id, order_task.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderResource
+  - term: OrderTaskShiftDate
+    definition: 'Object declared by the contract with fields: id, date.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderTaskShiftDate
+  - term: OrderTaskChargeItem
+    definition: 'Object declared by the contract with fields: id, charge_item_id, units, rate, asset_id, comments.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderTaskChargeItem
+  - term: OrderActivityCreate
+    definition: 'Object declared by the contract with fields: activity_id, quantity.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderActivityCreate
+  - term: OrderActivityUpdate
+    definition: 'Object declared by the contract with fields: order_activity_id, quantity.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderActivityUpdate
+  - term: ChargeCodeRequest
+    definition: 'Object declared by the contract with fields: code, label, integration_id.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/ChargeCodeRequest
+  - term: ChargeCodeResponse
+    definition: 'Object declared by the contract with fields: id, code, label, modified_by, modified_at, integration_id.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/ChargeCodeResponse
+  - term: ChargeItem
+    definition: 'Object declared by the contract with fields: id, name, rate, charge_code_id.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/ChargeItem
+  - term: PayCode
+    definition: 'Object declared by the contract with fields: id, code, label, time_code_id, created_at, created_by_id, modified_at, modified_by_id,
+      deleted_at, deleted_by_id.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/PayCode
+  - term: TimeCode
+    definition: 'Object declared by the contract with fields: id, code, name, description, is_default.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimeCode
+  - term: TimeCodeRule
+    definition: 'Object declared by the contract with fields: id, time_code_id, description, is_active.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimeCodeRule
+  - term: TimeCodeGroup
+    definition: 'Object declared by the contract with fields: id, name, description, is_default.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimeCodeGroup
+  - term: TimeCodeGroupVersion
+    definition: 'Object declared by the contract with fields: id, time_code_group_id, version, time_code_group.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimeCodeGroupVersion
+  - term: TimeCodeGroupPayCode
+    definition: 'Object declared by the contract with fields: id, time_code_id, pay_code_id, time_code, pay_code.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimeCodeGroupPayCode
+  - term: Timesheet
+    definition: 'Object declared by the contract with fields: id, client_id, user_id, project_id, task_id, location, order_id, supplier_id, job_number,
+      start_time, start_datetime, end_time. (42 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Timesheet
+  - term: TimesheetsExpandedList
+    definition: 'Object declared by the contract with fields: count, rows.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimesheetsExpandedList
+  - term: TimesheetExpanded
+    definition: 'Object declared by the contract with fields: id, client_id, user_id, project_id, task_id, location, order_id, supplier_id, job_number,
+      start_time, start_datetime, end_time. (39 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimesheetExpanded
+  - term: ActivityEntry
+    definition: 'Object declared by the contract with fields: id, start_at, start_at_tz, end_at, end_at_tz, start_at_naive, end_at_naive, is_naive_datetime,
+      created_at, modified_at, duration, activity. (3 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/ActivityEntry
+  - term: RelatedAssetEntry
+    definition: 'Object declared by the contract with fields: id, asset_entry_id, activity_asset_usage_minutes, created_at, modified_at, asset,
+      created_by, modified_by.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/RelatedAssetEntry
+  - term: AssetEntry
+    definition: 'Object declared by the contract with fields: id, start_at, start_at_tz, end_at, end_at_tz, start_at_naive, end_at_naive, is_naive_datetime,
+      created_at, modified_at, duration, uses_whole_shift. (3 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/AssetEntry
+  - term: LeaveRequestEntry
+    definition: 'Object declared by the contract with fields: id, start_at, start_at_tz, end_at, end_at_tz, start_at_naive, end_at_naive, is_naive_datetime,
+      created_at, modified_at, duration, leave_type. (2 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/LeaveRequestEntry
+  - term: TimesheetExpandedAllowance
+    definition: 'Object declared by the contract with fields: id, timesheet_id, allowance_id, quantity, allowance.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimesheetExpandedAllowance
+  - term: UserReference
+    definition: 'Object declared by the contract with fields: user_id, username, first_name, last_name.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserReference
+  - term: AssetClass
+    definition: 'Object declared by the contract with fields: id, name, description, code.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/AssetClass
+  - term: AssetClassDetail
+    definition: An asset class as returned by the `/asset-classes` collection. Extends the `AssetClass` summary — the four fields the `assetClass`
+      relation selects when embedded in an asset or a site diary entry — with the audit columns and their hydrated user objects.
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/AssetClassDetail
+  - term: Activity
+    definition: 'Object declared by the contract with fields: id, name, rule, billable, active, sortorder, type_id, is_payable, date_added, date_modified,
+      modified_by, external_id. (5 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Activity
+  - term: TimesheetActivity
+    definition: 'Object declared by the contract with fields: id, timesheet_id, activity_id, start_time, end_time.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimesheetActivity
+  - term: TimesheetChargeItem
+    definition: 'Object declared by the contract with fields: id, timesheet_id, label, rate, units, pay_code.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimesheetChargeItem
+  - term: TimesheetPayItem
+    definition: 'Object declared by the contract with fields: id, timesheet_id, label, rate, units, pay_code.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimesheetPayItem
+  - term: CodedTimesheetWeeklyStatus
+    definition: 'Object declared by the contract with fields: id, start_date, end_date, is_default_time_code_group_configured, is_week_in_progress,
+      all_timesheets_approved, has_processed_timesheets, has_coded_timesheets, has_manual_overrides, has_uncoded_time.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/CodedTimesheetWeeklyStatus
+  - term: CodedTime
+    definition: 'Object declared by the contract with fields: id, timesheet_id, timesheet_time_id, user_id, timesheet_date, start_at, end_at,
+      time_code_group_pay_code_id, time_code_group_version_id, time_code_rule_id, coded_by_id, coded_at. (12 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/CodedTime
+  - term: TimesheetTime
+    definition: 'Object declared by the contract with fields: asset_uses_timesheet_duration, id, timesheet_id, activity_id, minutes, is_naive_datetime,
+      start_at, start_at_tz, end_at, end_at_tz, start_at_naive, end_at_naive. (8 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/TimesheetTime
+  - term: CodedWorkerTimes
+    definition: 'Object declared by the contract with fields: full_name, user_id, username, first_name, last_name, employee_id, timesheets.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/CodedWorkerTimes
+  - term: User
+    definition: 'Object declared by the contract with fields: id, user_type_id, employee_id, first_name, last_name, full_name, dob, address, address_geo,
+      tasks, suppliers, tags. (17 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/User
+  - term: UserCreateUpdate
+    definition: 'Object declared by the contract with fields: full_name, user_id, username, first_name, last_name, employee_id.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserCreateUpdate
+  - term: UserWithTagId
+    definition: 'Object declared by the contract with fields: id, user_type_id, employee_id, integration_id, first_name, last_name, full_name,
+      dob, address, address_geo, suburb, state. (17 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserWithTagId
+  - term: UserType
+    definition: 'Object declared by the contract with fields: id, user_type, label, modified_by, modified_time.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserType
+  - term: UserSkill
+    definition: 'Object declared by the contract with fields: id, user_id, skill_id, created_time, skill.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserSkill
+  - term: UserSkillUpdateCreate
+    definition: 'Object declared by the contract with fields: id, user_id, skill_id, created_time.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserSkillUpdateCreate
+  - term: UserCompetency
+    definition: 'Object declared by the contract with fields: id, user_id, competency_id, active, description, created_time, issue_date, expiry_time,
+      attachment, competency.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserCompetency
+  - term: UserCompetencyUpdateCreate
+    definition: 'Object declared by the contract with fields: id, user_id, competency_id, active, description, created_time, issue_date, expiry_time,
+      attachment.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserCompetencyUpdateCreate
+  - term: UserInduction
+    definition: 'Object declared by the contract with fields: id, user_id, induction_id, active, description, created_time, issue_date, expiry_time,
+      attachment, induction.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserInduction
+  - term: UserInductionUpdateCreate
+    definition: 'Object declared by the contract with fields: id, user_id, induction_id, active, description, created_time, issue_date, expiry_time,
+      attachment.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/UserInductionUpdateCreate
+  - term: EmploymentType
+    definition: 'Object declared by the contract with fields: id, name.'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/EmploymentType
+  - term: DigitalDocket
+    definition: 'Object declared by the contract with fields: id, docket_template_id, latitude, longitude, client_id, project_id, supervisor_id,
+      order_id, responses, signature_name, signature, created_time. (3 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/DigitalDocket
+  - term: DigitalDockets
+    definition: 'Object declared by the contract with fields: id, docket_template_id, latitude, longitude, client_id, project_id, supervisor_id,
+      order_id, signature_name, signature, created_time, created_by. (2 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/DigitalDockets
+  - term: Contact
+    definition: 'Object declared by the contract with fields: id, first_name, last_name, company, office_phone, mobile, email, job_title, address_1,
+      address_2, city, state. (6 more)'
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/Contact
+  - term: ClientContactCreated
+    definition: A client/contact association as returned when created.
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/ClientContactCreated
+  - term: OrderContactCreated
+    definition: An order/contact association as returned when created.
+    tags:
+    - Object
+    source: openapi/assignar-openapi.yaml#/components/schemas/OrderContactCreated

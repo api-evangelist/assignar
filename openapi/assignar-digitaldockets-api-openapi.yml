@@ -1,0 +1,176 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Digital Dockets API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: DigitalDockets
+paths:
+  /digital-dockets/:
+    get:
+      summary: Digital Dockets
+      operationId: getDigitalDocketList
+      tags:
+      - DigitalDockets
+      description: List all Digital Dockets
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DigitalDockets'
+  /digital-dockets/{docketId}:
+    get:
+      summary: Get a Digital Docket by ID
+      tags:
+      - DigitalDockets
+      description: Return a single digital docket
+      operationId: getDigitalDocketById
+      parameters:
+      - in: path
+        name: docketId
+        required: true
+        schema:
+          type: integer
+          default: 146
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/DigitalDocket'
+components:
+  schemas:
+    DigitalDockets:
+      type: object
+      properties:
+        id:
+          type: integer
+        docket_template_id:
+          type: integer
+        latitude:
+          type: number
+        longitude:
+          type: number
+        client_id:
+          type: integer
+        project_id:
+          type: integer
+        supervisor_id:
+          type: integer
+        order_id:
+          type: integer
+        signature_name:
+          type: string
+        signature:
+          type: string
+        created_time:
+          type: string
+          format: date-time
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        modified_time:
+          type: string
+          format: date-time
+      required:
+      - id
+      - signature
+      - signature_name
+    DigitalDocket:
+      type: object
+      properties:
+        id:
+          type: integer
+        docket_template_id:
+          type: integer
+        latitude:
+          type: number
+        longitude:
+          type: number
+        client_id:
+          type: integer
+        project_id:
+          type: integer
+        supervisor_id:
+          type: integer
+        order_id:
+          type: integer
+        responses:
+          type: array
+          items:
+            type: object
+            properties:
+              question:
+                type: string
+              response:
+                type: array
+                description: Nested array of responses
+                items:
+                  type: object
+                  properties:
+                    response:
+                      type: object
+                      description: key value pair of responses
+        signature_name:
+          type: string
+        signature:
+          type: string
+        created_time:
+          type: string
+          format: date-time
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        modified_time:
+          type: string
+          format: date-time
+      required:
+      - id
+      - signature
+      - signature_name
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

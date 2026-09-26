@@ -1,0 +1,1140 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Assets API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Assets
+paths:
+  /assets:
+    get:
+      summary: List all existing assets
+      tags:
+      - Assets
+      operationId: getAssetList
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AssetWithTagPart'
+                  count:
+                    type: integer
+              examples:
+                example-1:
+                  value:
+                    status: 200
+                    data:
+                    - id: 0
+                      name: 'Medium Dozer '
+                      description: Cat C9.3B 215 Net HP @ 50733
+                      rego_number: UV0 936
+                      active: true
+                      modified_by: string
+                      modified_by_id: 0
+                      modified_time: '2019-08-24T14:15:22Z'
+                      year: '2021'
+                      make: Cat
+                      model: D6
+                      serial_number: US09U012345
+                      charge_rate: 120
+                      number_reading: 1264
+                      external_id: 07237c3e-f003-4092-8b2d-180f39fc3d4
+                      integration_id: int_123456
+                      deleted_at: '2019-08-24T14:15:22Z'
+                      deleted_by_id: 0
+                      asset_class_id: 5
+                      assetClass:
+                        id: 5
+                        name: Heavy Machinery
+                        description: Large construction equipment
+                        code: HEAVY-MACH
+                      tags:
+                      - tag_id: 301
+                        name: string
+                        description: string
+                        color: '#795548'
+                      attachments:
+                      - attachment_id: 2
+                        name: MC-01 Man Cage
+                        description: Man Cage for Frannas
+                        rego_number: null
+                        make: null
+                        model: null
+                        serial_number: null
+                        active: true
+                    count: 0
+      parameters: []
+      security:
+      - Assignar Tenant Auth: []
+    post:
+      summary: Create a new asset
+      tags:
+      - Assets
+      operationId: createAsset
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateAssetRequest'
+      security:
+      - Assignar Tenant Auth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/AssetWithTagId'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 1
+                      name: 'Medium Dozer '
+                      description: Cat C9.3B 215 Net HP @ 50733
+                      active: true
+                      modified_by: ssmith
+                      modified_time: '2019-08-24T14:15:22Z'
+                      year: '2021'
+                      make: Cat
+                      model: D6
+                      serial_number: US09U012345
+                      charge_rate: 120
+                      number_reading: 1264
+                      external_id: 07237c3e-f003-4092-8b2d-180f39fc3d4
+                      integration_id: int_123456
+                      asset_class_id: 5
+                      tags:
+                      - tag_id: '301'
+                      attachments:
+                      - attachment_id: 2
+                      - attachment_id: 5
+  /assets/{assetId}:
+    parameters:
+    - schema:
+        type: integer
+        format: int64
+      name: assetId
+      in: path
+      required: true
+      description: Asset Identifier
+    get:
+      summary: Retrieve an existing asset
+      tags:
+      - Assets
+      operationId: getAssetById
+      parameters:
+      - name: assetId
+        required: true
+        in: path
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/AssetWithTagPart'
+              examples:
+                Success:
+                  value:
+                    status: 200
+                    data:
+                      id: 0
+                      name: 'Medium Dozer '
+                      description: Cat C9.3B 215 Net HP @ 50733
+                      rego_number: UV0 936
+                      active: true
+                      modified_by: string
+                      modified_by_id: 0
+                      modified_time: '2019-08-24T14:15:22Z'
+                      year: '2021'
+                      make: Cat
+                      model: D6
+                      serial_number: US09U012345
+                      charge_rate: 120
+                      number_reading: 1264
+                      external_id: 07237c3e-f003-4092-8b2d-180f39fc3d4
+                      integration_id: int_123456
+                      deleted_at: '2019-08-24T14:15:22Z'
+                      deleted_by_id: 0
+                      asset_class_id: 5
+                      assetClass:
+                        id: 5
+                        name: Heavy Machinery
+                        description: Large construction equipment
+                        code: HEAVY-MACH
+                      tags:
+                      - tag_id: 301
+                        name: string
+                        description: string
+                        color: '#795548'
+                      attachments:
+                      - attachment_id: 2
+                        name: MC-01 Man Cage
+                        description: Man Cage for Frannas
+                        rego_number: null
+                        make: null
+                        model: null
+                        serial_number: null
+                        active: true
+      security:
+      - Assignar Tenant Auth: []
+    put:
+      summary: Update an existing asset
+      tags:
+      - Assets
+      operationId: updateAsset
+      parameters:
+      - in: path
+        name: assetId
+        required: true
+        schema:
+          type: integer
+      security:
+      - Assignar Tenant Auth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateAssetRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                x-examples:
+                  example-1:
+                    status: 204
+              examples:
+                Success:
+                  value:
+                    status: 204
+    delete:
+      summary: Delete an existing asset
+      tags:
+      - Assets
+      operationId: deleteAsset
+      parameters:
+      - in: path
+        name: assetId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+              examples:
+                Succces:
+                  value:
+                    status: 204
+      security:
+      - Assignar Tenant Auth: []
+  /assets/{assetId}/documents:
+    get:
+      summary: Get a list of documents attached to the asset
+      description: Returns the documents attached to an asset, each with a signed `attachment_url` for downloading the file. Inactive documents are hidden by default; pass `active=false` to return those instead. Responds 404 if the asset does not exist or has been deleted.
+      tags:
+      - Assets
+      operationId: getAssetDocuments
+      parameters:
+      - name: assetId
+        required: true
+        in: path
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: page_size
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: sort
+        required: false
+        in: query
+        description: Sort by any root field, prefixed with `-` to reverse (e.g. `-expiry_date`).
+        schema:
+          type: string
+      - name: active
+        required: false
+        in: query
+        description: Defaults to `true`. Pass `active=false` to return only inactive documents.
+        schema:
+          type: boolean
+      - name: expiry_date__lte
+        required: false
+        in: query
+        description: Return documents expiring on or before this date, e.g. `expiry_date__lte=2025-12-31`.
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  count:
+                    type: integer
+                    description: The number of asset documents that satisfies the query.
+                  data:
+                    $ref: '#/components/schemas/AssetDocuments'
+        '404':
+          description: The asset does not exist or has been deleted.
+    post:
+      summary: Attach a document to an asset
+      description: 'Associates an existing document definition with an asset and records the uploaded file against that association. Pick a `document_id` from `GET /documents`; this endpoint does not create new document definitions.
+
+
+        Upload the file first with `POST /upload-urls/asset-document` and pass the `path` it returns as `attachment`, exactly as returned — including its leading slash. A path that has lost its leading slash produces a download URL that does not resolve.'
+      tags:
+      - Assets
+      operationId: postAssetDocument
+      parameters:
+      - name: assetId
+        required: true
+        in: path
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - document_id
+              properties:
+                document_id:
+                  type: integer
+                  description: The id of the document definition to attach, from `GET /documents`.
+                attachment:
+                  type: string
+                  description: The `path` returned by `POST /upload-urls/asset-document`, used exactly as returned.
+                label:
+                  type: string
+                comments:
+                  type: string
+                active:
+                  type: boolean
+                disabled:
+                  type: boolean
+                expiry_date:
+                  type: string
+                  format: date
+                expiry_date_alert:
+                  type: string
+                  format: date
+                expiry_number:
+                  type: integer
+                expiry_number_alert:
+                  type: integer
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/AssetDocument'
+        '400':
+          description: The payload is missing or invalid, or an id was supplied in the path. Ids are assigned by the server.
+        '404':
+          description: The asset does not exist or has been deleted.
+  /assets/{assetId}/documents/{assetDocumentId}:
+    get:
+      summary: Retrieve a document attached to the asset
+      description: 'A document is scoped to its asset: requesting it under a different `assetId` responds 404. Inactive documents are not retrievable by id, matching their exclusion from the list.'
+      tags:
+      - Assets
+      operationId: getAssetDocument
+      parameters:
+      - name: assetId
+        required: true
+        in: path
+        schema:
+          type: integer
+      - name: assetDocumentId
+        required: true
+        in: path
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/AssetDocument'
+        '404':
+          description: No such document on this asset, the document is inactive, or the asset has been deleted.
+    put:
+      summary: Update a document attached to the asset
+      description: Updates the supplied fields on the association. To replace the file, upload a new one with `POST /upload-urls/asset-document` and pass the returned `path` as `attachment`.
+      tags:
+      - Assets
+      operationId: putAssetDocument
+      parameters:
+      - name: assetId
+        required: true
+        in: path
+        schema:
+          type: integer
+      - name: assetDocumentId
+        required: true
+        in: path
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                document_id:
+                  type: integer
+                attachment:
+                  type: string
+                label:
+                  type: string
+                comments:
+                  type: string
+                active:
+                  type: boolean
+                disabled:
+                  type: boolean
+                expiry_date:
+                  type: string
+                  format: date
+                expiry_date_alert:
+                  type: string
+                  format: date
+                expiry_number:
+                  type: integer
+                expiry_number_alert:
+                  type: integer
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: No such document on this asset, or the asset has been deleted.
+    delete:
+      summary: Remove a document attached to the asset
+      tags:
+      - Assets
+      operationId: deleteAssetDocument
+      parameters:
+      - name: assetId
+        required: true
+        in: path
+        schema:
+          type: integer
+      - name: assetDocumentId
+        required: true
+        in: path
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: No such document on this asset, or the asset has been deleted.
+  /upload-urls/asset-document:
+    post:
+      summary: Calculate an S3 signed URL for uploading a file for an Asset Document
+      description: 'We store file uploads to Amazon S3. Use this endpoint to receive a secure, signed `url` to upload a file to and
+
+        the `path` to that file that you can use in the payload for creating the Asset Document.'
+      tags:
+      - Assets
+      operationId: postAssetDocumentUploadUrl
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - filename
+              properties:
+                filename:
+                  type: string
+                  description: The filename of the file you wish to upload.
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: url
+                    description: To upload the file, use PUT with this URL.
+                  path:
+                    type: string
+                    description: Use this value as `attachment` in the payload when creating an Asset Document. Pass it through exactly as returned, including the leading slash.
+components:
+  schemas:
+    AssetClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Heavy Machinery
+        description:
+          type:
+          - string
+          - 'null'
+          example: Large construction equipment
+        code:
+          type:
+          - string
+          - 'null'
+          example: HEAVY-MACH
+    AssetDocument:
+      type: object
+      description: A document definition attached to an asset, with the uploaded file.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        asset_id:
+          type: integer
+        document_id:
+          type: integer
+          description: The attached document definition. See `GET /documents`.
+        asset:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        document:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        label:
+          type: string
+        comments:
+          type: string
+        active:
+          type: boolean
+        disabled:
+          type: boolean
+        attachment:
+          type: string
+          description: (See instructions how to upload files.)
+        attachment_url:
+          allOf:
+          - $ref: '#/components/schemas/UrlAttachment'
+          description: Signed download URL, valid for two hours. Null when the record has no attachment.
+        expiry_date:
+          type: string
+          format: date
+        expiry_date_alert:
+          type: string
+          format: date
+        expiry_number:
+          type: integer
+        expiry_number_alert:
+          type: integer
+        created_time:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          readOnly: true
+      example:
+        id: 1
+        asset_id: 165
+        document_id: 25
+        asset:
+          id: 165
+          name: Medium Dozer
+        document:
+          id: 25
+          name: Vehicle Registration
+        label: Registration Certificate
+        comments: Registration papers
+        active: true
+        disabled: false
+        attachment: /fileupload/asset-documents/user_93/1737331200000/registration.pdf
+        attachment_url:
+          url: https://url-to-attachment
+          expiry: 1742575641898
+        expiry_date: '2025-01-01'
+        expiry_date_alert: null
+        expiry_number: null
+        expiry_number_alert: null
+        created_time: '2024-01-01T10:00:00Z'
+        modified_time: '2024-01-01T10:00:00Z'
+    AssetWithTagId:
+      title: Asset
+      type: object
+      description: ''
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 0
+          readOnly: true
+        name:
+          type: string
+          description: Name of the asset
+          example: 'Medium Dozer '
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the asset
+          example: Cat C9.3B 215 Net HP @ 50733
+        rego_number:
+          type:
+          - string
+          - 'null'
+          description: The alpha-numberic id on the asset's number or license plate
+          example: UV0 936
+        active:
+          type: boolean
+          default: true
+          description: Active or archived state of the asset
+        modified_by:
+          type: string
+          description: System managed
+          readOnly: true
+        modified_by_id:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          description: system managed
+          readOnly: true
+        year:
+          type:
+          - string
+          - 'null'
+          description: Production year of the asset
+          example: '2021'
+        make:
+          type:
+          - string
+          - 'null'
+          description: Manufacturer or brand of the asset
+          example: Cat
+        model:
+          type:
+          - string
+          - 'null'
+          description: Model of the asset
+          example: D6
+        serial_number:
+          type:
+          - string
+          - 'null'
+          description: Serial number of the asset
+          example: US09U012345
+        charge_rate:
+          type:
+          - integer
+          - 'null'
+          description: Charge rate of the asset
+          example: 120
+        number_reading:
+          type:
+          - integer
+          - 'null'
+          description: Odometer or hour meter value of the asset
+          example: 1264
+        external_id:
+          type:
+          - string
+          - 'null'
+          description: External system identifier of the asset
+          example: 07237c3e-f003-4092-8b2d-180f39fc3d4
+        integration_id:
+          type:
+          - string
+          - 'null'
+          description: Integration identifier of the asset
+          example: int_123456
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: System managed
+          readOnly: true
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+          description: System managed
+          readOnly: true
+        asset_class_id:
+          type:
+          - integer
+          - 'null'
+          description: Identifier of the asset class the asset was created with, echoed back when `asset_class_id` was sent in the request body. Unlike `GET /assets` and `GET /assets/{assetId}`, the create response does not include the nested `assetClass` object.
+          example: 5
+        tags:
+          type: array
+          description: Collection of tags of the asset
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: string
+                description: Tag identifier of the asset
+                example: '301'
+        attachments:
+          type: array
+          description: The attachment links the asset was created with, as ids only. Unlike `GET /assets` and `GET /assets/{assetId}`, the create response does not hydrate them — expect `attachment_id` and nothing else here. Always present, as an empty array when the request sent no attachments, so it can be read unconditionally.
+          items:
+            type: object
+            properties:
+              attachment_id:
+                type: integer
+                description: Identifier of the linked asset attachment
+                example: 2
+      required:
+      - name
+    AssetWithTagPart:
+      title: Asset
+      type: object
+      description: ''
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 0
+          readOnly: true
+        name:
+          type: string
+          description: Name of the asset
+          example: 'Medium Dozer '
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the asset
+          example: Cat C9.3B 215 Net HP @ 50733
+        rego_number:
+          type:
+          - string
+          - 'null'
+          description: The alpha-numberic id on the asset's number or license plate
+          example: UV0 936
+        active:
+          type: boolean
+          default: true
+          description: Active or archived state of the asset
+        modified_by:
+          type: string
+          description: System managed
+          readOnly: true
+        modified_by_id:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          description: system managed
+          readOnly: true
+        year:
+          type:
+          - string
+          - 'null'
+          description: Production year of the asset
+          example: '2021'
+        make:
+          type:
+          - string
+          - 'null'
+          description: Manufacturer or brand of the asset
+          example: Cat
+        model:
+          type:
+          - string
+          - 'null'
+          description: Model of the asset
+          example: D6
+        serial_number:
+          type:
+          - string
+          - 'null'
+          description: Serial number of the asset
+          example: US09U012345
+        charge_rate:
+          type:
+          - integer
+          - 'null'
+          description: Charge rate of the asset
+          example: 120
+        number_reading:
+          type:
+          - integer
+          - 'null'
+          description: Odometer or hour meter value of the asset
+          example: 1264
+        external_id:
+          type:
+          - string
+          - 'null'
+          description: External system identifier of the asset
+          example: 07237c3e-f003-4092-8b2d-180f39fc3d4
+        integration_id:
+          type:
+          - string
+          - 'null'
+          description: Integration identifier of the asset
+          example: int_123456
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: System managed
+          readOnly: true
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+          description: System managed
+          readOnly: true
+        asset_class_id:
+          type:
+          - integer
+          - 'null'
+          description: 'Identifier of the asset class this asset belongs to, or null when the asset has no class. Note the naming: the identifier is snake_case while the nested object is camelCase `assetClass`, matching how `AssetEntry` already documents the pair.'
+          example: 5
+        assetClass:
+          allOf:
+          - $ref: '#/components/schemas/AssetClass'
+          description: The asset class this asset belongs to. Returned by default on `GET /assets` and `GET /assets/{assetId}` with no `relations` query parameter. Null when the asset has no class.
+        tags:
+          type: array
+          description: Collection of tags of the asset
+          items:
+            $ref: '#/components/schemas/TagPart'
+        attachments:
+          type: array
+          description: Asset attachments linked to this asset. Always present — an empty array when the asset has none — and returned by default with no `relations` query parameter. There is no query parameter for filtering or excluding them.
+          items:
+            $ref: '#/components/schemas/AssetAttachmentSummary'
+      required:
+      - name
+    TagPart:
+      title: TagPart
+      x-stoplight:
+        id: epsk9hslhfq0q
+      type: object
+      description: ''
+      properties:
+        tag_id:
+          type: integer
+          description: Identifier of the tag
+          example: 301
+        name:
+          type: string
+          description: Name of the tag
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the tag
+        color:
+          type:
+          - string
+          - 'null'
+          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
+          example: '#795548'
+      required:
+      - name
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
+    AssetDocuments:
+      type: array
+      items:
+        $ref: '#/components/schemas/AssetDocument'
+    AssetAttachmentSummary:
+      title: Asset attachment on an asset
+      type: object
+      description: An asset attachment as it appears inside an asset's `attachments` array. These eight fields are exhaustive — the asset endpoints rebuild each entry from named keys, so the other columns on `/asset-attachments` (`comments`, `external_id`, `charge_rate`, …) are not included. Read the attachment itself if you need them.
+      properties:
+        attachment_id:
+          type: integer
+          description: Identifier of the linked asset attachment. This is the value to send back in `attachments` on `POST`/`PUT /assets`, and the `id` of the attachment on `/asset-attachments`.
+          example: 2
+        name:
+          type:
+          - string
+          - 'null'
+          example: MC-01 Man Cage
+        description:
+          type:
+          - string
+          - 'null'
+          example: Man Cage for Frannas
+        rego_number:
+          type:
+          - string
+          - 'null'
+          example: UV0 936
+        make:
+          type:
+          - string
+          - 'null'
+          example: Cat
+        model:
+          type:
+          - string
+          - 'null'
+          example: D6
+        serial_number:
+          type:
+          - string
+          - 'null'
+          example: US09U012345
+        active:
+          type: boolean
+          description: Whether the attachment itself is active. Links to inactive attachments are returned — filter on this client-side if you only want current ones.
+          example: true
+  requestBodies:
+    CreateUpdateAssetRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the asset
+                example: Medium Dozer 05
+              description:
+                type: string
+                description: Description of the asset
+                example: Cat C9.3B 215 Net HP @ 50733
+              rego_number:
+                type: string
+                description: The alpha-numberic id on the asset's number or license plate
+                example: UVO 936
+              active:
+                type: boolean
+                default: false
+                description: Active or archived state of asset
+              year:
+                type: string
+                description: Production year of the asset
+                example: '2021'
+              make:
+                type: string
+                description: Manufacturer or brand of the asset
+                example: Cat
+              model:
+                type: string
+                description: Model of the asset
+                example: D6
+              serial_number:
+                type: string
+                description: Serial number of the asset
+                example: US09U012345
+              charge_rate:
+                type: integer
+                description: charge rate of the asset
+                example: 120
+              number_reading:
+                type: integer
+                description: Odometer or hour meter reading of the asset
+                example: 1264
+              external_id:
+                type: string
+                description: External system identifier of the asset
+                example: 07237c3e-f003-4092-8b2d-180f39fc3d45
+              integration_id:
+                type:
+                - string
+                - 'null'
+                description: Integration identifier of the asset
+                example: int_123456
+              asset_class_id:
+                type:
+                - integer
+                - 'null'
+                description: Identifier of the asset class to assign to the asset. Must reference an existing asset class — an unknown id is rejected with `[400] Foreign Key Constraint Error`. Send null to clear the asset's class.
+                example: 5
+              tags:
+                type: array
+                description: Collection of tags of the asset
+                items:
+                  type: object
+                  properties:
+                    tag_id:
+                      type: integer
+                      description: Tag identifier of the asset
+                      example: 301
+              attachments:
+                type:
+                - array
+                - 'null'
+                description: 'Replaces the asset''s attachment links rather than adding to them: the array you send becomes the complete set, so any attachment missing from it is unlinked — including links added in the Assignar dashboard. Read the asset first and send the full set back if you only mean to add one.
+
+
+                  Link by `attachment_id`. Get those ids from `/asset-attachments`, filtering by your own key with `?external_id=`.
+
+
+                  | Payload | Effect |
+
+                  | --- | --- |
+
+                  | key omitted | existing links untouched |
+
+                  | `null` | existing links untouched |
+
+                  | `[]` | every link removed |
+
+                  | a non-empty array | links become exactly that set |
+
+
+                  Repeated ids are de-duplicated silently, so `[{2},{2}]` links attachment 2 once. `attachment_id` accepts an integer or a digit-only string (`2` and `"2"` both work), but loose numeric forms are rejected rather than coerced — `"1e1"`, `"0x3"` and `" 2 "` are all `400`. At most 500 entries per request.
+
+
+                  A rejected `attachments` payload writes nothing at all: the whole request is validated before any write, so `tags` sent alongside it are not applied either.'
+                maxItems: 500
+                items:
+                  type: object
+                  required:
+                  - attachment_id
+                  properties:
+                    attachment_id:
+                      type: integer
+                      description: 'Identifier of an existing asset attachment. Unknown ids are rejected with `[400] Unknown attachment_id: <ids>. Attachments must exist before they can be linked to an asset.` — the message names the first 10 and summarises the rest.'
+                      example: 2
+            required:
+            - name
+          examples:
+            Request:
+              value:
+                name: Medium Dozer 05
+                description: Cat C9.3B 215 Net HP @ 50733
+                rego_number: UVO 936
+                active: false
+                year: '2021'
+                make: Cat
+                model: D6
+                serial_number: US09U012345
+                charge_rate: 120
+                number_reading: 1264
+                external_id: 07237c3e-f003-4092-8b2d-180f39fc3d45
+                integration_id: int_123456
+                asset_class_id: 5
+                attachments:
+                - attachment_id: 2
+                - attachment_id: 5
+                tags:
+                - tag_id: 301
+      description: ''
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

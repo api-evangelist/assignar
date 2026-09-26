@@ -1,0 +1,492 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Clients API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Clients
+paths:
+  /clients/:
+    get:
+      summary: List all existing clients
+      tags:
+      - Clients
+      operationId: getClients
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Clients'
+    post:
+      summary: Create a new client
+      tags:
+      - Clients
+      operationId: postClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/Client'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 975
+                      name: Acme Construction
+                      company_name: Acme Construction
+                      active: true
+                      modified_by: ssmith
+                      modified_time: '2026-08-25T02:14:07.000Z'
+  /clients/{clientId}:
+    get:
+      summary: Retrieve an existing client
+      tags:
+      - Clients
+      operationId: getClient
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Client'
+      parameters:
+      - name: clientId
+        required: true
+        in: path
+        schema:
+          type: string
+      - in: body
+        name: client
+        description: The client to get
+        schema:
+          type: object
+          properties:
+            modified_by:
+              type: string
+            modified_time:
+              type: string
+    put:
+      summary: Update an existing client
+      tags:
+      - Clients
+      operationId: updateClient
+      responses:
+        '204':
+          description: Success
+      parameters:
+      - name: clientId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+    delete:
+      summary: Delete an existing client
+      tags:
+      - Clients
+      operationId: deleteClient
+      parameters:
+      - name: clientId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+  /clients/{clientId}/inductions:
+    get:
+      summary: List Client Inductions
+      tags:
+      - Clients
+      operationId: getClientInductions
+      responses:
+        default:
+          description: no response description was provided for this operation
+      parameters:
+      - name: clientId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+  /clients/{clientId}/contacts:
+    get:
+      summary: List Client Contacts
+      tags:
+      - Clients
+      operationId: getClientContacts
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/ClientContactsResponse'
+      parameters:
+      - name: clientId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+    post:
+      summary: Add a contact to a Client
+      tags:
+      - Clients
+      operationId: postClientContact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientContactsPayload'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/ClientContactCreated'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 5173
+                      client_id: 82
+                      contact_id: 2
+                      is_docket_contact: true
+  /clients/{clientId}/contacts/{clientContactId}:
+    delete:
+      summary: Removing a contact from a client
+      tags:
+      - Clients
+      operationId: deleteClientContact
+      parameters:
+      - name: clientId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+      - name: clientContactId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+      responses:
+        '204':
+          description: Success
+  /clients/{clientId}/task-groups:
+    get:
+      summary: List task groups assigned to a client
+      tags:
+      - Clients
+      operationId: getClientTaskGroups
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: clientId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  count:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        group_id:
+                          type: integer
+                        client_id:
+                          type: integer
+    post:
+      summary: Assign a task group to a client
+      tags:
+      - Clients
+      operationId: createClientTaskGroup
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: clientId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - group_id
+              properties:
+                group_id:
+                  type: integer
+                  description: The id of the task group to assign to the client.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      group_id:
+                        type: integer
+                      client_id:
+                        type: integer
+  /clients/{clientId}/task-groups/{id}:
+    delete:
+      summary: Remove a task group from a client
+      description: '`id` is the association id returned when the task group was assigned (the `id` of the client task-group record), not the task group''s own id.'
+      tags:
+      - Clients
+      operationId: deleteClientTaskGroup
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: clientId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    ClientContactsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          client_id:
+            type: integer
+          contact_id:
+            type: integer
+          is_docket_contact:
+            type: boolean
+          client:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+          contact:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              first_name:
+                type: string
+              last_name:
+                type: string
+              company:
+                type: string
+              office_phone:
+                type: string
+              mobile:
+                type: string
+              email:
+                type: string
+              job_title:
+                type: string
+              address_1:
+                type: string
+              address_2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              postcode:
+                type: string
+              comments:
+                type: string
+              external_id:
+                type: string
+    Client:
+      type: object
+      required:
+      - name
+      - company_name
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        company_name:
+          type: string
+        abn:
+          type: string
+        email:
+          type: string
+        office_phone:
+          type: string
+        mobile:
+          type: string
+        address_1:
+          type: string
+        address_geo:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        address_2:
+          type: string
+        city:
+          type: string
+        postcode:
+          type: string
+        state:
+          type: string
+        comments:
+          type: string
+        external_id:
+          type: string
+        active:
+          type: boolean
+        modified_by:
+          type: string
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          readOnly: true
+        integration_id:
+          type:
+          - string
+          - 'null'
+    ClientContactsPayload:
+      type: object
+      properties:
+        client_id:
+          type: integer
+        contact_id:
+          type: integer
+        is_docket_contact:
+          type: boolean
+    ClientContactCreated:
+      type: object
+      description: A client/contact association as returned when created.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client_id:
+          type: integer
+        contact_id:
+          type: integer
+        is_docket_contact:
+          type: boolean
+    Clients:
+      type: array
+      items:
+        $ref: '#/components/schemas/Client'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

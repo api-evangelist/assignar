@@ -1,0 +1,392 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Tasks API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Tasks
+paths:
+  /tasks:
+    get:
+      summary: List all existing tasks
+      tags:
+      - Tasks
+      operationId: getTasks
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Tasks'
+    post:
+      summary: Create a new task
+      tags:
+      - Tasks
+      operationId: postTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/Task'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 1313
+                      name: Excavation
+                      active: true
+                      req_machines: false
+                      supervisor: false
+                      modified_by: ssmith
+                      modified_time: '2026-08-25T02:14:07.000Z'
+  /tasks/{taskId}:
+    get:
+      summary: Retrieve an existing task
+      tags:
+      - Tasks
+      operationId: getTask
+      parameters:
+      - name: taskId
+        required: true
+        in: path
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Task'
+    put:
+      summary: Update an existing task
+      tags:
+      - Tasks
+      operationId: updateTask
+      parameters:
+      - in: path
+        name: taskId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing task
+      tags:
+      - Tasks
+      operationId: deleteTask
+      parameters:
+      - in: path
+        name: taskId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /tasks/{taskId}/skills:
+    get:
+      summary: List skills required for a task
+      tags:
+      - Tasks
+      operationId: getTaskSkills
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: taskId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  count:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        task_id:
+                          type: integer
+                        skill_id:
+                          type: integer
+    post:
+      summary: Add a skill to a task
+      description: Associates a skill with the task. Note the request body key is `id` and it holds the **skill** id (not `skill_id`).
+      tags:
+      - Tasks
+      operationId: createTaskSkill
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: taskId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - id
+              properties:
+                id:
+                  type: integer
+                  description: The id of the skill to add to the task.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      task_id:
+                        type: integer
+  /tasks/{taskId}/skills/{id}:
+    delete:
+      summary: Remove a skill from a task
+      description: '`id` is the skill id to remove from the task.'
+      tags:
+      - Tasks
+      operationId: deleteTaskSkill
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: taskId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+  /tasks/{taskId}/pay-rate-groups:
+    get:
+      summary: Task Rate Groups
+      tags:
+      - Tasks
+      operationId: getTaskPayRateGroups
+      responses:
+        default:
+          description: no response description was provided for this operation
+      parameters:
+      - name: taskId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '5'
+  /tasks/{taskId}/task-groups:
+    get:
+      summary: Tasks Task Groups
+      tags:
+      - Tasks
+      operationId: getTaskTaskGroups
+      responses:
+        default:
+          description: no response description was provided for this operation
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: taskId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '5'
+    post:
+      summary: Add a task to a task group (task side)
+      description: Associates the task with a task group. Note the request body key is `id` and it holds the **task group** id (not `group_id`). The equivalent group-side route is `POST /task-groups/{groupId}/tasks`.
+      tags:
+      - Tasks
+      operationId: createTaskTaskGroup
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: taskId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - id
+              properties:
+                id:
+                  type: integer
+                  description: The id of the task group to add the task to.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      task_id:
+                        type: integer
+  /tasks/{taskId}/task-groups/{id}:
+    delete:
+      summary: Remove a task from a task group (task side)
+      description: '`id` is the task group id to remove the task from.'
+      tags:
+      - Tasks
+      operationId: deleteTaskTaskGroup
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: taskId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    Tasks:
+      type: array
+      items:
+        $ref: '#/components/schemas/Task'
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        external_id:
+          type: string
+        active:
+          type: boolean
+        modified_by:
+          type: string
+          readOnly: true
+        modified_time:
+          type: string
+          readOnly: true
+        req_machines:
+          type: boolean
+        pay_level:
+          type: string
+        payroll_acc:
+          type: string
+        charge_code_id:
+          type: integer
+          description: See Invoices - Charge Code
+        supervisor:
+          type: boolean
+        integration_id:
+          type:
+          - string
+          - 'null'
+      required:
+      - name
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

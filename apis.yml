@@ -1,23 +1,647 @@
 aid: assignar
 name: Assignar
-description: 'Assignar is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+image: https://assignar.com/wp-content/uploads/2022/05/2022_Assigner_Homepage_Header_v2.jpg
+description: Assignar provides construction software that gives real‑time visibility and operational control for civil contractors, helping manage
+  crews, equipment, compliance, and project performance. The platform supports pay rates, job costing, scheduling, time tracking, safety, AI‑driven
+  insights, reporting, and integrations, aiming to protect margins from field to bottom line.
 url: https://raw.githubusercontent.com/api-evangelist/assignar/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-09-26 (modular-v1; was harvest)
 specificationVersion: '0.20'
 created: '2026-09-26'
 modified: '2026-09-26'
 tags:
-- Company
-apis: []
+- Construction
+- Software
+- API
+- Cloud
+- ProjectManagement
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/assignar-agentic-access.yml
+- type: Spectral
+  url: rules/assignar-rules.yml
+- type: JSONLD
+  url: json-ld/assignar-context.jsonld
+- type: Vocabulary
+  url: vocabulary/assignar-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataModel
+  url: data-model/assignar-data-model.yml
+- type: Compliance
+  url: https://trust.assignar.com/
+- type: ErrorCatalog
+  url: errors/assignar-problem-types.yml
+- type: Conformance
+  url: conformance/assignar-conformance.yml
+- type: LLMsTxt
+  url: llms/assignar-llms.txt
+- type: SecurityTxt
+  url: well-known/assignar-status-security.txt
+- type: WellKnown
+  url: well-known/assignar-well-known.yml
+- type: Hosts
+  url: hosts/assignar-hosts.yml
+- type: Vendors
+  url: vendors/assignar-vendors.yml
+- type: TermsOfService
+  url: https://assignar.com/legal/terms-and-conditions
+- type: Support
+  url: https://support.assignar.com/hc/en-au
+- type: Security
+  url: https://assignar.com/security/
+- type: Newsroom
+  url: https://assignar.com/media/
+- type: Leadership
+  url: https://assignar.com/management/
+- type: GettingStarted
+  url: https://support.assignar.com/hc/en-au/categories/4406587316879-Getting-Started
+- type: GitHubOrganization
+  url: https://github.com/assignar
+- type: OAuthScopes
+  url: scopes/assignar-scopes.yml
+- type: Authentication
+  url: authentication/assignar-authentication.yml
+- type: TrustCenter
+  url: security/assignar-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/assignar-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/assignar-domain-security.yml
 - type: Website
-  url: https://www.nasdaqprivatemarket.com/
+  url: https://assignar.com/
+- type: Documentation
+  url: https://apidocs.assignar.com/api-docs/
+- type: StatusPage
+  url: https://status.assignar.com/
+- type: PrivacyPolicy
+  url: https://trust.assignar.com/
+- type: Pricing
+  url: https://assignar.com/pricing/
+- type: Blog
+  url: https://assignar.com/category/articles/
+apis:
+- aid: assignar:assignar-activities-api
+  name: Assignar Activities API
+  description: The Activities API from Assignar — 2 operation(s) for activities.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Activities
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-activities-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-allocations-api
+  name: Assignar Allocations API
+  description: The Allocations API from Assignar — 3 operation(s) for allocations.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Allocations
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-allocations-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-allowances-api
+  name: Assignar Allowances API
+  description: The Allowances API from Assignar — 2 operation(s) for allowances.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Allowances
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-allowances-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-asset-attachments-api
+  name: Assignar Asset Attachments API
+  description: The Asset Attachments API from Assignar — 2 operation(s) for asset attachments.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Asset Attachments
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-asset-attachments-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-asset-classes-api
+  name: Assignar Asset Classes API
+  description: The Asset Classes API from Assignar — 2 operation(s) for asset classes.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Asset Classes
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-asset-classes-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-assets-api
+  name: Assignar Assets API
+  description: The Assets API from Assignar — 5 operation(s) for assets.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-assets-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-clients-api
+  name: Assignar Clients API
+  description: The Clients API from Assignar — 7 operation(s) for clients.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Clients
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-clients-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-contacts-api
+  name: Assignar Contacts API
+  description: The Contacts API from Assignar — 2 operation(s) for contacts.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-contacts-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-digitaldockets-api
+  name: Assignar Digital Dockets API
+  description: The DigitalDockets API from Assignar — 2 operation(s) for digitaldockets.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - DigitalDockets
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-digitaldockets-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-documents-api
+  name: Assignar Documents API
+  description: The Documents API from Assignar — 2 operation(s) for documents.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-documents-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-form-results-api
+  name: Assignar Form Results API
+  description: The Form Results API from Assignar — 2 operation(s) for form results.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Form Results
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-form-results-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-invoices-api
+  name: Assignar Invoices API
+  description: The Invoices API from Assignar — 6 operation(s) for invoices.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Invoices
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-invoices-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-leave-requests-api
+  name: Assignar Leave Requests API
+  description: The Leave Requests API from Assignar — 5 operation(s) for leave requests.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Leave Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-leave-requests-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-leave-types-api
+  name: Assignar Leave Types API
+  description: The Leave Types API from Assignar — 2 operation(s) for leave types.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Leave Types
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-leave-types-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-order-templates-api
+  name: Assignar Order Templates API
+  description: The Order Templates API from Assignar — 2 operation(s) for order templates.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Order Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-order-templates-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-orders-api
+  name: Assignar Orders API
+  description: The Orders API from Assignar — 19 operation(s) for orders.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-orders-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-projects-api
+  name: Assignar Projects API
+  description: The Projects API from Assignar — 11 operation(s) for projects.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-projects-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-site-diary-api
+  name: Assignar Site Diary API
+  description: The Site Diary API from Assignar — 5 operation(s) for site diary.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Site Diary
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-site-diary-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-skills-competencies-api
+  name: Assignar Skills & Competencies API
+  description: The Skills & Competencies API from Assignar — 8 operation(s) for skills & competencies.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Skills & Competencies
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-skills-competencies-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-suppliers-api
+  name: Assignar Suppliers API
+  description: The Suppliers API from Assignar — 2 operation(s) for suppliers.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Suppliers
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-suppliers-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-tags-api
+  name: Assignar Tags API
+  description: The Tags API from Assignar — 2 operation(s) for tags.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-tags-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-taskgroups-api
+  name: Assignar Task Groups API
+  description: The TaskGroups API from Assignar — 3 operation(s) for taskgroups.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - TaskGroups
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-taskgroups-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-tasks-api
+  name: Assignar Tasks API
+  description: The Tasks API from Assignar — 7 operation(s) for tasks.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-tasks-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-timesheets-api
+  name: Assignar Timesheets API
+  description: The Timesheets API from Assignar — 5 operation(s) for timesheets.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Timesheets
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-timesheets-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+- aid: assignar:assignar-users-api
+  name: Assignar Users API
+  description: The Users API from Assignar — 17 operation(s) for users.
+  humanURL: https://apidocs.assignar.com/api-docs/
+  baseURL: https://api.assignar.com/v2
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/assignar-users-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/assignar-timesheet-expanded-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-site-diary-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-part-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-asset-with-tag-id-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-form-result-schema.json
+  - type: JSONSchema
+    url: json-schema/assignar-user-schema.json
+x-enrichment:
+  date: '2026-09-26'
+  status: enriched
+  artifacts_added: 29
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local

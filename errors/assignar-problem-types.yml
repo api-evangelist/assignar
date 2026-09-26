@@ -1,0 +1,45 @@
+generated: '2026-09-26'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/assignar-openapi.yaml
+format: custom
+envelope:
+  media_type: application/json
+  schema: null
+coverage:
+  operations: 208
+  statuses_declared: 5
+problems:
+- status: 400
+  title: Bad Request
+  description: Invalid input
+  operations: 10
+  media_types:
+  - application/json
+  schema: null
+- status: 401
+  title: Unauthorized
+  description: Unauthorized
+  operations: 5
+  media_types: []
+  schema: null
+- status: 403
+  title: Forbidden
+  description: Forbidden
+  operations: 5
+  media_types: []
+  schema: null
+- status: 404
+  title: Not Found
+  description: Leave request not found
+  operations: 19
+  media_types:
+  - application/json
+  schema: null
+- status: default
+  title: null
+  description: no response description was provided for this operation
+  operations: 8
+  media_types: []
+  schema: null

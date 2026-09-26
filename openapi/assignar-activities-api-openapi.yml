@@ -1,0 +1,218 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Activities API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Activities
+paths:
+  /activities:
+    get:
+      summary: List all existing activities
+      tags:
+      - Activities
+      operationId: getActivities
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Activities'
+    post:
+      summary: Create a new activity
+      tags:
+      - Activities
+      operationId: newActivity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/Activity'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 1131
+                      name: Travel
+                      rule: 1
+                      billable: 1
+                      active: true
+                      sortorder: 0
+                      modified_by: 40
+                      date_added: '2026-08-25T02:14:07.000Z'
+                      date_modified: '2026-08-25T02:14:07.000Z'
+  /activities/{activityId}:
+    get:
+      summary: Retrieve an existing activity
+      tags:
+      - Activities
+      operationId: getActivity
+      parameters:
+      - in: path
+        name: activityId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Activity'
+    put:
+      summary: Update an existing activity
+      tags:
+      - Activities
+      operationId: updateActivity
+      parameters:
+      - in: path
+        name: activityId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing activity
+      tags:
+      - Activities
+      operationId: deleteActivity
+      parameters:
+      - in: path
+        name: activityId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    Activity:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        rule:
+          type: integer
+        billable:
+          type: integer
+        active:
+          type: boolean
+        sortorder:
+          type: integer
+        type_id:
+          type: integer
+          description: Activity type identifier.
+        is_payable:
+          type: boolean
+        date_added:
+          type: string
+          format: date-time
+          readOnly: true
+        date_modified:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_by:
+          type: integer
+          readOnly: true
+        external_id:
+          type: string
+        uom_code:
+          type:
+          - string
+          - 'null'
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+        integration_id:
+          type:
+          - string
+          - 'null'
+        activity_type:
+          type: object
+          properties:
+            id:
+              type: integer
+            type:
+              type: string
+            label:
+              type: string
+    Activities:
+      type: array
+      items:
+        $ref: '#/components/schemas/Activity'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

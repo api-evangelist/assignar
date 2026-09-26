@@ -1,0 +1,347 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Asset Classes API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Asset Classes
+paths:
+  /asset-classes:
+    get:
+      summary: List all existing asset classes
+      description: Asset classes are the lookup that an asset's `asset_class_id` points at.
+      tags:
+      - Asset Classes
+      operationId: getAssetClasses
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/AssetClasses'
+                  count:
+                    type: integer
+              examples:
+                Success:
+                  value:
+                    status: 200
+                    data:
+                    - id: 5
+                      name: Heavy Machinery
+                      description: Large construction equipment
+                      code: HEAVY-MACH
+                      created_at: '2024-03-11T02:41:18.000Z'
+                      created_by_id: 500
+                      modified_at: '2024-06-02T22:07:55.000Z'
+                      modified_by_id: 500
+                      createdBy:
+                        user_id: 500
+                        username: jsmith
+                        first_name: John
+                        last_name: Smith
+                      modifiedBy:
+                        user_id: 500
+                        username: jsmith
+                        first_name: John
+                        last_name: Smith
+                    count: 1
+      security:
+      - Assignar Tenant Auth: []
+    post:
+      summary: Create a new asset class
+      tags:
+      - Asset Classes
+      operationId: createAssetClass
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateAssetClassRequest'
+      security:
+      - Assignar Tenant Auth: []
+      responses:
+        '200':
+          description: Created. The created record is returned in `data`, and the body's `status` field carries 201. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id` and the `created_at` default. A field you did not send is absent rather than null.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/AssetClass'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 5
+                      name: Heavy Machinery
+                      description: Large construction equipment
+                      code: HEAVY-MACH
+                      created_at: '2024-03-11T02:41:18.000Z'
+  /asset-classes/{assetClassId}:
+    get:
+      summary: Retrieve an existing asset class
+      tags:
+      - Asset Classes
+      operationId: getAssetClassById
+      parameters:
+      - in: path
+        name: assetClassId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/AssetClassDetail'
+              examples:
+                Success:
+                  value:
+                    status: 200
+                    data:
+                      id: 5
+                      name: Heavy Machinery
+                      description: Large construction equipment
+                      code: HEAVY-MACH
+                      created_at: '2024-03-11T02:41:18.000Z'
+                      created_by_id: 500
+                      modified_at: '2024-06-02T22:07:55.000Z'
+                      modified_by_id: 500
+                      createdBy:
+                        user_id: 500
+                        username: jsmith
+                        first_name: John
+                        last_name: Smith
+                      modifiedBy:
+                        user_id: 500
+                        username: jsmith
+                        first_name: John
+                        last_name: Smith
+        '404':
+          description: Asset class not found
+      security:
+      - Assignar Tenant Auth: []
+    put:
+      summary: Update an existing asset class
+      description: Only the fields present in the payload are written.
+      tags:
+      - Asset Classes
+      operationId: updateAssetClass
+      parameters:
+      - in: path
+        name: assetClassId
+        required: true
+        schema:
+          type: integer
+      security:
+      - Assignar Tenant Auth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateAssetClassRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+              examples:
+                Success:
+                  value:
+                    status: 204
+        '404':
+          description: Asset class not found
+    delete:
+      summary: Delete an existing asset class
+      description: 'Permanently deletes the asset class — there is no soft delete and no `deleted_at` column, so the record cannot be recovered. Assets that referenced it are **not** deleted: the `asset_class_id` foreign key is `ON DELETE SET NULL`, so each affected asset has its `asset_class_id` set to null and its `assetClass` cleared.'
+      tags:
+      - Asset Classes
+      operationId: deleteAssetClass
+      parameters:
+      - in: path
+        name: assetClassId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+              examples:
+                Success:
+                  value:
+                    status: 204
+        '404':
+          description: Asset class not found
+      security:
+      - Assignar Tenant Auth: []
+components:
+  schemas:
+    AssetClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Heavy Machinery
+        description:
+          type:
+          - string
+          - 'null'
+          example: Large construction equipment
+        code:
+          type:
+          - string
+          - 'null'
+          example: HEAVY-MACH
+    AssetClassDetail:
+      description: An asset class as returned by the `/asset-classes` collection. Extends the `AssetClass` summary — the four fields the `assetClass` relation selects when embedded in an asset or a site diary entry — with the audit columns and their hydrated user objects.
+      allOf:
+      - $ref: '#/components/schemas/AssetClass'
+      - type: object
+        properties:
+          created_at:
+            type: string
+            format: date-time
+            description: System managed. Defaults to the time of creation.
+            example: '2024-03-11T02:41:18.000Z'
+            readOnly: true
+          created_by_id:
+            type:
+            - integer
+            - 'null'
+            description: Identifier of the user who created the asset class. Not set by `POST /asset-classes` — the public API does not stamp it — so it is null for classes created through this API.
+            example: 500
+            readOnly: true
+          modified_at:
+            type:
+            - string
+            - 'null'
+            format: date-time
+            description: System managed. Updated by the database on every write, and null until the asset class is first updated.
+            example: '2024-06-02T22:07:55.000Z'
+            readOnly: true
+          modified_by_id:
+            type:
+            - integer
+            - 'null'
+            description: Identifier of the user who last modified the asset class. Not set by `PUT /asset-classes/{assetClassId}` — the public API does not stamp it.
+            example: 500
+            readOnly: true
+          createdBy:
+            allOf:
+            - $ref: '#/components/schemas/UserReference'
+            description: The user named by `created_by_id`, hydrated by default with no `relations` query parameter. When `created_by_id` is null the object is still present with every field set to null, rather than the object itself being null.
+            readOnly: true
+          modifiedBy:
+            allOf:
+            - $ref: '#/components/schemas/UserReference'
+            description: The user named by `modified_by_id`, hydrated by default with no `relations` query parameter. When `modified_by_id` is null the object is still present with every field set to null, rather than the object itself being null.
+            readOnly: true
+    AssetClasses:
+      type: array
+      items:
+        $ref: '#/components/schemas/AssetClassDetail'
+    UserReference:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 500
+        username:
+          type: string
+          example: jsmith
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
+  requestBodies:
+    CreateUpdateAssetClassRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the asset class. Not unique — two asset classes may share a name.
+                maxLength: 100
+                example: Heavy Machinery
+              description:
+                type:
+                - string
+                - 'null'
+                description: Description of the asset class
+                maxLength: 255
+                example: Large construction equipment
+              code:
+                type:
+                - string
+                - 'null'
+                description: Short code for the asset class. Unique across asset classes — reusing an existing code is rejected with `[400] Unique Constraint Error - unique_asset_class_code`. May be omitted or null, and any number of asset classes may have no code.
+                maxLength: 50
+                example: HEAVY-MACH
+            required:
+            - name
+          examples:
+            Request:
+              value:
+                name: Heavy Machinery
+                description: Large construction equipment
+                code: HEAVY-MACH
+      description: ''
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

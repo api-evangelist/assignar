@@ -1,0 +1,1456 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Users API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Users
+paths:
+  /users:
+    get:
+      summary: List all existing users
+      tags:
+      - Users
+      operationId: getUsers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Users'
+    post:
+      summary: Create a new user
+      tags:
+      - Users
+      operationId: newUser
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateUserRequest'
+      security:
+      - Assignar Tenant Auth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/UserWithTagId'
+              example:
+                status: 201
+                data:
+                  id: 1
+                  full_name: Joe Smith
+                  user_type_id: 2
+                  employee_id: emp-123
+                  integration_id: int_123456
+                  first_name: Joe
+                  last_name: Smith
+                  dob: '1971-01-01T00:00:00.000Z'
+                  address: 1644 Platte St
+                  address_geo:
+                    type: point
+                    coordinates:
+                    - 39.757776, -105.0071
+                  suburb: Denver
+                  state: CO
+                  postcode: 80202
+                  email: joe.smith@email.com
+                  contact: 1 333 444 5555
+                  employment_type: 1
+                  emergency_contact: 1 111 333 4444
+                  emergency_contact_name: Jane Smith
+                  username: joe.smith@email.com
+                  active: true
+                  comments: comments go here
+                  user_pic: null
+                  eula: 1
+                  usi: null
+                  modified_by: auser
+                  modified_time: '2021-07-24T22:53:02.693Z'
+                  tags:
+                  - tag_id: 143
+                  tasks:
+                  - task_id: 97
+                  suppliers:
+                  - supplier_id: 28
+  /users/{userId}:
+    get:
+      summary: Retrieve an existing user
+      tags:
+      - Users
+      operationId: getUser
+      parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/User'
+    put:
+      summary: Update an existing user
+      tags:
+      - Users
+      operationId: updateUser
+      parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: integer
+      security:
+      - Assignar Tenant Auth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateUserRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                x-examples:
+                  example-1:
+                    status: 204
+              examples:
+                Success:
+                  value:
+                    status: 204
+    delete:
+      summary: Delete an existing user
+      tags:
+      - Users
+      operationId: deleteUser
+      parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /user-types:
+    get:
+      summary: List all existing user types
+      tags:
+      - Users
+      operationId: getUserTypes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserTypes'
+  /user-types/{userTypeID}:
+    get:
+      summary: Retrieve an existing user type
+      tags:
+      - Users
+      operationId: getUserType
+      parameters:
+      - in: path
+        name: userTypeID
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserType'
+  /employment-types:
+    get:
+      summary: List all existing employment types
+      tags:
+      - Users
+      operationId: getEmploymentTypes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/EmploymentTypes'
+    post:
+      summary: Create a new employment type
+      tags:
+      - Users
+      operationId: newEmploymentType
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmploymentType'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/EmploymentType'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 29
+                      name: Casual - Daily
+  /employment-types/{employmentTypeId}:
+    get:
+      summary: Retrieve an existing employment type
+      tags:
+      - Users
+      operationId: getEmploymentType
+      parameters:
+      - in: path
+        name: employmentTypeId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/EmploymentType'
+    put:
+      summary: Update an existing employment type
+      tags:
+      - Users
+      operationId: updateEmploymentTypeId
+      parameters:
+      - in: path
+        name: employmentTypeId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmploymentType'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing employment type
+      tags:
+      - Users
+      operationId: deleteEmploymentType
+      parameters:
+      - in: path
+        name: employmentTypeId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /users/{userId}/tags:
+    get:
+      summary: User Tags
+      tags:
+      - Users
+      operationId: c6ceefb3-3e78-4b7d-8cea-03a459342c46
+      responses:
+        default:
+          description: no response description was provided for this operation
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '950'
+  /users/{userId}/skills/{skillId}:
+    get:
+      summary: Retrieve an existing user skill
+      tags:
+      - Users
+      operationId: 76ad1153-f6dc-47bd-b3d9-4aeacdaab353
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserSkill'
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: skillId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+  /users/{userId}/skills:
+    get:
+      summary: List all existing user skills for user
+      tags:
+      - Users
+      operationId: getUserSkills
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserSkills'
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+    post:
+      summary: Create a new user skill
+      tags:
+      - Users
+      operationId: createUserSkill
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSkillUpdateCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserSkillUpdateCreate'
+  /users/{userId}/skills/{id}:
+    delete:
+      summary: Delete an existing user skill
+      tags:
+      - Users
+      operationId: deleteUserSkill
+      responses:
+        '204':
+          description: Success
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+  /users/{userId}/inductions:
+    get:
+      summary: List all existing user inductions for user
+      tags:
+      - Users
+      operationId: getUserInductions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserInductions'
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+  /users/{userId}/inductions/{inductionId}:
+    get:
+      summary: Retrieve an existing user induction
+      tags:
+      - Users
+      operationId: 33c12c85-182e-44a0-be41-fc42232dcea2
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserInduction'
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: inductionId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+    put:
+      summary: Update an existing user induction
+      tags:
+      - Users
+      operationId: updateUserInduction
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: inductionId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInductionUpdateCreate'
+      responses:
+        '204':
+          description: Success
+    post:
+      summary: Create a new user induction
+      tags:
+      - Users
+      operationId: createUserInduction
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: inductionId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInductionUpdateCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserInductionUpdateCreate'
+  /users/{userId}/inductions/{id}:
+    delete:
+      summary: Delete an existing user induction
+      tags:
+      - Users
+      operationId: deleteUserInduction
+      responses:
+        '204':
+          description: Success
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+  /users/{userId}/competencies:
+    get:
+      summary: List all existing user competencies for user
+      tags:
+      - Users
+      operationId: getUserCompetencies
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserCompetencies'
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+  /users/{userId}/competencies/{competencyId}:
+    get:
+      summary: User Competencies
+      tags:
+      - Users
+      operationId: c3d92879-778a-4af1-bb5f-87938babf2dc
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserCompetencies'
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: competencyId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+    put:
+      summary: Update an existing user competency
+      tags:
+      - Users
+      operationId: updateUserCompetency
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: competencyId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCompetencyUpdateCreate'
+      responses:
+        '204':
+          description: Success
+    post:
+      summary: Create a new user competency
+      tags:
+      - Users
+      operationId: createUserCompetency
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: competencyId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCompetencyUpdateCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/UserCompetencyUpdateCreate'
+  /users/{userId}/competencies/{id}:
+    delete:
+      summary: Delete an existing user competency
+      tags:
+      - Users
+      operationId: deleteUserCompetency
+      responses:
+        '204':
+          description: Success
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+          default: ''
+  /upload-urls/user-competency:
+    post:
+      summary: Calculate an S3 signed URL for uploading a file for a user competency
+      description: 'We store file uploads to Amazon S3. Use this endpoint to receive a secure, signed `url` to upload a file to and
+
+        the `path` to that file that you can use in the payload for creating the User Competency.'
+      tags:
+      - Users
+      operationId: postUserCompetencyUploadUrl
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  required: true
+                  description: The filename of the file you wish to upload.
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: url
+                    description: To upload the file, use PUT with this URL.
+                  path:
+                    type: string
+                    description: Use this value as `attachment` in your payload when creating a User Competency.
+components:
+  schemas:
+    UserInduction:
+      type: object
+      required:
+      - id
+      - induction_id
+      - user_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        induction_id:
+          type: integer
+        active:
+          type: boolean
+        description:
+          type: string
+        created_time:
+          type: string
+          readOnly: true
+        issue_date:
+          type: string
+        expiry_time:
+          type: string
+        attachment:
+          type: string
+        induction:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+    UserTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserType'
+    UserType:
+      type: object
+      required:
+      - user_type
+      - label
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_type:
+          type: string
+        label:
+          type: string
+        modified_by:
+          type: string
+          readOnly: true
+        modified_time:
+          type: string
+          readOnly: true
+    UserSkill:
+      type: object
+      required:
+      - skill_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        skill_id:
+          type: integer
+        created_time:
+          type: string
+        skill:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+    UserInductionUpdateCreate:
+      type: object
+      required:
+      - induction_id
+      - user_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        induction_id:
+          type: integer
+        active:
+          type: boolean
+        description:
+          type: string
+        created_time:
+          type: string
+          readOnly: true
+        issue_date:
+          type: string
+        expiry_time:
+          type: string
+        attachment:
+          type: string
+    UserCompetencies:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserCompetency'
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+    UserCompetencyUpdateCreate:
+      type: object
+      required:
+      - competency_id
+      - user_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        competency_id:
+          type: integer
+        active:
+          type: boolean
+        description:
+          type: string
+        created_time:
+          type: string
+          readOnly: true
+        issue_date:
+          type: string
+        expiry_time:
+          type: string
+        attachment:
+          type: string
+    UserWithTagId:
+      type: object
+      required:
+      - user_type_id
+      - first_name
+      - last_name
+      - username
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_type_id:
+          type: integer
+          example: 2
+        employee_id:
+          type: string
+          example: emp-123
+        integration_id:
+          type: string
+          example: string
+        first_name:
+          type: string
+          example: Joe
+        last_name:
+          type: string
+          example: Smith
+        full_name:
+          type: string
+          example: Joe Smith
+        dob:
+          type: string
+          example: '1971-01-01'
+        address:
+          type: string
+          example: 1644 Platte St
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                example:
+                - 39.757776
+                - -105.0071
+        suburb:
+          type: string
+          example: Denver
+        state:
+          type: string
+          example: CO
+        postcode:
+          type: string
+          example: 80202
+        email:
+          type: string
+          example: joe.smith@email.com
+        contact:
+          type: string
+          example: 1 333 444 5555
+        employment_type:
+          type: integer
+          example: 1
+        emergency_contact:
+          type: string
+          example: 1 111 333 4444
+        emergency_contact_name:
+          type: string
+          example: Jane Smith
+        username:
+          type: string
+          example: joe.smith@email.com
+        active:
+          type: boolean
+          example: true
+        modified_by:
+          type: string
+          example: auser
+        modified_time:
+          type: string
+          example: '2023-02-27T15:53:34.229Z'
+        comments:
+          type: string
+          example: comments go here
+        user_pic:
+          type: string
+        eula:
+          type: integer
+          example: 1
+        usi:
+          type: string
+        tags:
+          type: array
+          description: Collection of user tags
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: string
+                description: Tag identifier of the tag
+                example: '143'
+        tasks:
+          type: array
+          description: The task links that were written, echoed back as identifiers only. Present only when `tasks` was sent in the request body and the user is a mobile user (`user_type_id` 2).
+          items:
+            type: object
+            properties:
+              task_id:
+                type: integer
+                description: Task identifier of the task
+                example: 97
+        suppliers:
+          type: array
+          description: The supplier links that were written, echoed back as identifiers only. Unlike the `suppliers` array returned by `GET /users` and `GET /users/{id}`, this does not include the supplier name, external_id or active flag. Present only when `suppliers` was sent in the request body.
+          items:
+            type: object
+            properties:
+              supplier_id:
+                type: integer
+                description: Identifier of the supplier
+                example: 28
+    UserSkillUpdateCreate:
+      type: object
+      required:
+      - skill_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        skill_id:
+          type: integer
+        created_time:
+          type: string
+    EmploymentTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmploymentType'
+    User:
+      type: object
+      required:
+      - user_type_id
+      - first_name
+      - last_name
+      - username
+      - suppliers
+      - tags
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_type_id:
+          type: integer
+          example: 2
+        employee_id:
+          type: string
+          example: emp-123
+        first_name:
+          type: string
+          example: Joe
+        last_name:
+          type: string
+          example: Smith
+        full_name:
+          type: string
+          example: Joe Smith
+        dob:
+          type: string
+          example: '1971-01-01'
+        address:
+          type: string
+          example: 1644 Platte St
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                example:
+                - 39.757776
+                - -105.0071
+        tasks:
+          type: array
+          description: Collection of user tasks
+          items:
+            type: object
+            properties:
+              task_id:
+                type: string
+                description: Task identifier of the task
+                example: '97'
+              name:
+                type: string
+                description: Name of the task
+                example: 20 Tonne Franna
+              external_id:
+                type: string
+                description: External system identifier of the task
+                example: 20tonne x
+        suppliers:
+          type: array
+          description: Collection of suppliers related to the user. Always present, and empty when the user has no related suppliers.
+          items:
+            type: object
+            properties:
+              supplier_id:
+                type: integer
+                description: Identifier of the supplier
+                example: 28
+              name:
+                type: string
+                description: Name of the supplier
+                example: Acme Labour Hire
+              external_id:
+                type:
+                - string
+                - 'null'
+                description: External system identifier of the supplier
+                example: SUP-28
+              active:
+                type: boolean
+                description: Whether the supplier is active
+                example: true
+        tags:
+          type: array
+          description: Collection of tags applied to the user. Always present, and empty when the user has no tags.
+          items:
+            $ref: '#/components/schemas/TagPart'
+          example:
+          - tag_id: 17
+            name: HEAVY VEHICLES
+            description: null
+            color: '#009688'
+        suburb:
+          type: string
+          example: Denver
+        state:
+          type: string
+          example: CO
+        postcode:
+          type: string
+          example: 80202
+        email:
+          type: string
+          example: joe.smith@email.com
+        contact:
+          type: string
+          example: 1 333 444 5555
+        employment_type:
+          type: integer
+          example: 1
+        emergency_contact:
+          type: string
+          example: 1 111 333 4444
+        emergency_contact_name:
+          type: string
+          example: Jane Smith
+        username:
+          type: string
+          example: joe.smith@email.com
+        active:
+          type: boolean
+          example: true
+        modified_by:
+          type: string
+          example: auser
+        modified_time:
+          type: string
+          example: '2023-02-27T15:53:34.229Z'
+        comments:
+          type: string
+          example: comments go here
+        user_pic:
+          type: string
+        eula:
+          type: integer
+          example: 1
+        usi:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+          example: int_123456
+    UserSkills:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserSkill'
+    TagPart:
+      title: TagPart
+      x-stoplight:
+        id: epsk9hslhfq0q
+      type: object
+      description: ''
+      properties:
+        tag_id:
+          type: integer
+          description: Identifier of the tag
+          example: 301
+        name:
+          type: string
+          description: Name of the tag
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the tag
+        color:
+          type:
+          - string
+          - 'null'
+          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
+          example: '#795548'
+      required:
+      - name
+    EmploymentType:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+    UserCompetency:
+      type: object
+      required:
+      - id
+      - competency_id
+      - user_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        competency_id:
+          type: integer
+        active:
+          type: boolean
+        description:
+          type: string
+        created_time:
+          type: string
+          readOnly: true
+        issue_date:
+          type: string
+        expiry_time:
+          type: string
+        attachment:
+          type: string
+        competency:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+    UserInductions:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserInduction'
+  requestBodies:
+    CreateUpdateUserRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              user_type_id:
+                type: integer
+                example: 2
+              employee_id:
+                type: string
+                example: emp-123
+              integration_id:
+                type:
+                - string
+                - 'null'
+              first_name:
+                type: string
+                example: Joe
+              last_name:
+                type: string
+                example: Smith
+              dob:
+                type: string
+                example: '1971-01-01'
+              address:
+                type: string
+                example: 1644 Platte St
+              address_geo:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - Point
+                  coordinates:
+                    type: array
+                    items:
+                      type: number
+                      example:
+                      - 39.757776
+                      - -105.0071
+              suburb:
+                type: string
+                example: Denver
+              state:
+                type: string
+                example: CO
+              postcode:
+                type: string
+                example: 80202
+              email:
+                type: string
+                example: joe.smith@email.com
+                description: The email address associated with the User. If provided, it must be unique within the same User type across all active Users. For "Worker", providing an email grants access to the mobile app; if no email is provided, the worker is created as a resource with no mobile access.
+              contact:
+                type: string
+                example: 1 333 444 5555
+              employment_type:
+                type: integer
+                example: 1
+              emergency_contact:
+                type: string
+                example: 1 111 333 4444
+              emergency_contact_name:
+                type: string
+                example: Jane Smith
+              password:
+                type: string
+                example: strong_password_here
+                deprecated: true
+                description: \[DEPRECATED\] This field is deprecated and will be removed in future versions.
+              active:
+                type: boolean
+                example: true
+              comments:
+                type: string
+                example: comments go here
+              user_pic:
+                type: string
+              eula:
+                type: integer
+                example: 1
+              usi:
+                type: string
+              tags:
+                type: array
+                description: Collection of user tags
+                items:
+                  type: object
+                  properties:
+                    tag_id:
+                      type: integer
+                      description: Tag identifier of the user
+                      example: 143
+              tasks:
+                type: array
+                description: Collection of user tasks
+                items:
+                  type: object
+                  properties:
+                    task_id:
+                      type: integer
+                      description: Task identifier of the task
+                      example: 97
+              suppliers:
+                type:
+                - array
+                - 'null'
+                description: 'The complete set of suppliers the user should be related to. This replaces the existing links rather than adding to them: send every supplier the user should end up with. An empty array clears all of them. Omitting the field, or sending null, leaves the existing links untouched. Any other value is rejected with a 400 — including `""`, `0` and `false`. Repeated ids are de-duplicated. Every supplier_id must match an existing supplier or the whole request is rejected with a 400 naming the unknown ids; inactive suppliers are accepted.'
+                items:
+                  type: object
+                  properties:
+                    supplier_id:
+                      type: integer
+                      description: Identifier of the supplier to relate
+                      example: 28
+          examples:
+            Request:
+              value:
+                user_type_id: 2
+                employee_id: emp-123
+                integration_id: int_123456
+                first_name: Joe
+                last_name: Smith
+                dob: '1971-01-01'
+                address: 1644 Platte St
+                address_geo:
+                  type: Point
+                  coordinates:
+                  - 39.757776
+                  - -105.0071
+                suburb: Denver
+                state: CO
+                postcode: 80202
+                email: joe.smith@email.com
+                contact: 1 333 444 5555
+                employment_type: 1
+                emergency_contact: 1 111 333 4444
+                emergency_contact_name: Jane Smith
+                password: strong_password_here
+                active: true
+                comments: comments go here
+                user_pic: null
+                eula: 1
+                usi: null
+                tags:
+                - tag_id: 143
+                tasks:
+                - task_id: 97
+                suppliers:
+                - supplier_id: 28
+      description: ''
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

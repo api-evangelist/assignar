@@ -1,0 +1,923 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Projects API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Projects
+paths:
+  /projects/:
+    get:
+      summary: List all existing Projects
+      operationId: getProjects
+      tags:
+      - Projects
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Projects'
+    post:
+      summary: Create a new project
+      operationId: newProject
+      tags:
+      - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/ProjectCreateResponse'
+  /projects/{projectId}:
+    get:
+      summary: Retrieve an existing project
+      operationId: getProject
+      tags:
+      - Projects
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/ProjectResponse'
+    put:
+      summary: Update an existing project
+      operationId: updateProject
+      tags:
+      - Projects
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing project
+      tags:
+      - Projects
+      operationId: deleteProject
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /projects/{projectId}/pay-rate-groups/{rateGroupId}:
+    get:
+      summary: Project Rate Groups
+      tags:
+      - Projects
+      operationId: getProjectPayrateGroup
+      responses:
+        default:
+          description: no response description was provided for this operation
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: rateGroupId
+        required: true
+        in: path
+        schema:
+          type: string
+  /projects/{projectId}/inductions/{inductionId}:
+    get:
+      summary: Project Inductions
+      tags:
+      - Projects
+      operationId: getProjectInduction
+      responses:
+        default:
+          description: no response description was provided for this operation
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: inductionId
+        required: true
+        in: path
+        schema:
+          type: string
+  /projects/{projectId}/task-groups:
+    post:
+      summary: Assign a task group to a project
+      tags:
+      - Projects
+      operationId: createProjectTaskGroup
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - group_id
+              properties:
+                group_id:
+                  type: integer
+                  description: The id of the task group to assign to the project.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      group_id:
+                        type: integer
+                      project_id:
+                        type: integer
+  /projects/{projectId}/task-groups/{taskGroupId}:
+    get:
+      summary: Project Task Groups
+      tags:
+      - Projects
+      operationId: getProjectTaskGroup
+      responses:
+        default:
+          description: no response description was provided for this operation
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: taskGroupId
+        required: true
+        in: path
+        schema:
+          type: string
+    delete:
+      summary: Remove a task group from a project
+      description: '`taskGroupId` is the association id returned when the task group was assigned (the `id` of the project task-group record), not the task group''s own id.'
+      tags:
+      - Projects
+      operationId: deleteProjectTaskGroup
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: taskGroupId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+  /projects/{projectId}/documents:
+    get:
+      summary: Get a list of documents attached to the project
+      tags:
+      - Projects
+      operationId: getProjectDocuments
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  count:
+                    type: integer
+                    description: The number of project documents that satisfies the query.
+                  data:
+                    $ref: '#/components/schemas/ProjectDocuments'
+    post:
+      summary: Attach a document to a project
+      tags:
+      - Projects
+      operationId: postProjectDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                document_id:
+                  type: integer
+                  required: true
+                label:
+                  type: string
+                comments:
+                  type: string
+                external_id:
+                  type: string
+                active:
+                  type: boolean
+                disabled:
+                  type: boolean
+                attachment:
+                  type: string
+                expiry_date:
+                  type: string
+                  format: date
+                expiry_date_alert:
+                  type: string
+                  format: date
+                expiry_number:
+                  type: integer
+                expiry_number_alert:
+                  type: integer
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+  /projects/{projectId}/documents/{projectDocumentId}:
+    delete:
+      summary: Remove a document attached to the project
+      tags:
+      - Projects
+      operationId: deleteProjectDocuments
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: projectDocumentId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+  /projects/{projectId}/contacts:
+    get:
+      summary: List Project Contacts
+      tags:
+      - Projects
+      operationId: getProjectContacts
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/ProjectContactsResponse'
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+    post:
+      summary: Add a contact to a project
+      tags:
+      - Projects
+      operationId: postProjectContact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectContactsPayload'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/ProjectContactCreated'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 1970
+                      project_id: 163
+                      contact_id: 2
+  /projects/{projectId}/contacts/{projectContactId}:
+    delete:
+      summary: Removing a contact from a project
+      tags:
+      - Projects
+      operationId: deleteProjectContact
+      parameters:
+      - name: projectId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+      - name: projectContactId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+      responses:
+        '204':
+          description: Success
+  /upload-urls/project-document:
+    post:
+      summary: Calculate an S3 signed URL for uploading a file for a Project Document
+      description: 'We store file uploads to Amazon S3. Use this endpoint to receive a secure, signed `url` to upload a file to and
+
+        the `path` to that file that you can use in the payload for creating the Project Document.'
+      tags:
+      - Projects
+      operationId: postProjectDocumentUploadUrl
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  required: true
+                  description: The filename of the file you wish to upload.
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: url
+                    description: To upload the file, use PUT with this URL.
+                  path:
+                    type: string
+                    description: Use this value as `attachment` in the payload when creating a Project Document.
+components:
+  schemas:
+    ProjectContactCreated:
+      type: object
+      description: A project/contact association as returned when created.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        project_id:
+          type: integer
+        contact_id:
+          type: integer
+    ProjectContactsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          project_id:
+            type: integer
+          contact_id:
+            type: integer
+          project:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+          contact:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              first_name:
+                type: string
+              last_name:
+                type: string
+              company:
+                type: string
+              office_phone:
+                type: string
+              mobile:
+                type: string
+              email:
+                type: string
+              job_title:
+                type: string
+              address_1:
+                type: string
+              address_2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              postcode:
+                type: string
+              comments:
+                type: string
+              external_id:
+                type: string
+    Projects:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProjectResponse'
+    ProjectDocument:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        project_id:
+          type: integer
+        document_id:
+          type: integer
+        project:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        document:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        label:
+          type: string
+        comments:
+          type: string
+        external_id:
+          type: string
+        active:
+          type: boolean
+        disabled:
+          type: boolean
+        attachment:
+          type: string
+          description: (See instructions how to upload files.)
+        attachment_url:
+          $ref: '#/components/schemas/UrlAttachment'
+        expiry_date:
+          type: string
+          format: date
+        expiry_date_alert:
+          type: string
+          format: date
+        expiry_number:
+          type: integer
+        expiry_number_alert:
+          type: integer
+        created_time:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          readOnly: true
+    ProjectContactsPayload:
+      type: object
+      properties:
+        project_id:
+          type: integer
+        contact_id:
+          type: integer
+    ProjectCreateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client_id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+          description: A full address (street, city/suburb, state, postal code, country)
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+              example:
+              - 39.757776
+              - -105.0071
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        external_id:
+          type: string
+        integration_id:
+          type: string
+        active:
+          type: boolean
+        parent_id:
+          type: integer
+        modified_by:
+          type: string
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          readOnly: true
+        charge_code_id:
+          type: integer
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: integer
+        activities:
+          type: array
+          items:
+            type: object
+            properties:
+              activity_id:
+                type: integer
+    ProjectResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client_id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+          description: A full address (street, city/suburb, state, postal code, country)
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+              example:
+              - 39.757776
+              - -105.0071
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        external_id:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+        active:
+          type: boolean
+        parent_id:
+          type: integer
+        modified_by:
+          type: string
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_by_id:
+          type: integer
+          readOnly: true
+        root_path:
+          type: string
+          readOnly: true
+        charge_code_id:
+          type: integer
+        client:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            external_id:
+              type: string
+        parent:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            external_id:
+              type: string
+        sub_projects:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              external_id:
+                type: string
+        charge_code:
+          type: object
+          properties:
+            id:
+              type: integer
+            code:
+              type: string
+            label:
+              type: string
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: integer
+              tag:
+                $ref: '#/components/schemas/Tag'
+        activities:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              external_id:
+                type: string
+        supervisors:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              first_name:
+                type: string
+              last_name:
+                type: string
+              employee_id:
+                type: string
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
+    ProjectDocuments:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProjectDocument'
+    ProjectRequest:
+      type: object
+      properties:
+        client_id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+          description: A full address (street, city/suburb, state, postal code, country)
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+              example:
+              - 39.757776
+              - -105.0071
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        external_id:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+        active:
+          type: boolean
+        parent_id:
+          type: integer
+        charge_code_id:
+          type: integer
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: integer
+              tag:
+                $ref: '#/components/schemas/Tag'
+        activities:
+          type: array
+          items:
+            type: object
+            properties:
+              activity_id:
+                type: integer
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        taxonomy:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+          description: Nullable varchar(255) with uniqueness constraint. Used for external system integration identifiers.
+      required:
+      - taxonomy
+      - name
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

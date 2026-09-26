@@ -1,0 +1,1404 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Orders API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Orders
+paths:
+  /orders:
+    get:
+      summary: List all existing orders
+      tags:
+      - Orders
+      operationId: getOrders
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Orders'
+    post:
+      summary: Create a new order
+      tags:
+      - Orders
+      operationId: newOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/Order'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 4263
+                      active: true
+                      job_number: JOB123
+                      client_id: 975
+                      order_owner: 40
+                      start_date: '2026-09-01'
+                      end_date: '2026-09-02'
+                      location: North Site
+                      start_time: 07:00
+                      shift_duration: 08:00
+                      status_id: 1
+                      type_id: 1
+                      date_created: '2026-08-25T02:14:07.000Z'
+                      modified_by: ssmith
+                      modified_time: '2026-08-25T02:14:07.000Z'
+                Success with tags:
+                  value:
+                    status: 201
+                    data:
+                      id: 4264
+                      active: true
+                      job_number: JOB123
+                      client_id: 975
+                      order_owner: 40
+                      start_date: '2026-09-01'
+                      end_date: '2026-09-02'
+                      location: North Site
+                      start_time: 07:00
+                      shift_duration: 08:00
+                      status_id: 1
+                      type_id: 1
+                      date_created: '2026-08-25T02:14:07.000Z'
+                      modified_by: ssmith
+                      modified_time: '2026-08-25T02:14:07.000Z'
+                      tags:
+                      - tag_id: 1
+                      - tag_id: 2
+  /orders/{orderId}:
+    get:
+      summary: Retrieve an existing order
+      tags:
+      - Orders
+      operationId: getOrder
+      parameters:
+      - name: page_size
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: orderId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Order'
+    put:
+      summary: Update an existing order
+      tags:
+      - Orders
+      operationId: updateOrder
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing order
+      tags:
+      - Orders
+      operationId: deleteOrder
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /orders/{orderId}/attachments:
+    get:
+      summary: Get a list of attachments attached to a given order
+      tags:
+      - Orders
+      operationId: getOrderAttachments
+      parameters:
+      - name: orderId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  count:
+                    type: integer
+                    description: The number of order attachments that satisfies the query.
+                  data:
+                    $ref: '#/components/schemas/OrderAttachment'
+    post:
+      summary: Attach a file to an order
+      tags:
+      - Orders
+      operationId: postOrderAttachment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attachment:
+                  type: string
+                  required: true
+                name:
+                  type: string
+                size:
+                  type: string
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+  /orders/{orderId}/attachments/{orderAttachmentId}:
+    delete:
+      summary: Remove an attachment from an order
+      tags:
+      - Orders
+      operationId: deleteOrderAttachments
+      parameters:
+      - name: orderId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: orderAttachmentId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+  /orders/{orderId}/contacts:
+    get:
+      summary: List Order Contacts
+      tags:
+      - Orders
+      operationId: getOrderContacts
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderContactsResponse'
+      parameters:
+      - name: orderId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+    post:
+      summary: Add a contact to an order
+      tags:
+      - Orders
+      operationId: postOrderContact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderContactsPayload'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/OrderContactCreated'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 1903
+                      order_id: 31
+                      contact_id: 2
+  /orders/{orderId}/contacts/{orderContactId}:
+    delete:
+      summary: Removing a contact from an order
+      tags:
+      - Orders
+      operationId: deleteOrderContact
+      parameters:
+      - name: orderId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+      - name: orderContactId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '1'
+      responses:
+        '204':
+          description: Success
+  /order-types:
+    get:
+      summary: List all existing orders types
+      tags:
+      - Orders
+      operationId: getOrderTypes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderTypes'
+  /order-types/{orderTypeId}:
+    get:
+      summary: Retrieve an existing order type
+      tags:
+      - Orders
+      operationId: getOrderType
+      parameters:
+      - name: orderTypeId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderType'
+  /order-statuses:
+    get:
+      summary: List all existing orders statuses
+      tags:
+      - Orders
+      operationId: getOrderStatuses
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderStatuses'
+  /order-statuses/{orderStatusId}:
+    get:
+      summary: Retrieve an existing order status
+      tags:
+      - Orders
+      operationId: getOrderStatus
+      parameters:
+      - name: orderStatusId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderStatus'
+  /orders/{orderId}/charge-items:
+    get:
+      summary: List all existing order charge items
+      tags:
+      - Orders
+      operationId: getOrderChargeItems
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderTaskChargeItems'
+  /orders/{orderId}/tasks:
+    parameters:
+    - schema:
+        type: integer
+      name: orderId
+      in: path
+      required: true
+      description: Order Identifier
+    get:
+      summary: List all tasks related to an order
+      tags:
+      - Orders
+      operationId: getOrderTasks
+      parameters:
+      - name: orderId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderTasks'
+    post:
+      summary: Add a task to an order
+      description: 'Note: This endpoint creates one order task for each day for the entire duration of the order.'
+      tags:
+      - Orders
+      operationId: newOrderTask
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/OrderTasksCreated'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                    - id: 594993
+                      order_id: 4263
+                      task_id: 1
+                      task_quantity: 2
+                      shift_date: '2026-09-01T00:00:00.000Z'
+                      start_time: 07:00
+                      end_time: '15:00'
+                      description: ''
+                      shift_index: 1
+                      order_task_id: null
+                    - id: 594994
+                      order_id: 4263
+                      task_id: 1
+                      task_quantity: 2
+                      shift_date: '2026-09-02T00:00:00.000Z'
+                      start_time: 07:00
+                      end_time: '15:00'
+                      description: ''
+                      shift_index: 1
+                      order_task_id: null
+      requestBody:
+        $ref: '#/components/requestBodies/CreateOrderTask'
+  /orders/{orderId}/tasks/{ordertaskId}:
+    get:
+      summary: Retrieve an existing order task
+      tags:
+      - Orders
+      operationId: getOrderTask
+      parameters:
+      - name: orderId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: ordertaskId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderTask'
+  /orders/{orderId}/tasks/{ordertaskId}/shift-dates:
+    get:
+      summary: List all existing order task shift dates
+      tags:
+      - Orders
+      operationId: getOrderTaskShiftDates
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: ordertaskId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderTaskShiftDates'
+  /orders/{orderId}/tasks/{ordertaskId}/shift-dates/{ordertaskShiftDateId}:
+    get:
+      summary: Retrieve an existing order task shift date
+      tags:
+      - Orders
+      operationId: getOrderTaskShiftDate
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: ordertaskId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: ordertaskShiftDateId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderTaskShiftDate'
+  /orders/{orderId}/tasks/{ordertaskId}/charge-items:
+    get:
+      summary: List all existing order task charge items
+      tags:
+      - Orders
+      operationId: getOrderTaskChargeItems
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: ordertaskId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderTaskChargeItems'
+    post:
+      summary: Create a new order task charge item
+      tags:
+      - Orders
+      operationId: newOrderTaskChargeItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderTaskChargeItem'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/OrderTaskChargeItemCreated'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 1549
+                      order_id: 4263
+                      order_task_id: 102478181
+                      charge_item_id: 1
+                      units: 3
+                      rate: 12.5
+                      comments: Delivery
+                      is_reconciled: false
+                      created_by: 40
+                      modified_by: 40
+  /orders/{orderId}/tasks/{ordertaskId}/charge-items/{orderTaskChargeItemId}:
+    get:
+      summary: Retrieve a specific order task charge item
+      tags:
+      - Orders
+      operationId: getOrderTaskChargeItem
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: ordertaskId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: orderTaskChargeItemId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/OrderTaskChargeItem'
+    put:
+      summary: Update a specific order task charge item
+      tags:
+      - Orders
+      operationId: updateOrderTaskChargeItem
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: ordertaskId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: orderTaskChargeItemId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderTaskChargeItem'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing Order Task Charge Item
+      tags:
+      - Orders
+      operationId: deleteOrderTaskChargeItem
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: ordertaskId
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: orderTaskChargeItemId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /orders/{orderId}/activities:
+    post:
+      summary: Add activities to an order
+      tags:
+      - Orders
+      operationId: postOrderActivities
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrderActivityCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderActivity'
+    put:
+      summary: Update order activities
+      tags:
+      - Orders
+      operationId: updateOrderActivities
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrderActivityUpdate'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete order activities
+      tags:
+      - Orders
+      operationId: deleteOrderActivities
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+              description: The order activity ids to delete
+              example:
+              - 123
+              - 456
+              - 789
+      responses:
+        '204':
+          description: Success
+  /upload-urls/order-attachment:
+    post:
+      summary: Calculate an S3 signed URL for uploading a file for an order attachment
+      description: 'We store file uploads to Amazon S3. Use this endpoint to receive a secure, signed `url` to upload a file to and
+
+        the `path` to that file that you can use in the payload for creating the Order Attachment.'
+      tags:
+      - Orders
+      operationId: postOrderAttachmentUploadUrl
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  required: true
+                  description: The filename of the file you wish to upload.
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: url
+                    description: To upload the file, use PUT with this URL.
+                  path:
+                    type: string
+                    description: Use this value as `attachment` in your payload when creating an Order Attachment.
+components:
+  schemas:
+    Orders:
+      type: array
+      items:
+        $ref: '#/components/schemas/Order'
+    OrderContactCreated:
+      type: object
+      description: An order/contact association as returned when created.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        order_id:
+          type: integer
+        contact_id:
+          type: integer
+    OrderTaskChargeItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTaskChargeItem'
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
+    OrderTasks:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTask'
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        taxonomy:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+          description: Nullable varchar(255) with uniqueness constraint. Used for external system integration identifiers.
+      required:
+      - taxonomy
+      - name
+    OrderTaskShiftDates:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTaskShiftDate'
+    OrderContactsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          order_id:
+            type: integer
+          contact_id:
+            type: integer
+          order:
+            type: object
+            properties:
+              id:
+                type: integer
+              client_id:
+                type: integer
+              project_id:
+                type: integer
+              start_date:
+                type: date
+              end_date:
+                type: date
+          contact:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              first_name:
+                type: string
+              last_name:
+                type: string
+              company:
+                type: string
+              office_phone:
+                type: string
+              mobile:
+                type: string
+              email:
+                type: string
+              job_title:
+                type: string
+              address_1:
+                type: string
+              address_2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              postcode:
+                type: string
+              comments:
+                type: string
+              external_id:
+                type: string
+    OrderStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    OrderTaskCreated:
+      type: object
+      description: A single order task row as returned when created. One row is created for each shift date supplied in `dates`, so a create returns an array of these rather than a single object.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        order_id:
+          type: integer
+        task_id:
+          type: integer
+        task_quantity:
+          type: integer
+        shift_date:
+          type: string
+          format: date-time
+        start_time:
+          type: string
+        end_time:
+          type: string
+        description:
+          type: string
+        shift_index:
+          type: integer
+        order_task_id:
+          type:
+          - integer
+          - 'null'
+    OrderTasksCreated:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTaskCreated'
+    OrderTaskChargeItemCreated:
+      type: object
+      description: An order task charge item as returned when created.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        order_id:
+          type: integer
+        order_task_id:
+          type: integer
+          description: The composite order task identifier, echoed from the request path.
+        charge_item_id:
+          type: integer
+        units:
+          type: number
+        rate:
+          type: number
+        asset_id:
+          type:
+          - integer
+          - 'null'
+        comments:
+          type:
+          - string
+          - 'null'
+        is_reconciled:
+          type: boolean
+        created_by:
+          type: integer
+          readOnly: true
+        modified_by:
+          type: integer
+          readOnly: true
+    OrderActivity:
+      type: object
+      properties:
+        id:
+          type: integer
+        activity_id:
+          type: integer
+        name:
+          type: string
+        external_id:
+          type: string
+        uom_code:
+          type: string
+        quantity:
+          type:
+          - number
+          - 'null'
+      required:
+      - id
+      - activity_id
+      - name
+      - external_id
+      - uom_code
+    OrderTask:
+      type: object
+      properties:
+        task_id:
+          type: integer
+        task_quantity:
+          type: integer
+        shift_date:
+          type: string
+          description: items should be a date string in "YYYY-MM-DD" format
+        start_time:
+          type: string
+        end_time:
+          type: string
+        description:
+          type: string
+      required:
+      - task_id
+      - task_quantity
+      x-examples: {}
+    OrderStatuses:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderStatus'
+    OrderType:
+      type: object
+      properties:
+        id:
+          type: integer
+        label:
+          type: string
+    OrderTaskShiftDate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          readOnly: true
+    OrderContactsPayload:
+      type: object
+      properties:
+        order_id:
+          type: integer
+        contact_id:
+          type: integer
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        active:
+          type: boolean
+        job_number:
+          type: string
+        po_number:
+          type: string
+        client_id:
+          type: integer
+        order_owner:
+          type: integer
+        project_id:
+          type: integer
+        location:
+          type: string
+        location2:
+          type: string
+        job_description:
+          type: string
+        start_time:
+          type: string
+          description: The start time of the job in "HH:MM" format
+        shift_duration:
+          type: string
+          description: The duration of the shift in "HH:MM" format
+        start_date:
+          type: string
+          description: The start date of the job in "YYYY-MM-DD" format
+        end_date:
+          type: string
+          description: The end date of the job in "YYYY-MM-DD" format
+        comments:
+          type: string
+        date_created:
+          type: string
+          readOnly: true
+        modified_time:
+          type: string
+          readOnly: true
+        modified_by:
+          type: string
+          readOnly: true
+        status_id:
+          type: integer
+        type_id:
+          type: integer
+        supplier_id:
+          type: integer
+        integration_id:
+          type:
+          - string
+          - 'null'
+        geolocation:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                example:
+                - -33.865143
+                - 151.2099
+        geolocation2:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                example:
+                - -33.865143
+                - 151.2099
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: integer
+              tag:
+                $ref: '#/components/schemas/Tag'
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderActivity'
+      required:
+      - client_id
+      - order_owner
+      - start_date
+      - end_date
+    OrderAttachment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        order_id:
+          type: integer
+        name:
+          type: string
+        size:
+          type: string
+          description: File size in KB rounded to 2 decimal places.
+        attachment:
+          type: string
+          description: (See instructions how to upload files.)
+        attachment_url:
+          $ref: '#/components/schemas/UrlAttachment'
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+    OrderActivityCreate:
+      type: object
+      required:
+      - activity_id
+      properties:
+        activity_id:
+          type: integer
+          description: The ID of the activity to add to the order
+        quantity:
+          type: integer
+          description: Optional quantity for the activity
+    OrderActivityUpdate:
+      type: object
+      required:
+      - order_activity_id
+      properties:
+        order_activity_id:
+          type: integer
+          description: The ID of the order activity to update
+        quantity:
+          type: integer
+          description: The new quantity for the order activity
+    OrderTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderType'
+    OrderTaskChargeItem:
+      type: object
+      required:
+      - charge_item_id
+      - rate
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        charge_item_id:
+          type: integer
+        units:
+          type: number
+        rate:
+          type: number
+        asset_id:
+          type: integer
+        comments:
+          type: string
+  requestBodies:
+    CreateOrderTask:
+      content:
+        application/json:
+          schema:
+            type: object
+            x-examples:
+              example-1:
+                task_id: 0
+                task_quantity: 0
+                dates:
+                - string
+                start_time: string
+                end_time: string
+                description: string
+            properties:
+              task_id:
+                type: integer
+              task_quantity:
+                type: integer
+                description: The number of resources that need to be scheduled.
+              dates:
+                type: array
+                description: 'Used when the Order is a Wet Hire/Labor Hire. An array of strings, with the format "YYYY-MM-DD". All dates in the array must be greater than or equal to the Order Start Date or less than or equal to the Order End Date. If dates is empty or not provided, the Order Start Date and Order End Date are used to create the Order Task Shift Dates. '
+                items:
+                  type: string
+              start_time:
+                type: string
+                description: Formated in 24 hr as "00:00". If the value is not provided it will use the values configured in "Default start and end time for order tasks" setting found in the web application at Settigs > View/Edit Settings. If there is no default configured, "07:00" will be used.
+              end_time:
+                type: string
+                description: Formated in 24 hr as "00:00". If the value is not provided it will use the values configured in "Default start and end time for order tasks" setting found in the web application at Settigs > View/Edit Settings. If there is no default configured, "17:00" will be used.
+              description:
+                type: string
+            required:
+            - task_id
+            - task_quantity
+          examples:
+            Example:
+              value:
+                task_id: 100
+                task_quantity: 1
+                dates:
+                - 2022/09/24
+                - 2022/09/25
+                - 2022/09/26
+                start_time: 07:00
+                end_time: '17:00'
+                description: This is an example order task.
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '

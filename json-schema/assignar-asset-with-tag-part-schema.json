@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/assignar/main/json-schema/assignar-asset-with-tag-part-schema.json",
+  "title": "Asset",
+  "x-generated": "2026-09-26",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/assignar-openapi.yaml#/components/schemas/AssetWithTagPart",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0,
+      "readOnly": true
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the asset"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Description of the asset"
+    },
+    "rego_number": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The alpha-numberic id on the asset's number or license plate"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Active or archived state of the asset"
+    },
+    "modified_by": {
+      "type": "string",
+      "description": "System managed",
+      "readOnly": true
+    },
+    "modified_by_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "readOnly": true
+    },
+    "modified_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "system managed",
+      "readOnly": true
+    },
+    "year": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Production year of the asset"
+    },
+    "make": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Manufacturer or brand of the asset"
+    },
+    "model": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Model of the asset"
+    },
+    "serial_number": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Serial number of the asset"
+    },
+    "charge_rate": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Charge rate of the asset"
+    },
+    "number_reading": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Odometer or hour meter value of the asset"
+    },
+    "external_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "External system identifier of the asset"
+    },
+    "integration_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Integration identifier of the asset"
+    },
+    "deleted_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "System managed",
+      "readOnly": true
+    },
+    "deleted_by_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "System managed",
+      "readOnly": true
+    },
+    "asset_class_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Identifier of the asset class this asset belongs to, or null when the asset has no class. Note the naming: the identifier is snake_case while the nested object is camelCase `assetClass`, matching how `AssetEntry` already documents the pair."
+    },
+    "assetClass": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/AssetClass"
+        }
+      ],
+      "description": "The asset class this asset belongs to. Returned by default on `GET /assets` and `GET /assets/{assetId}` with no `relations` query parameter. Null when the asset has no class.",
+      "nullable": true
+    },
+    "tags": {
+      "type": "array",
+      "description": "Collection of tags of the asset",
+      "items": {
+        "$ref": "#/$defs/TagPart"
+      }
+    },
+    "attachments": {
+      "type": "array",
+      "description": "Asset attachments linked to this asset. Always present — an empty array when the asset has none — and returned by default with no `relations` query parameter. There is no query parameter for filtering or excluding them.",
+      "items": {
+        "$ref": "#/$defs/AssetAttachmentSummary"
+      }
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "$defs": {
+    "AssetAttachmentSummary": {
+      "title": "Asset attachment on an asset",
+      "type": "object",
+      "description": "An asset attachment as it appears inside an asset's `attachments` array. These eight fields are exhaustive — the asset endpoints rebuild each entry from named keys, so the other columns on `/asset-attachments` (`comments`, `external_id`, `charge_rate`, …) are not included. Read the attachment itself if you need them.",
+      "properties": {
+        "attachment_id": {
+          "type": "integer",
+          "description": "Identifier of the linked asset attachment. This is the value to send back in `attachments` on `POST`/`PUT /assets`, and the `id` of the attachment on `/asset-attachments`."
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rego_number": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "make": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "serial_number": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the attachment itself is active. Links to inactive attachments are returned — filter on this client-side if you only want current ones."
+        }
+      }
+    },
+    "AssetClass": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "TagPart": {
+      "title": "TagPart",
+      "x-stoplight": {
+        "id": "epsk9hslhfq0q"
+      },
+      "type": "object",
+      "description": "",
+      "properties": {
+        "tag_id": {
+          "type": "integer",
+          "description": "Identifier of the tag"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the tag"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Description of the tag"
+        },
+        "color": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Color to render the tag formated as Hex color code. Ex #0000FF"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"resource":"https://portal.assignar.com/mcp","authorization_servers":["https://portal.assignar.com"],"bearer_methods_supported":["header"],"scopes_supported":["mcp:read","mcp:write","mcp:admin"],"introspection_endpoint":"https://portal.assignar.com/api/oauth2/introspect"}

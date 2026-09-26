@@ -1,0 +1,668 @@
+openapi: 3.2.0
+info:
+  title: Assignar Public Skills & Competencies API
+  version: Version 2
+  description: The Assignar Public API provides the ability for customers to extend the capability of the Assignar platform.
+servers:
+- description: Australia/New Zealand
+  url: https://api.assignar.com.au/v2
+- description: North America/Europe
+  url: https://api.assignar.com/v2
+security:
+- OAuth2:
+  - target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access
+tags:
+- name: Skills & Competencies
+paths:
+  /skills:
+    get:
+      summary: List all existing skills
+      tags:
+      - Skills & Competencies
+      operationId: getSkills
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Skills'
+              examples:
+                Success:
+                  value:
+                    status: 200
+                    data:
+                    - id: 122
+                      name: Rigger Advanced
+                      subskill:
+                        id: 123
+                        name: Rigger Intermediate
+                    - id: 124
+                      name: Rigger Basic
+                      subskill: null
+                    count: 2
+    post:
+      summary: Create a new skill
+      tags:
+      - Skills & Competencies
+      operationId: newSkill
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkillCreate'
+      responses:
+        '201':
+          description: 'Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null. The example below shows one such request.
+
+
+            `subskill` is the exception on this endpoint: it is always returned — as an object when the request set a `subskill_id`, and `null` when it did not.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/Skill'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 231
+                      name: Rigger Advanced
+                      subskill: null
+                Success (with a sub-skill):
+                  value:
+                    status: 201
+                    data:
+                      id: 232
+                      name: Rigger Advanced
+                      subskill:
+                        id: 123
+                        name: Rigger Intermediate
+        '400':
+          description: Could not process payload. Raised when `name` is already taken — skill names are unique per tenant — and by `subskill_id` when the skill it names does not exist, when it is the skill being created, when the edge would create a cycle, or when the value is malformed. See `subskill_id` on the request body for the accepted forms.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+              examples:
+                Duplicate name:
+                  value:
+                    message: '[400] Unique Constraint Error - name'
+                Unknown sub-skill:
+                  value:
+                    message: '[400] Unknown subskill_id: 987654. The skill must exist before it can be set as a sub-skill.'
+                Own sub-skill:
+                  value:
+                    message: '[400] A skill cannot be its own sub-skill.'
+                Cycle:
+                  value:
+                    message: '[400] Setting skill 123 as a sub-skill of skill 122 would create a cycle: skill 122 is already reachable from skill 123.'
+                Malformed:
+                  value:
+                    message: '[400] subskill_id must be a positive integer, or null to remove the sub-skill.'
+  /skills/{skillId}:
+    get:
+      summary: Retrieve an existing skill
+      tags:
+      - Skills & Competencies
+      operationId: getSkill
+      parameters:
+      - in: path
+        name: skillId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Skill'
+              examples:
+                Success:
+                  value:
+                    status: 200
+                    data:
+                      id: 122
+                      name: Rigger Advanced
+                      subskill:
+                        id: 123
+                        name: Rigger Intermediate
+    put:
+      summary: Update an existing skill
+      tags:
+      - Skills & Competencies
+      operationId: updateSkillId
+      parameters:
+      - in: path
+        name: skillId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkillUpdate'
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Could not process payload. Raised when `name` is already taken — skill names are unique per tenant — and by `subskill_id` when the skill it names does not exist, when it is the skill being updated, when the edge would create a cycle, or when the value is malformed. See `subskill_id` on the request body for the accepted forms.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+              examples:
+                Duplicate name:
+                  value:
+                    message: '[400] Unique Constraint Error - name'
+                Cycle:
+                  value:
+                    message: '[400] Setting skill 123 as a sub-skill of skill 122 would create a cycle: skill 122 is already reachable from skill 123.'
+                Chain too deep to check:
+                  value:
+                    message: '[400] Skill 123 sits in a sub-skill chain too deep to check for cycles (past the server''s cte_max_recursion_depth). That hierarchy has to be shortened before this edge can be written.'
+        '404':
+          description: No skill matched the id, or the query parameters narrowing the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+              examples:
+                Not found:
+                  value:
+                    message: '[404] Object Not Found - Skill (id:987654)'
+    delete:
+      summary: Delete an existing skill
+      tags:
+      - Skills & Competencies
+      operationId: deleteSkill
+      parameters:
+      - in: path
+        name: skillId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /inductions:
+    get:
+      summary: List all existing inductions
+      tags:
+      - Skills & Competencies
+      operationId: getInductions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Inductions'
+    post:
+      summary: Create a new induction
+      tags:
+      - Skills & Competencies
+      operationId: newInduction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Induction'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/Induction'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 222
+                      name: Site Induction
+                      expiry_required: true
+                      issue_required: false
+  /inductions/{inductionId}:
+    get:
+      summary: Retrieve an existing induction
+      tags:
+      - Skills & Competencies
+      operationId: getInduction
+      parameters:
+      - in: path
+        name: inductionId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Induction'
+    put:
+      summary: Update an existing induction
+      tags:
+      - Skills & Competencies
+      operationId: updateInductionId
+      parameters:
+      - in: path
+        name: inductionId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Induction'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing induction
+      tags:
+      - Skills & Competencies
+      operationId: deleteInduction
+      parameters:
+      - in: path
+        name: inductionId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /competencies:
+    get:
+      summary: List all existing competencies
+      tags:
+      - Skills & Competencies
+      operationId: getCompetencies
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Competencies'
+    post:
+      summary: Create a new competency
+      tags:
+      - Skills & Competencies
+      operationId: newCompetency
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Competency'
+      responses:
+        '201':
+          description: Created. The created record is returned in `data`. **The fields present depend on the payload supplied** — every field you sent, plus the generated `id`, any column defaults, and audit values such as `modified_by`. A field you did not send is absent rather than null, and related objects are not included. The example below shows one such request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    $ref: '#/components/schemas/Competency'
+              examples:
+                Success:
+                  value:
+                    status: 201
+                    data:
+                      id: 274
+                      name: White Card
+                      exp_req: true
+                      comp_date_req: 0
+                      issue_req: false
+  /competencies/{competencyId}:
+    get:
+      summary: Retrieve an existing competency
+      tags:
+      - Skills & Competencies
+      operationId: getCompetency
+      parameters:
+      - in: path
+        name: competencyId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: The response status
+                  data:
+                    $ref: '#/components/schemas/Competency'
+    put:
+      summary: Update an existing competency
+      tags:
+      - Skills & Competencies
+      operationId: updateCompetencyId
+      parameters:
+      - in: path
+        name: competencyId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Competency'
+      responses:
+        '204':
+          description: Success
+    delete:
+      summary: Delete an existing competency
+      tags:
+      - Skills & Competencies
+      operationId: deleteCompetency
+      parameters:
+      - in: path
+        name: competencyId
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Success
+  /skills/{skillId}/competencies:
+    get:
+      summary: Skills Competencies
+      tags:
+      - Skills & Competencies
+      operationId: fd68dba2-f2e2-428d-aa2c-fa66cc5150a2
+      responses:
+        default:
+          description: no response description was provided for this operation
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: skillId
+        required: true
+        in: path
+        schema:
+          type: string
+          default: '123'
+    post:
+      summary: Add a competency to a skill
+      tags:
+      - Skills & Competencies
+      operationId: createSkillCompetency
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: skillId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - competency_id
+              properties:
+                competency_id:
+                  type: integer
+                  description: The id of the competency to add to the skill.
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      skill_id:
+                        type: integer
+                      competency_id:
+                        type: integer
+  /skills/{skillId}/competencies/{id}:
+    delete:
+      summary: Remove a competency from a skill
+      description: '`id` is the association id (the `id` of the skill-competency record).'
+      tags:
+      - Skills & Competencies
+      operationId: deleteSkillCompetency
+      security:
+      - oauth_2_auth: []
+      parameters:
+      - name: skillId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    Competency:
+      type: object
+      required:
+      - name
+      - exp_req
+      - comp_date_req
+      - issue_req
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        exp_req:
+          type: boolean
+        comp_date_req:
+          type: integer
+        licence_number:
+          type: string
+        issue_req:
+          type: boolean
+    Induction:
+      type: object
+      required:
+      - name
+      - expiry_required
+      - issue_required
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        expiry_required:
+          type: boolean
+        issue_required:
+          type: boolean
+    Inductions:
+      type: array
+      items:
+        $ref: '#/components/schemas/Induction'
+    Competencies:
+      type: array
+      items:
+        $ref: '#/components/schemas/Competency'
+    Skill:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        subskill:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+          description: 'A skill that this skill also covers. A worker holding this skill is treated as holding the sub-skill too, so a search for the sub-skill also returns holders of this one — the sub-skill of a truck licence could be a car licence, so a search for a car licence returns truck-licence holders.
+
+
+            The relationship is transitive: truck → car → moped means a moped requirement matches a truck-licence holder.
+
+
+            A skill has at most one sub-skill. Always present — `null` when the skill has none, and returned even when `?fields=` does not ask for it.
+
+
+            This field is read-only. To set or remove a sub-skill, send `subskill_id` on a create or update; the two are different fields, so echoing a response back into a write sends no `subskill_id` and leaves the sub-skill alone.'
+          properties:
+            id:
+              type: integer
+              example: 123
+            name:
+              type: string
+              example: Rigger Intermediate
+    SkillUpdate:
+      type: object
+      description: 'Every field is optional — send only what you want to change, and anything omitted is left as it is. A skill can be renamed without touching its sub-skill, and its sub-skill can be set or removed without renaming it.
+
+
+        The body itself must not be empty: `{}` is rejected with `[400] Missing payload.`'
+      properties:
+        name:
+          type: string
+        subskill_id:
+          type:
+          - integer
+          - 'null'
+          description: 'Sets or removes this skill''s sub-skill: a skill that this skill also covers, so a worker holding this skill is treated as holding the sub-skill too. The relationship is transitive, and a skill has at most one sub-skill. Responses return it as `subskill`, an object.
+
+
+            | Payload | Effect |
+
+            | --- | --- |
+
+            | key omitted | existing sub-skill untouched |
+
+            | `null` | sub-skill removed |
+
+            | a positive integer | sub-skill set, replacing any existing one |
+
+
+            Setting one replaces the existing sub-skill rather than adding to it, since a skill has at most one.
+
+
+            Accepts an integer or a digit-only string (`123` and `"123"` both work), but loose numeric forms are rejected rather than coerced — `"1e1"`, `"0x3"`, `" 123 "`, `"+5"` and `"123.0"` are all `400`. `-1` is not a removal sentinel on this API and is rejected; use `null`.'
+          example: 123
+    Skills:
+      type: array
+      items:
+        $ref: '#/components/schemas/Skill'
+    SkillCreate:
+      description: The same body as an update, except that `name` is required.
+      allOf:
+      - $ref: '#/components/schemas/SkillUpdate'
+      - type: object
+        required:
+        - name
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.assignar.com/oauth2/token
+          scopes:
+            target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access: Access to API
+          description: 'The client credentials flow is a server-to-server flow. There is no user authentication involved in the process. Instead, the client acts on behalf of itself.
+
+            The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control.
+
+            The client credentials are passed in the Authorization header as a Basic Auth (base64 encoded "client_id:client_secret").
+
+            The token endpoint of the Authorization server where the client can obtain the token is https://login.assignar.com/oauth2/token.
+
+            The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
+
+            '
