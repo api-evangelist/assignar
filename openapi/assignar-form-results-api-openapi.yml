@@ -251,6 +251,50 @@ components:
       allOf:
       - $ref: '#/components/schemas/FormResultFields'
       - $ref: '#/components/schemas/FormResultTail'
+    FormResultFields:
+      type: object
+      properties:
+        id:
+          type: integer
+        form_id:
+          type: integer
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        client_id:
+          type: integer
+        project_id:
+          type: integer
+        asset_id:
+          type: integer
+        worker_id:
+          type: integer
+        supplier_id:
+          type: integer
+        order_id:
+          type: integer
+        date_created:
+          type: string
+          format: date-time
+        submitted_time:
+          type: string
+          format: date-time
+        modified_time:
+          type: string
+          format: date-time
+        modified_by:
+          type: integer
+        creator_id:
+          type: integer
+        status_id:
+          type: integer
+        assignee_id:
+          type: integer
+        order_resource_id:
+          type: integer
     FormResults:
       type: array
       description: List responses intentionally omit `result_data` on each item to keep payloads lightweight. Use `GET /form-results/{formResultId}` to retrieve full field values including `result_data`.
@@ -330,50 +374,6 @@ components:
               type: integer
             label:
               type: string
-    FormResultFields:
-      type: object
-      properties:
-        id:
-          type: integer
-        form_id:
-          type: integer
-        latitude:
-          type: number
-          format: double
-        longitude:
-          type: number
-          format: double
-        client_id:
-          type: integer
-        project_id:
-          type: integer
-        asset_id:
-          type: integer
-        worker_id:
-          type: integer
-        supplier_id:
-          type: integer
-        order_id:
-          type: integer
-        date_created:
-          type: string
-          format: date-time
-        submitted_time:
-          type: string
-          format: date-time
-        modified_time:
-          type: string
-          format: date-time
-        modified_by:
-          type: integer
-        creator_id:
-          type: integer
-        status_id:
-          type: integer
-        assignee_id:
-          type: integer
-        order_resource_id:
-          type: integer
   securitySchemes:
     OAuth2:
       type: oauth2

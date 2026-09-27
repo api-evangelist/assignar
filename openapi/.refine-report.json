@@ -1,7 +1,7 @@
 {
   "provider": "assignar",
   "sources": [
-    "assignar-openapi.yaml"
+    "_original/assignar-openapi.yaml"
   ],
   "outputs": [
     "assignar-activities-api-openapi.yml",
@@ -30,12 +30,11 @@
     "assignar-timesheets-api-openapi.yml",
     "assignar-users-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/assignar-openapi.yaml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "assignar-openapi.yaml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
     "assignar-openapi.yaml: declared missing tag: Activities",
     "assignar-openapi.yaml: declared missing tag: Allocations",
@@ -63,7 +62,33 @@
     "assignar-openapi.yaml: declared missing tag: Timesheets",
     "assignar-openapi.yaml: declared missing tag: Users",
     "assignar-openapi.yaml: multi-axis tagging (25 tags, 25 first tags, 1.50x duplication over 208 operations) \u2014 split on first tag, 104 operations narrowed",
-    "apis.yml register: written (+25 apis, 25 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "assignar-activities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-allocations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-allowances-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-asset-attachments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-asset-classes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-assets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-clients-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-contacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-digitaldockets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-documents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-form-results-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-invoices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-leave-requests-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-leave-types-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-order-templates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-site-diary-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-skills-competencies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-suppliers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-taskgroups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-tasks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-timesheets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "assignar-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

@@ -348,46 +348,14 @@ paths:
           description: Success
 components:
   schemas:
-    ChargeItem:
-      type: object
-      required:
-      - name
-      - rate
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        rate:
-          type: string
-        charge_code_id:
-          type: integer
-    ChargeCodeResponse:
-      type: object
-      required:
-      - code
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        code:
-          type: string
-        label:
-          type: string
-        modified_by:
-          type: integer
-        modified_at:
-          type: string
-          format: date-time
-        integration_id:
-          type:
-          - string
-          - 'null'
     ChargeCodes:
       type: array
       items:
         $ref: '#/components/schemas/ChargeCodeResponse'
+    ChargeItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChargeItem'
     PayCodes:
       type: array
       items:
@@ -433,6 +401,21 @@ components:
           - integer
           - 'null'
           readOnly: true
+    ChargeItem:
+      type: object
+      required:
+      - name
+      - rate
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        rate:
+          type: string
+        charge_code_id:
+          type: integer
     ChargeCodeRequest:
       type: object
       required:
@@ -444,10 +427,27 @@ components:
           type: string
         integration_id:
           type: string
-    ChargeItems:
-      type: array
-      items:
-        $ref: '#/components/schemas/ChargeItem'
+    ChargeCodeResponse:
+      type: object
+      required:
+      - code
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+        label:
+          type: string
+        modified_by:
+          type: integer
+        modified_at:
+          type: string
+          format: date-time
+        integration_id:
+          type:
+          - string
+          - 'null'
   securitySchemes:
     OAuth2:
       type: oauth2

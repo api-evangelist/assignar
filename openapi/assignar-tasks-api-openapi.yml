@@ -332,10 +332,6 @@ paths:
           description: Success
 components:
   schemas:
-    Tasks:
-      type: array
-      items:
-        $ref: '#/components/schemas/Task'
     Task:
       type: object
       properties:
@@ -371,6 +367,10 @@ components:
           - 'null'
       required:
       - name
+    Tasks:
+      type: array
+      items:
+        $ref: '#/components/schemas/Task'
   securitySchemes:
     OAuth2:
       type: oauth2

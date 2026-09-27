@@ -101,6 +101,10 @@ paths:
           description: Not Found
 components:
   schemas:
+    Documents:
+      type: array
+      items:
+        $ref: '#/components/schemas/Document'
     UrlAttachment:
       type: object
       readOnly: true
@@ -185,10 +189,6 @@ components:
           name: Service Program
           description: null
           color: '#5bc0de'
-    Documents:
-      type: array
-      items:
-        $ref: '#/components/schemas/Document'
   securitySchemes:
     OAuth2:
       type: oauth2

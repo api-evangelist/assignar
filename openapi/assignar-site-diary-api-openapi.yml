@@ -166,6 +166,14 @@ paths:
                     $ref: '#/components/schemas/SiteDiaryTimesheet'
 components:
   schemas:
+    SiteDiaries:
+      type: array
+      items:
+        $ref: '#/components/schemas/SiteDiary'
+    SiteDiaryChargeableItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/SiteDiaryChargeableItem'
     SiteDiaryChargeableItem:
       type: object
       properties:
@@ -233,14 +241,133 @@ components:
                 expiry:
                   type: integer
                   description: Expiry date of the download url in timestamp.
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
+    SiteDiaryTimesheet:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        site_diary_id:
+          type: integer
+        timesheet_id:
+          type: integer
+        timesheet:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            client_id:
+              type: integer
+            user_id:
+              type: integer
+            project_id:
+              type: integer
+            task_id:
+              type: integer
+            location:
+              type: string
+            order_id:
+              type: integer
+            job_number:
+              type: string
+            start_time:
+              type: string
+            end_time:
+              type: string
+            break_time:
+              type: string
+            travel_time_to:
+              type: string
+            travel_time_from:
+              type: string
+            total_time:
+              type: string
+            comments:
+              type: string
+            office_use:
+              type: string
+            submitted_date:
+              type: string
+            date_of_creation:
+              type: string
+            modified_time:
+              type: string
+            modified_by:
+              type: string
+            submitted_by:
+              type: string
+            checked:
+              type: boolean
+            locked:
+              type: boolean
+            latitude:
+              type: number
+            longitude:
+              type: number
+            latitude2:
+              type: number
+            longitude2:
+              type: number
+            signature_name:
+              type: string
+            signature_url:
+              type: object
+              readOnly: true
+              properties:
+                url:
+                  type: string
+                  format: url
+                  description: Download URL for the file.
+                expiry:
+                  type: integer
+                  description: Expiry date of the download url in timestamp.
+        site_diary:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            client_id:
+              type: integer
+            project_id:
+              type: integer
+            order_id:
+              type: integer
+            site_diary_date:
+              type: string
+              format: date-time
+            client_signature_name:
+              type: string
+            client_signature_url:
+              type: object
+              readOnly: true
+              properties:
+                url:
+                  type: string
+                  format: url
+                  description: Download URL for the file.
+                expiry:
+                  type: integer
+                  description: Expiry date of the download url in timestamp.
     SiteDiaryTimesheets:
       type: array
       items:
         $ref: '#/components/schemas/SiteDiaryTimesheet'
-    SiteDiaryChargeableItems:
-      type: array
-      items:
-        $ref: '#/components/schemas/SiteDiaryChargeableItem'
     SiteDiary:
       type: object
       properties:
@@ -431,133 +558,6 @@ components:
               deleted_time:
                 type: string
                 format: date-time
-    SiteDiaryTimesheet:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        site_diary_id:
-          type: integer
-        timesheet_id:
-          type: integer
-        timesheet:
-          type: object
-          properties:
-            id:
-              type: integer
-              readOnly: true
-            client_id:
-              type: integer
-            user_id:
-              type: integer
-            project_id:
-              type: integer
-            task_id:
-              type: integer
-            location:
-              type: string
-            order_id:
-              type: integer
-            job_number:
-              type: string
-            start_time:
-              type: string
-            end_time:
-              type: string
-            break_time:
-              type: string
-            travel_time_to:
-              type: string
-            travel_time_from:
-              type: string
-            total_time:
-              type: string
-            comments:
-              type: string
-            office_use:
-              type: string
-            submitted_date:
-              type: string
-            date_of_creation:
-              type: string
-            modified_time:
-              type: string
-            modified_by:
-              type: string
-            submitted_by:
-              type: string
-            checked:
-              type: boolean
-            locked:
-              type: boolean
-            latitude:
-              type: number
-            longitude:
-              type: number
-            latitude2:
-              type: number
-            longitude2:
-              type: number
-            signature_name:
-              type: string
-            signature_url:
-              type: object
-              readOnly: true
-              properties:
-                url:
-                  type: string
-                  format: url
-                  description: Download URL for the file.
-                expiry:
-                  type: integer
-                  description: Expiry date of the download url in timestamp.
-        site_diary:
-          type: object
-          properties:
-            id:
-              type: integer
-              readOnly: true
-            client_id:
-              type: integer
-            project_id:
-              type: integer
-            order_id:
-              type: integer
-            site_diary_date:
-              type: string
-              format: date-time
-            client_signature_name:
-              type: string
-            client_signature_url:
-              type: object
-              readOnly: true
-              properties:
-                url:
-                  type: string
-                  format: url
-                  description: Download URL for the file.
-                expiry:
-                  type: integer
-                  description: Expiry date of the download url in timestamp.
-    UrlAttachment:
-      type: object
-      readOnly: true
-      properties:
-        url:
-          type: string
-          format: url
-          description: Download URL for the file.
-        expiry:
-          type: integer
-          description: Expiry date of the download url in timestamp.
-      example:
-        url: https://url-to-attachment
-        expiry: 1742575641898
-    SiteDiaries:
-      type: array
-      items:
-        $ref: '#/components/schemas/SiteDiary'
   securitySchemes:
     OAuth2:
       type: oauth2

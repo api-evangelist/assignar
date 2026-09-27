@@ -527,51 +527,6 @@ paths:
           description: Success
 components:
   schemas:
-    Competency:
-      type: object
-      required:
-      - name
-      - exp_req
-      - comp_date_req
-      - issue_req
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        exp_req:
-          type: boolean
-        comp_date_req:
-          type: integer
-        licence_number:
-          type: string
-        issue_req:
-          type: boolean
-    Induction:
-      type: object
-      required:
-      - name
-      - expiry_required
-      - issue_required
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        expiry_required:
-          type: boolean
-        issue_required:
-          type: boolean
-    Inductions:
-      type: array
-      items:
-        $ref: '#/components/schemas/Induction'
-    Competencies:
-      type: array
-      items:
-        $ref: '#/components/schemas/Competency'
     Skill:
       type: object
       required:
@@ -604,6 +559,42 @@ components:
             name:
               type: string
               example: Rigger Intermediate
+    Inductions:
+      type: array
+      items:
+        $ref: '#/components/schemas/Induction'
+    SkillCreate:
+      description: The same body as an update, except that `name` is required.
+      allOf:
+      - $ref: '#/components/schemas/SkillUpdate'
+      - type: object
+        required:
+        - name
+    Skills:
+      type: array
+      items:
+        $ref: '#/components/schemas/Skill'
+    Competency:
+      type: object
+      required:
+      - name
+      - exp_req
+      - comp_date_req
+      - issue_req
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        exp_req:
+          type: boolean
+        comp_date_req:
+          type: integer
+        licence_number:
+          type: string
+        issue_req:
+          type: boolean
     SkillUpdate:
       type: object
       description: 'Every field is optional — send only what you want to change, and anything omitted is left as it is. A skill can be renamed without touching its sub-skill, and its sub-skill can be set or removed without renaming it.
@@ -636,17 +627,26 @@ components:
 
             Accepts an integer or a digit-only string (`123` and `"123"` both work), but loose numeric forms are rejected rather than coerced — `"1e1"`, `"0x3"`, `" 123 "`, `"+5"` and `"123.0"` are all `400`. `-1` is not a removal sentinel on this API and is rejected; use `null`.'
           example: 123
-    Skills:
+    Competencies:
       type: array
       items:
-        $ref: '#/components/schemas/Skill'
-    SkillCreate:
-      description: The same body as an update, except that `name` is required.
-      allOf:
-      - $ref: '#/components/schemas/SkillUpdate'
-      - type: object
-        required:
-        - name
+        $ref: '#/components/schemas/Competency'
+    Induction:
+      type: object
+      required:
+      - name
+      - expiry_required
+      - issue_required
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        expiry_required:
+          type: boolean
+        issue_required:
+          type: boolean
   securitySchemes:
     OAuth2:
       type: oauth2

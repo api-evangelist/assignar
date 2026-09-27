@@ -767,6 +767,102 @@ paths:
                     description: Use this value as `attachment` in your payload when creating a User Competency.
 components:
   schemas:
+    UserSkills:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserSkill'
+    UserTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserType'
+    EmploymentType:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+    UserInductionUpdateCreate:
+      type: object
+      required:
+      - induction_id
+      - user_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        induction_id:
+          type: integer
+        active:
+          type: boolean
+        description:
+          type: string
+        created_time:
+          type: string
+          readOnly: true
+        issue_date:
+          type: string
+        expiry_time:
+          type: string
+        attachment:
+          type: string
+    UserInductions:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserInduction'
+    UserSkill:
+      type: object
+      required:
+      - skill_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        skill_id:
+          type: integer
+        created_time:
+          type: string
+        skill:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+    TagPart:
+      title: TagPart
+      x-stoplight:
+        id: epsk9hslhfq0q
+      type: object
+      description: ''
+      properties:
+        tag_id:
+          type: integer
+          description: Identifier of the tag
+          example: 301
+        name:
+          type: string
+          description: Name of the tag
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the tag
+        color:
+          type:
+          - string
+          - 'null'
+          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
+          example: '#795548'
+      required:
+      - name
     UserInduction:
       type: object
       required:
@@ -801,30 +897,7 @@ components:
               type: integer
             name:
               type: string
-    UserTypes:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserType'
-    UserType:
-      type: object
-      required:
-      - user_type
-      - label
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        user_type:
-          type: string
-        label:
-          type: string
-        modified_by:
-          type: string
-          readOnly: true
-        modified_time:
-          type: string
-          readOnly: true
-    UserSkill:
+    UserSkillUpdateCreate:
       type: object
       required:
       - skill_id
@@ -838,50 +911,10 @@ components:
           type: integer
         created_time:
           type: string
-        skill:
-          type: object
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-    UserInductionUpdateCreate:
+    UserCompetency:
       type: object
       required:
-      - induction_id
-      - user_id
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        user_id:
-          type: integer
-        induction_id:
-          type: integer
-        active:
-          type: boolean
-        description:
-          type: string
-        created_time:
-          type: string
-          readOnly: true
-        issue_date:
-          type: string
-        expiry_time:
-          type: string
-        attachment:
-          type: string
-    UserCompetencies:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserCompetency'
-    Users:
-      type: array
-      items:
-        $ref: '#/components/schemas/User'
-    UserCompetencyUpdateCreate:
-      type: object
-      required:
+      - id
       - competency_id
       - user_id
       properties:
@@ -905,149 +938,17 @@ components:
           type: string
         attachment:
           type: string
-    UserWithTagId:
-      type: object
-      required:
-      - user_type_id
-      - first_name
-      - last_name
-      - username
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        user_type_id:
-          type: integer
-          example: 2
-        employee_id:
-          type: string
-          example: emp-123
-        integration_id:
-          type: string
-          example: string
-        first_name:
-          type: string
-          example: Joe
-        last_name:
-          type: string
-          example: Smith
-        full_name:
-          type: string
-          example: Joe Smith
-        dob:
-          type: string
-          example: '1971-01-01'
-        address:
-          type: string
-          example: 1644 Platte St
-        address_geo:
+        competency:
           type: object
           properties:
-            type:
+            id:
+              type: integer
+            name:
               type: string
-              enum:
-              - Point
-            coordinates:
-              type: array
-              items:
-                type: number
-                example:
-                - 39.757776
-                - -105.0071
-        suburb:
-          type: string
-          example: Denver
-        state:
-          type: string
-          example: CO
-        postcode:
-          type: string
-          example: 80202
-        email:
-          type: string
-          example: joe.smith@email.com
-        contact:
-          type: string
-          example: 1 333 444 5555
-        employment_type:
-          type: integer
-          example: 1
-        emergency_contact:
-          type: string
-          example: 1 111 333 4444
-        emergency_contact_name:
-          type: string
-          example: Jane Smith
-        username:
-          type: string
-          example: joe.smith@email.com
-        active:
-          type: boolean
-          example: true
-        modified_by:
-          type: string
-          example: auser
-        modified_time:
-          type: string
-          example: '2023-02-27T15:53:34.229Z'
-        comments:
-          type: string
-          example: comments go here
-        user_pic:
-          type: string
-        eula:
-          type: integer
-          example: 1
-        usi:
-          type: string
-        tags:
-          type: array
-          description: Collection of user tags
-          items:
-            type: object
-            properties:
-              tag_id:
-                type: string
-                description: Tag identifier of the tag
-                example: '143'
-        tasks:
-          type: array
-          description: The task links that were written, echoed back as identifiers only. Present only when `tasks` was sent in the request body and the user is a mobile user (`user_type_id` 2).
-          items:
-            type: object
-            properties:
-              task_id:
-                type: integer
-                description: Task identifier of the task
-                example: 97
-        suppliers:
-          type: array
-          description: The supplier links that were written, echoed back as identifiers only. Unlike the `suppliers` array returned by `GET /users` and `GET /users/{id}`, this does not include the supplier name, external_id or active flag. Present only when `suppliers` was sent in the request body.
-          items:
-            type: object
-            properties:
-              supplier_id:
-                type: integer
-                description: Identifier of the supplier
-                example: 28
-    UserSkillUpdateCreate:
-      type: object
-      required:
-      - skill_id
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        user_id:
-          type: integer
-        skill_id:
-          type: integer
-        created_time:
-          type: string
-    EmploymentTypes:
+    UserCompetencies:
       type: array
       items:
-        $ref: '#/components/schemas/EmploymentType'
+        $ref: '#/components/schemas/UserCompetency'
     User:
       type: object
       required:
@@ -1199,51 +1100,9 @@ components:
           - string
           - 'null'
           example: int_123456
-    UserSkills:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserSkill'
-    TagPart:
-      title: TagPart
-      x-stoplight:
-        id: epsk9hslhfq0q
-      type: object
-      description: ''
-      properties:
-        tag_id:
-          type: integer
-          description: Identifier of the tag
-          example: 301
-        name:
-          type: string
-          description: Name of the tag
-        description:
-          type:
-          - string
-          - 'null'
-          description: Description of the tag
-        color:
-          type:
-          - string
-          - 'null'
-          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
-          example: '#795548'
-      required:
-      - name
-    EmploymentType:
+    UserCompetencyUpdateCreate:
       type: object
       required:
-      - name
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-    UserCompetency:
-      type: object
-      required:
-      - id
       - competency_id
       - user_id
       properties:
@@ -1267,17 +1126,158 @@ components:
           type: string
         attachment:
           type: string
-        competency:
-          type: object
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-    UserInductions:
+    Users:
       type: array
       items:
-        $ref: '#/components/schemas/UserInduction'
+        $ref: '#/components/schemas/User'
+    UserWithTagId:
+      type: object
+      required:
+      - user_type_id
+      - first_name
+      - last_name
+      - username
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_type_id:
+          type: integer
+          example: 2
+        employee_id:
+          type: string
+          example: emp-123
+        integration_id:
+          type: string
+          example: string
+        first_name:
+          type: string
+          example: Joe
+        last_name:
+          type: string
+          example: Smith
+        full_name:
+          type: string
+          example: Joe Smith
+        dob:
+          type: string
+          example: '1971-01-01'
+        address:
+          type: string
+          example: 1644 Platte St
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                example:
+                - 39.757776
+                - -105.0071
+        suburb:
+          type: string
+          example: Denver
+        state:
+          type: string
+          example: CO
+        postcode:
+          type: string
+          example: 80202
+        email:
+          type: string
+          example: joe.smith@email.com
+        contact:
+          type: string
+          example: 1 333 444 5555
+        employment_type:
+          type: integer
+          example: 1
+        emergency_contact:
+          type: string
+          example: 1 111 333 4444
+        emergency_contact_name:
+          type: string
+          example: Jane Smith
+        username:
+          type: string
+          example: joe.smith@email.com
+        active:
+          type: boolean
+          example: true
+        modified_by:
+          type: string
+          example: auser
+        modified_time:
+          type: string
+          example: '2023-02-27T15:53:34.229Z'
+        comments:
+          type: string
+          example: comments go here
+        user_pic:
+          type: string
+        eula:
+          type: integer
+          example: 1
+        usi:
+          type: string
+        tags:
+          type: array
+          description: Collection of user tags
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: string
+                description: Tag identifier of the tag
+                example: '143'
+        tasks:
+          type: array
+          description: The task links that were written, echoed back as identifiers only. Present only when `tasks` was sent in the request body and the user is a mobile user (`user_type_id` 2).
+          items:
+            type: object
+            properties:
+              task_id:
+                type: integer
+                description: Task identifier of the task
+                example: 97
+        suppliers:
+          type: array
+          description: The supplier links that were written, echoed back as identifiers only. Unlike the `suppliers` array returned by `GET /users` and `GET /users/{id}`, this does not include the supplier name, external_id or active flag. Present only when `suppliers` was sent in the request body.
+          items:
+            type: object
+            properties:
+              supplier_id:
+                type: integer
+                description: Identifier of the supplier
+                example: 28
+    EmploymentTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmploymentType'
+    UserType:
+      type: object
+      required:
+      - user_type
+      - label
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_type:
+          type: string
+        label:
+          type: string
+        modified_by:
+          type: string
+          readOnly: true
+        modified_time:
+          type: string
+          readOnly: true
   requestBodies:
     CreateUpdateUserRequest:
       content:

@@ -98,53 +98,6 @@ paths:
         in: path
 components:
   schemas:
-    OrderTaskWithOrderAndTask:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        total_hours:
-          type: integer
-        order_id:
-          type: integer
-        task_id:
-          type: integer
-        shift_index:
-          type: integer
-        description:
-          type: string
-        start_time:
-          type: string
-        end_time:
-          type: string
-        order:
-          type: object
-          properties:
-            id:
-              type: integer
-              readOnly: true
-            client_id:
-              type: integer
-            project_id:
-              type: integer
-            supplier_id:
-              type: integer
-            start_date:
-              type: string
-            end_date:
-              type: string
-        task:
-          type: object
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-    Allocations:
-      type: array
-      items:
-        $ref: '#/components/schemas/Allocation'
     OrderResource:
       title: OrderResource
       type: object
@@ -187,6 +140,53 @@ components:
             id:
               type: integer
               readOnly: true
+            name:
+              type: string
+    Allocations:
+      type: array
+      items:
+        $ref: '#/components/schemas/Allocation'
+    OrderTaskWithOrderAndTask:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        total_hours:
+          type: integer
+        order_id:
+          type: integer
+        task_id:
+          type: integer
+        shift_index:
+          type: integer
+        description:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+        order:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            client_id:
+              type: integer
+            project_id:
+              type: integer
+            supplier_id:
+              type: integer
+            start_date:
+              type: string
+            end_date:
+              type: string
+        task:
+          type: object
+          properties:
+            id:
+              type: integer
             name:
               type: string
   securitySchemes:
