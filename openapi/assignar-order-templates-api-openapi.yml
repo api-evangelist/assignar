@@ -95,144 +95,6 @@ paths:
           description: Not Found
 components:
   schemas:
-    OrderTemplate:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        order_comment:
-          type:
-          - string
-          - 'null'
-        order_duration:
-          type: integer
-          description: Template duration in days
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        modified_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        modified_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-          description: Soft-delete timestamp; null for active templates
-        deleted_by_id:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-          description: User id who soft-deleted the template; null for active templates
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderTemplateTask'
-        activities:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderTemplateActivity'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderTemplateTag'
-    OrderTemplateTaskForm:
-      type: object
-      properties:
-        id:
-          type: integer
-        form_id:
-          type: integer
-        title:
-          type:
-          - string
-          - 'null'
-        active:
-          type:
-          - boolean
-          - 'null'
-          description: Whether the underlying form is active; null if the form no longer resolves
-        archived:
-          type:
-          - boolean
-          - 'null'
-          description: Whether the underlying form is archived; null if the form no longer resolves
-    OrderTemplateActivity:
-      type: object
-      properties:
-        id:
-          type: integer
-        activity_id:
-          type: integer
-        name:
-          type:
-          - string
-          - 'null'
-        external_id:
-          type:
-          - string
-          - 'null'
-        uom_code:
-          type:
-          - string
-          - 'null'
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Soft-delete timestamp on the underlying activity; null when the activity is not deleted
-        deleted_by_id:
-          type:
-          - integer
-          - 'null'
-          description: User id who soft-deleted the underlying activity; null when the activity is not deleted
-        integration_id:
-          type:
-          - string
-          - 'null'
-          description: External system identifier for the underlying activity
-    OrderTemplateTag:
-      type: object
-      properties:
-        tag_id:
-          type: integer
-          description: Identifier of the tag
-        name:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        color:
-          type:
-          - string
-          - 'null'
-    OrderTemplates:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrderTemplate'
     OrderTemplateTask:
       type: object
       properties:
@@ -296,6 +158,144 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderTemplateTaskForm'
+    OrderTemplateTag:
+      type: object
+      properties:
+        tag_id:
+          type: integer
+          description: Identifier of the tag
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        color:
+          type:
+          - string
+          - 'null'
+    OrderTemplateTaskForm:
+      type: object
+      properties:
+        id:
+          type: integer
+        form_id:
+          type: integer
+        title:
+          type:
+          - string
+          - 'null'
+        active:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the underlying form is active; null if the form no longer resolves
+        archived:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the underlying form is archived; null if the form no longer resolves
+    OrderTemplates:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTemplate'
+    OrderTemplate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        order_comment:
+          type:
+          - string
+          - 'null'
+        order_duration:
+          type: integer
+          description: Template duration in days
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        modified_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+          description: Soft-delete timestamp; null for active templates
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+          description: User id who soft-deleted the template; null for active templates
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderTemplateTask'
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderTemplateActivity'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderTemplateTag'
+    OrderTemplateActivity:
+      type: object
+      properties:
+        id:
+          type: integer
+        activity_id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        external_id:
+          type:
+          - string
+          - 'null'
+        uom_code:
+          type:
+          - string
+          - 'null'
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Soft-delete timestamp on the underlying activity; null when the activity is not deleted
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+          description: User id who soft-deleted the underlying activity; null when the activity is not deleted
+        integration_id:
+          type:
+          - string
+          - 'null'
+          description: External system identifier for the underlying activity
   securitySchemes:
     OAuth2:
       type: oauth2

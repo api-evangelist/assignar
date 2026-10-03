@@ -208,6 +208,41 @@ paths:
       security:
       - Assignar Tenant Auth: []
 components:
+  requestBodies:
+    CreateUpdateAssetClassRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the asset class. Not unique — two asset classes may share a name.
+                maxLength: 100
+                example: Heavy Machinery
+              description:
+                type:
+                - string
+                - 'null'
+                description: Description of the asset class
+                maxLength: 255
+                example: Large construction equipment
+              code:
+                type:
+                - string
+                - 'null'
+                description: Short code for the asset class. Unique across asset classes — reusing an existing code is rejected with `[400] Unique Constraint Error - unique_asset_class_code`. May be omitted or null, and any number of asset classes may have no code.
+                maxLength: 50
+                example: HEAVY-MACH
+            required:
+            - name
+          examples:
+            Request:
+              value:
+                name: Heavy Machinery
+                description: Large construction equipment
+                code: HEAVY-MACH
+      description: ''
   schemas:
     UserReference:
       type: object
@@ -291,41 +326,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/AssetClassDetail'
-  requestBodies:
-    CreateUpdateAssetClassRequest:
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              name:
-                type: string
-                description: Name of the asset class. Not unique — two asset classes may share a name.
-                maxLength: 100
-                example: Heavy Machinery
-              description:
-                type:
-                - string
-                - 'null'
-                description: Description of the asset class
-                maxLength: 255
-                example: Large construction equipment
-              code:
-                type:
-                - string
-                - 'null'
-                description: Short code for the asset class. Unique across asset classes — reusing an existing code is rejected with `[400] Unique Constraint Error - unique_asset_class_code`. May be omitted or null, and any number of asset classes may have no code.
-                maxLength: 50
-                example: HEAVY-MACH
-            required:
-            - name
-          examples:
-            Request:
-              value:
-                name: Heavy Machinery
-                description: Large construction equipment
-                code: HEAVY-MACH
-      description: ''
   securitySchemes:
     OAuth2:
       type: oauth2

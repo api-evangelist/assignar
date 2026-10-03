@@ -114,6 +114,10 @@ components:
           type: integer
         order_task:
           $ref: '#/components/schemas/OrderTaskWithOrderAndTask'
+    Allocations:
+      type: array
+      items:
+        $ref: '#/components/schemas/Allocation'
     Allocation:
       type: object
       properties:
@@ -142,10 +146,6 @@ components:
               readOnly: true
             name:
               type: string
-    Allocations:
-      type: array
-      items:
-        $ref: '#/components/schemas/Allocation'
     OrderTaskWithOrderAndTask:
       type: object
       properties:

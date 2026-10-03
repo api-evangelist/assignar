@@ -338,15 +338,6 @@ paths:
           description: Success
 components:
   schemas:
-    ClientContactsPayload:
-      type: object
-      properties:
-        client_id:
-          type: integer
-        contact_id:
-          type: integer
-        is_docket_contact:
-          type: boolean
     ClientContactCreated:
       type: object
       description: A client/contact association as returned when created.
@@ -413,10 +404,6 @@ components:
           type:
           - string
           - 'null'
-    Clients:
-      type: array
-      items:
-        $ref: '#/components/schemas/Client'
     ClientContactsResponse:
       type: array
       items:
@@ -471,6 +458,19 @@ components:
                 type: string
               external_id:
                 type: string
+    ClientContactsPayload:
+      type: object
+      properties:
+        client_id:
+          type: integer
+        contact_id:
+          type: integer
+        is_docket_contact:
+          type: boolean
+    Clients:
+      type: array
+      items:
+        $ref: '#/components/schemas/Client'
   securitySchemes:
     OAuth2:
       type: oauth2

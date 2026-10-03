@@ -467,20 +467,6 @@ paths:
                     description: Use this value as `attachment` in the payload when creating a Project Document.
 components:
   schemas:
-    UrlAttachment:
-      type: object
-      readOnly: true
-      properties:
-        url:
-          type: string
-          format: url
-          description: Download URL for the file.
-        expiry:
-          type: integer
-          description: Expiry date of the download url in timestamp.
-      example:
-        url: https://url-to-attachment
-        expiry: 1742575641898
     ProjectDocuments:
       type: array
       items:
@@ -544,28 +530,58 @@ components:
           type: string
           format: date-time
           readOnly: true
-    Projects:
+    ProjectContactsResponse:
       type: array
       items:
-        $ref: '#/components/schemas/ProjectResponse'
-    ProjectContactsPayload:
-      type: object
-      properties:
-        project_id:
-          type: integer
-        contact_id:
-          type: integer
-    ProjectContactCreated:
-      type: object
-      description: A project/contact association as returned when created.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        project_id:
-          type: integer
-        contact_id:
-          type: integer
+        type: object
+        properties:
+          id:
+            type: integer
+          project_id:
+            type: integer
+          contact_id:
+            type: integer
+          project:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+          contact:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              first_name:
+                type: string
+              last_name:
+                type: string
+              company:
+                type: string
+              office_phone:
+                type: string
+              mobile:
+                type: string
+              email:
+                type: string
+              job_title:
+                type: string
+              address_1:
+                type: string
+              address_2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              postcode:
+                type: string
+              comments:
+                type: string
+              external_id:
+                type: string
     ProjectRequest:
       type: object
       properties:
@@ -692,81 +708,6 @@ components:
             properties:
               activity_id:
                 type: integer
-    ProjectContactsResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-          project_id:
-            type: integer
-          contact_id:
-            type: integer
-          project:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-          contact:
-            type: object
-            properties:
-              id:
-                type: integer
-                readOnly: true
-              first_name:
-                type: string
-              last_name:
-                type: string
-              company:
-                type: string
-              office_phone:
-                type: string
-              mobile:
-                type: string
-              email:
-                type: string
-              job_title:
-                type: string
-              address_1:
-                type: string
-              address_2:
-                type: string
-              city:
-                type: string
-              state:
-                type: string
-              postcode:
-                type: string
-              comments:
-                type: string
-              external_id:
-                type: string
-    Tag:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        taxonomy:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        color:
-          type: string
-        integration_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-          description: Nullable varchar(255) with uniqueness constraint. Used for external system integration identifiers.
-      required:
-      - taxonomy
-      - name
     ProjectResponse:
       type: object
       properties:
@@ -902,6 +843,65 @@ components:
                 type: string
               employee_id:
                 type: string
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        taxonomy:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+          description: Nullable varchar(255) with uniqueness constraint. Used for external system integration identifiers.
+      required:
+      - taxonomy
+      - name
+    ProjectContactCreated:
+      type: object
+      description: A project/contact association as returned when created.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        project_id:
+          type: integer
+        contact_id:
+          type: integer
+    ProjectContactsPayload:
+      type: object
+      properties:
+        project_id:
+          type: integer
+        contact_id:
+          type: integer
+    Projects:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProjectResponse'
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
   securitySchemes:
     OAuth2:
       type: oauth2

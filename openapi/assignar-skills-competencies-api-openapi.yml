@@ -527,74 +527,14 @@ paths:
           description: Success
 components:
   schemas:
-    Skill:
-      type: object
-      required:
-      - name
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        subskill:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-          description: 'A skill that this skill also covers. A worker holding this skill is treated as holding the sub-skill too, so a search for the sub-skill also returns holders of this one — the sub-skill of a truck licence could be a car licence, so a search for a car licence returns truck-licence holders.
-
-
-            The relationship is transitive: truck → car → moped means a moped requirement matches a truck-licence holder.
-
-
-            A skill has at most one sub-skill. Always present — `null` when the skill has none, and returned even when `?fields=` does not ask for it.
-
-
-            This field is read-only. To set or remove a sub-skill, send `subskill_id` on a create or update; the two are different fields, so echoing a response back into a write sends no `subskill_id` and leaves the sub-skill alone.'
-          properties:
-            id:
-              type: integer
-              example: 123
-            name:
-              type: string
-              example: Rigger Intermediate
     Inductions:
       type: array
       items:
         $ref: '#/components/schemas/Induction'
-    SkillCreate:
-      description: The same body as an update, except that `name` is required.
-      allOf:
-      - $ref: '#/components/schemas/SkillUpdate'
-      - type: object
-        required:
-        - name
     Skills:
       type: array
       items:
         $ref: '#/components/schemas/Skill'
-    Competency:
-      type: object
-      required:
-      - name
-      - exp_req
-      - comp_date_req
-      - issue_req
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        exp_req:
-          type: boolean
-        comp_date_req:
-          type: integer
-        licence_number:
-          type: string
-        issue_req:
-          type: boolean
     SkillUpdate:
       type: object
       description: 'Every field is optional — send only what you want to change, and anything omitted is left as it is. A skill can be renamed without touching its sub-skill, and its sub-skill can be set or removed without renaming it.
@@ -627,6 +567,66 @@ components:
 
             Accepts an integer or a digit-only string (`123` and `"123"` both work), but loose numeric forms are rejected rather than coerced — `"1e1"`, `"0x3"`, `" 123 "`, `"+5"` and `"123.0"` are all `400`. `-1` is not a removal sentinel on this API and is rejected; use `null`.'
           example: 123
+    Skill:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        subskill:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+          description: 'A skill that this skill also covers. A worker holding this skill is treated as holding the sub-skill too, so a search for the sub-skill also returns holders of this one — the sub-skill of a truck licence could be a car licence, so a search for a car licence returns truck-licence holders.
+
+
+            The relationship is transitive: truck → car → moped means a moped requirement matches a truck-licence holder.
+
+
+            A skill has at most one sub-skill. Always present — `null` when the skill has none, and returned even when `?fields=` does not ask for it.
+
+
+            This field is read-only. To set or remove a sub-skill, send `subskill_id` on a create or update; the two are different fields, so echoing a response back into a write sends no `subskill_id` and leaves the sub-skill alone.'
+          properties:
+            id:
+              type: integer
+              example: 123
+            name:
+              type: string
+              example: Rigger Intermediate
+    SkillCreate:
+      description: The same body as an update, except that `name` is required.
+      allOf:
+      - $ref: '#/components/schemas/SkillUpdate'
+      - type: object
+        required:
+        - name
+    Competency:
+      type: object
+      required:
+      - name
+      - exp_req
+      - comp_date_req
+      - issue_req
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        exp_req:
+          type: boolean
+        comp_date_req:
+          type: integer
+        licence_number:
+          type: string
+        issue_req:
+          type: boolean
     Competencies:
       type: array
       items:

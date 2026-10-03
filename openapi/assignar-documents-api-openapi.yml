@@ -101,24 +101,6 @@ paths:
           description: Not Found
 components:
   schemas:
-    Documents:
-      type: array
-      items:
-        $ref: '#/components/schemas/Document'
-    UrlAttachment:
-      type: object
-      readOnly: true
-      properties:
-        url:
-          type: string
-          format: url
-          description: Download URL for the file.
-        expiry:
-          type: integer
-          description: Expiry date of the download url in timestamp.
-      example:
-        url: https://url-to-attachment
-        expiry: 1742575641898
     TagPart:
       title: TagPart
       x-stoplight:
@@ -189,6 +171,24 @@ components:
           name: Service Program
           description: null
           color: '#5bc0de'
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
+    Documents:
+      type: array
+      items:
+        $ref: '#/components/schemas/Document'
   securitySchemes:
     OAuth2:
       type: oauth2

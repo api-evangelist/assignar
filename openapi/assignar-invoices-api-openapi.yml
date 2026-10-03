@@ -348,10 +348,6 @@ paths:
           description: Success
 components:
   schemas:
-    ChargeCodes:
-      type: array
-      items:
-        $ref: '#/components/schemas/ChargeCodeResponse'
     ChargeItems:
       type: array
       items:
@@ -360,6 +356,10 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/PayCode'
+    ChargeCodes:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChargeCodeResponse'
     PayCode:
       type: object
       required:
@@ -401,6 +401,17 @@ components:
           - integer
           - 'null'
           readOnly: true
+    ChargeCodeRequest:
+      type: object
+      required:
+      - code
+      properties:
+        code:
+          type: string
+        label:
+          type: string
+        integration_id:
+          type: string
     ChargeItem:
       type: object
       required:
@@ -416,17 +427,6 @@ components:
           type: string
         charge_code_id:
           type: integer
-    ChargeCodeRequest:
-      type: object
-      required:
-      - code
-      properties:
-        code:
-          type: string
-        label:
-          type: string
-        integration_id:
-          type: string
     ChargeCodeResponse:
       type: object
       required:

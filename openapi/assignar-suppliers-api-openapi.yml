@@ -193,175 +193,6 @@ paths:
         '204':
           description: Success
 components:
-  schemas:
-    Supplier:
-      type: object
-      required:
-      - name
-      - active
-      - date_added
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        abn:
-          type: string
-        email:
-          type: string
-        office_phone:
-          type: string
-        mobile:
-          type: string
-        address_1:
-          type: string
-        address_geo:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - Point
-            coordinates:
-              type: array
-              items:
-                type: number
-                example:
-                - -33.865143
-                - 151.2099
-        address_2:
-          type: string
-        city:
-          type: string
-        postcode:
-          type: string
-        state:
-          type: string
-        comments:
-          type: string
-        external_id:
-          type: string
-        active:
-          type: boolean
-        date_added:
-          type: string
-          format: date
-        date_modified:
-          type: string
-          format: date
-        modified_by:
-          type: integer
-        modified_time:
-          type: string
-          format: date
-        tags:
-          type: array
-          description: Collection of tags of the supplier
-          items:
-            $ref: '#/components/schemas/TagPart'
-    Suppliers:
-      type: array
-      items:
-        $ref: '#/components/schemas/Supplier'
-    TagPart:
-      title: TagPart
-      x-stoplight:
-        id: epsk9hslhfq0q
-      type: object
-      description: ''
-      properties:
-        tag_id:
-          type: integer
-          description: Identifier of the tag
-          example: 301
-        name:
-          type: string
-          description: Name of the tag
-        description:
-          type:
-          - string
-          - 'null'
-          description: Description of the tag
-        color:
-          type:
-          - string
-          - 'null'
-          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
-          example: '#795548'
-      required:
-      - name
-    SupplierWithTagId:
-      type: object
-      required:
-      - name
-      - active
-      - date_added
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        abn:
-          type: string
-        email:
-          type: string
-        office_phone:
-          type: string
-        mobile:
-          type: string
-        address_1:
-          type: string
-        address_geo:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - Point
-            coordinates:
-              type: array
-              items:
-                type: number
-                example:
-                - -33.865143
-                - 151.2099
-        address_2:
-          type: string
-        city:
-          type: string
-        postcode:
-          type: string
-        state:
-          type: string
-        comments:
-          type: string
-        external_id:
-          type: string
-        active:
-          type: boolean
-        date_added:
-          type: string
-          format: date
-        date_modified:
-          type: string
-          format: date
-        modified_by:
-          type: integer
-        modified_time:
-          type: string
-          format: date
-        tags:
-          type: array
-          description: Collection of tags of the supplier
-          items:
-            type: object
-            properties:
-              tag_id:
-                type: string
-                description: Tag identifier of the supplier
-                example: '301'
   requestBodies:
     CreateUpdateSupplierRequest:
       content:
@@ -468,6 +299,175 @@ components:
                 tags:
                 - tag_id: 301
       description: ''
+  schemas:
+    SupplierWithTagId:
+      type: object
+      required:
+      - name
+      - active
+      - date_added
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        abn:
+          type: string
+        email:
+          type: string
+        office_phone:
+          type: string
+        mobile:
+          type: string
+        address_1:
+          type: string
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                example:
+                - -33.865143
+                - 151.2099
+        address_2:
+          type: string
+        city:
+          type: string
+        postcode:
+          type: string
+        state:
+          type: string
+        comments:
+          type: string
+        external_id:
+          type: string
+        active:
+          type: boolean
+        date_added:
+          type: string
+          format: date
+        date_modified:
+          type: string
+          format: date
+        modified_by:
+          type: integer
+        modified_time:
+          type: string
+          format: date
+        tags:
+          type: array
+          description: Collection of tags of the supplier
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: string
+                description: Tag identifier of the supplier
+                example: '301'
+    Supplier:
+      type: object
+      required:
+      - name
+      - active
+      - date_added
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        abn:
+          type: string
+        email:
+          type: string
+        office_phone:
+          type: string
+        mobile:
+          type: string
+        address_1:
+          type: string
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                example:
+                - -33.865143
+                - 151.2099
+        address_2:
+          type: string
+        city:
+          type: string
+        postcode:
+          type: string
+        state:
+          type: string
+        comments:
+          type: string
+        external_id:
+          type: string
+        active:
+          type: boolean
+        date_added:
+          type: string
+          format: date
+        date_modified:
+          type: string
+          format: date
+        modified_by:
+          type: integer
+        modified_time:
+          type: string
+          format: date
+        tags:
+          type: array
+          description: Collection of tags of the supplier
+          items:
+            $ref: '#/components/schemas/TagPart'
+    Suppliers:
+      type: array
+      items:
+        $ref: '#/components/schemas/Supplier'
+    TagPart:
+      title: TagPart
+      x-stoplight:
+        id: epsk9hslhfq0q
+      type: object
+      description: ''
+      properties:
+        tag_id:
+          type: integer
+          description: Identifier of the tag
+          example: 301
+        name:
+          type: string
+          description: Name of the tag
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the tag
+        color:
+          type:
+          - string
+          - 'null'
+          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
+          example: '#795548'
+      required:
+      - name
   securitySchemes:
     OAuth2:
       type: oauth2

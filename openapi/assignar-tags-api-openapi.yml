@@ -120,10 +120,6 @@ paths:
           description: Success
 components:
   schemas:
-    Tags:
-      type: array
-      items:
-        $ref: '#/components/schemas/Tag'
     Tag:
       type: object
       properties:
@@ -147,6 +143,10 @@ components:
       required:
       - taxonomy
       - name
+    Tags:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tag'
   securitySchemes:
     OAuth2:
       type: oauth2
