@@ -15,6 +15,11 @@ modified: '2026-09-26'
 tags:
 - Construction
 - Software
+- Cloud
+- Project Management
+tags_raw:
+- Construction
+- Software
 - API
 - Cloud
 - ProjectManagement
@@ -24,6 +29,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/assignar-capability-edges.yml
+  name: Assignar Business Capability Map
 - type: AgenticAccess
   url: agentic-access/assignar-agentic-access.yml
 - type: Spectral
@@ -425,6 +433,8 @@ apis:
   humanURL: https://apidocs.assignar.com/api-docs/
   baseURL: https://api.assignar.com/v2
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -447,6 +457,8 @@ apis:
   humanURL: https://apidocs.assignar.com/api-docs/
   baseURL: https://api.assignar.com/v2
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -557,6 +569,8 @@ apis:
   humanURL: https://apidocs.assignar.com/api-docs/
   baseURL: https://api.assignar.com/v2
   tags:
+  - Task-Groups
+  tags_raw:
   - TaskGroups
   properties:
   - type: OpenAPI
@@ -579,6 +593,8 @@ apis:
   humanURL: https://apidocs.assignar.com/api-docs/
   baseURL: https://api.assignar.com/v2
   tags:
+  - Task
+  tags_raw:
   - Tasks
   properties:
   - type: OpenAPI
@@ -623,6 +639,8 @@ apis:
   humanURL: https://apidocs.assignar.com/api-docs/
   baseURL: https://api.assignar.com/v2
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
