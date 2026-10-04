@@ -150,6 +150,81 @@ paths:
           description: Timesheet not found
 components:
   schemas:
+    TimeCodeGroupVersion:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        time_code_group_id:
+          type: integer
+        version:
+          type: integer
+        time_code_group:
+          $ref: '#/components/schemas/TimeCodeGroup'
+    TimesheetsExpandedList:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Total number of timesheets returned
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimesheetExpanded'
+    PayCode:
+      type: object
+      required:
+      - code
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+        label:
+          type: string
+        time_code_id:
+          type:
+          - integer
+          - 'null'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by_id:
+          type: integer
+          readOnly: true
+        modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_by_id:
+          type: integer
+          readOnly: true
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+    TimeCodeGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+        is_default:
+          type: boolean
     CodedWorkerTimes:
       type: object
       properties:
@@ -169,79 +244,96 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CodedTimesheet'
-    CodedTime:
+    UserCreateUpdate:
+      type: object
+      properties:
+        full_name:
+          type: string
+        user_id:
+          type: integer
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        employee_id:
+          type: string
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
+    RelatedAssetEntry:
       type: object
       properties:
         id:
           type: integer
-          readOnly: true
-        timesheet_id:
+          example: 2001
+        asset_entry_id:
           type: integer
-        timesheet_time_id:
+          example: 3001
+        activity_asset_usage_minutes:
           type: integer
-        user_id:
-          type: integer
-        timesheet_date:
-          type: string
-        start_at:
-          type: string
-        end_at:
-          type: string
-        time_code_group_pay_code_id:
-          type: integer
-        time_code_group_version_id:
-          type: integer
-        time_code_rule_id:
-          type: integer
-        coded_by_id:
-          type: integer
-        coded_at:
-          type: string
-        override_pay_code_id:
-          type: integer
-        overriden_at:
-          type: string
-        overriden_by_id:
-          type: integer
+          example: 180
         created_at:
           type: string
-        created_by_id:
-          type: integer
-        default_pay_code:
-          $ref: '#/components/schemas/TimeCodeGroupPayCode'
-        time_code_rule:
-          $ref: '#/components/schemas/TimeCodeRule'
-        created_by:
-          $ref: '#/components/schemas/UserCreateUpdate'
-        coded_by:
-          $ref: '#/components/schemas/UserCreateUpdate'
-        override_pay_code:
+          format: date-time
+          example: '2024-01-15T08:10:00.000Z'
+        modified_at:
+          type: string
+          format: date-time
+          example: '2024-01-15T11:50:00.000Z'
+        asset:
           type: object
           properties:
             id:
               type: integer
-              readOnly: true
-            code:
+              example: 6001
+            name:
               type: string
-            label:
+              example: Excavator Model X
+            external_id:
               type: string
-            override_pay_code_time_code:
-              $ref: '#/components/schemas/TimeCode'
-        overriden_by:
-          $ref: '#/components/schemas/UserCreateUpdate'
-        time_code_group_version:
-          $ref: '#/components/schemas/TimeCodeGroupVersion'
-    TimeCodeGroup:
+              example: ASSET-EXC-001
+            assetClass:
+              $ref: '#/components/schemas/AssetClass'
+        created_by:
+          $ref: '#/components/schemas/UserReference'
+        modified_by:
+          $ref: '#/components/schemas/UserReference'
+    CodedTimesheetWeeklyStatus:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        name:
+        start_date:
           type: string
-        description:
+        end_date:
           type: string
-        is_default:
+        is_default_time_code_group_configured:
+          type: boolean
+        is_week_in_progress:
+          type: boolean
+        all_timesheets_approved:
+          type: boolean
+        has_processed_timesheets:
+          type: boolean
+        has_coded_timesheets:
+          type: boolean
+        has_manual_overrides:
+          type: boolean
+        has_uncoded_time:
           type: boolean
     TimesheetTime:
       type: object
@@ -305,607 +397,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CodedTime'
-    PayCode:
-      type: object
-      required:
-      - code
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        code:
-          type: string
-        label:
-          type: string
-        time_code_id:
-          type:
-          - integer
-          - 'null'
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by_id:
-          type: integer
-          readOnly: true
-        modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        modified_by_id:
-          type: integer
-          readOnly: true
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        deleted_by_id:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-    TimesheetExpandedAllowance:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 9001
-        timesheet_id:
-          type: integer
-          example: 12345
-        allowance_id:
-          type: integer
-          example: 20
-        quantity:
-          type: number
-          format: float
-          example: 2.5
-        allowance:
-          type: object
-          properties:
-            id:
-              type: integer
-              example: 20
-            name:
-              type: string
-              example: Meal Allowance
-            active:
-              type: boolean
-              example: true
-            code:
-              type: string
-              example: MEAL-ALLOW
-    AssetClass:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 5
-        name:
-          type: string
-          example: Heavy Machinery
-        description:
-          type:
-          - string
-          - 'null'
-          example: Large construction equipment
-        code:
-          type:
-          - string
-          - 'null'
-          example: HEAVY-MACH
-    UserCreateUpdate:
-      type: object
-      properties:
-        full_name:
-          type: string
-        user_id:
-          type: integer
-        username:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        employee_id:
-          type: string
-    AssetEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 3001
-        start_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2024-01-15T08:00:00.000Z'
-        start_at_tz:
-          type:
-          - string
-          - 'null'
-          example: Australia/Sydney
-        end_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2024-01-15T17:00:00.000Z'
-        end_at_tz:
-          type:
-          - string
-          - 'null'
-          example: Australia/Sydney
-        start_at_naive:
-          type:
-          - string
-          - 'null'
-          example: '2024-01-15T08:00:00'
-        end_at_naive:
-          type:
-          - string
-          - 'null'
-          example: '2024-01-15T17:00:00'
-        is_naive_datetime:
-          type: boolean
-          example: false
-        created_at:
-          type: string
-          format: date-time
-          example: '2024-01-15T08:00:00.000Z'
-        modified_at:
-          type: string
-          format: date-time
-          example: '2024-01-15T17:00:00.000Z'
-        duration:
-          type: integer
-          description: Duration in minutes
-          example: 540
-        uses_whole_shift:
-          type: boolean
-          example: false
-        asset:
-          type: object
-          properties:
-            id:
-              type: integer
-              example: 6001
-            name:
-              type: string
-              example: Excavator Model X
-            external_id:
-              type: string
-              example: ASSET-EXC-001
-            description:
-              type: string
-              example: Large hydraulic excavator for earthmoving
-            make:
-              type: string
-              example: Caterpillar
-            model:
-              type: string
-              example: 320D
-            year:
-              type: string
-              example: '2020'
-            assetClass:
-              $ref: '#/components/schemas/AssetClass'
-        created_by:
-          $ref: '#/components/schemas/UserReference'
-        modified_by:
-          $ref: '#/components/schemas/UserReference'
-    TimeCode:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        code:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        is_default:
-          type: boolean
-    RelatedAssetEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 2001
-        asset_entry_id:
-          type: integer
-          example: 3001
-        activity_asset_usage_minutes:
-          type: integer
-          example: 180
-        created_at:
-          type: string
-          format: date-time
-          example: '2024-01-15T08:10:00.000Z'
-        modified_at:
-          type: string
-          format: date-time
-          example: '2024-01-15T11:50:00.000Z'
-        asset:
-          type: object
-          properties:
-            id:
-              type: integer
-              example: 6001
-            name:
-              type: string
-              example: Excavator Model X
-            external_id:
-              type: string
-              example: ASSET-EXC-001
-            assetClass:
-              $ref: '#/components/schemas/AssetClass'
-        created_by:
-          $ref: '#/components/schemas/UserReference'
-        modified_by:
-          $ref: '#/components/schemas/UserReference'
-    TimeCodeRule:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        time_code_id:
-          type: integer
-        description:
-          type: string
-        is_active:
-          type: boolean
-    TimesheetsExpandedList:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Total number of timesheets returned
-        rows:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimesheetExpanded'
-    ActivityEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1001
-        start_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2024-01-15T08:00:00.000Z'
-        start_at_tz:
-          type:
-          - string
-          - 'null'
-          example: Australia/Sydney
-        end_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2024-01-15T12:00:00.000Z'
-        end_at_tz:
-          type:
-          - string
-          - 'null'
-          example: Australia/Sydney
-        start_at_naive:
-          type:
-          - string
-          - 'null'
-          example: '2024-01-15T08:00:00'
-        end_at_naive:
-          type:
-          - string
-          - 'null'
-          example: '2024-01-15T12:00:00'
-        is_naive_datetime:
-          type: boolean
-          example: false
-        created_at:
-          type: string
-          format: date-time
-          example: '2024-01-15T08:05:00.000Z'
-        modified_at:
-          type: string
-          format: date-time
-          example: '2024-01-15T12:05:00.000Z'
-        duration:
-          type: integer
-          description: Duration in minutes
-          example: 240
-        activity:
-          type: object
-          properties:
-            id:
-              type: integer
-              example: 10
-            name:
-              type: string
-              example: Excavation
-            external_id:
-              type: string
-              example: ACT-EXCAV-001
-            is_payable:
-              type: boolean
-              example: true
-        created_by:
-          $ref: '#/components/schemas/UserReference'
-        modified_by:
-          $ref: '#/components/schemas/UserReference'
-        related_asset_entries:
-          type: array
-          items:
-            $ref: '#/components/schemas/RelatedAssetEntry'
-    Timesheet:
-      type: object
-      required:
-      - client_id
-      - user_id
-      - task_id
-      - start_time
-      - end_time
-      - break_time
-      - travel_time_to
-      - travel_time_from
-      - total_time
-      - comments
-      - submitted_date
-      - date_of_creation
-      - checked
-      - locked
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        client_id:
-          type: integer
-        user_id:
-          type: integer
-        project_id:
-          type: integer
-        task_id:
-          type: integer
-        location:
-          type: string
-        order_id:
-          type: integer
-        supplier_id:
-          type: integer
-        job_number:
-          type: string
-        start_time:
-          type: string
-        start_datetime:
-          type: string
-        end_time:
-          type: string
-        end_datetime:
-          type: string
-        break_time:
-          type: string
-        travel_time_to:
-          type: string
-        travel_time_from:
-          type: string
-        total_time:
-          type: string
-        comments:
-          type: string
-        office_use:
-          type: string
-        submitted_date:
-          type: string
-        date_of_creation:
-          type: string
-        created_by_id:
-          type: string
-        modified_time:
-          type: string
-        modified_by:
-          type: string
-        submitted_by:
-          type: string
-        checked:
-          type: boolean
-        locked:
-          type: boolean
-        latitude:
-          type: number
-        longitude:
-          type: number
-        latitude2:
-          type: number
-        longitude2:
-          type: number
-        signature_name:
-          type: string
-        signature:
-          type: string
-        client_signature_name:
-          type: string
-        completed_by_id:
-          type: integer
-        completed_at:
-          type: string
-        is_processed:
-          type: boolean
-        processed_by_id:
-          type: integer
-        processed_at:
-          type: string
-        deleted_time:
-          type: string
-        integration_id:
-          type:
-          - string
-          - 'null'
-        client:
-          type: object
-          properties:
-            name:
-              type: string
-            external_id:
-              type: string
-        project:
-          type: object
-          properties:
-            name:
-              type: string
-            external_id:
-              type: string
-        task:
-          type: object
-          properties:
-            name:
-              type: string
-            external_id:
-              type: string
-        user:
-          type: object
-          properties:
-            full_name:
-              type: string
-            username:
-              type: string
-            first_name:
-              type: string
-            last_name:
-              type: string
-            employee_id:
-              type: string
-        digitaldocket:
-          type: object
-          properties:
-            digital_docket_id:
-              type: integer
-        supplier:
-          type: object
-          properties:
-            name:
-              type: string
-            external_id:
-              type: string
-        assets:
-          type: array
-          items:
-            type: object
-            properties:
-              asset_id:
-                type: integer
-        allowances:
-          type: array
-          items:
-            type: object
-            properties:
-              allowance_id:
-                type: integer
-              quantity:
-                type: number
-                format: decimal
-                example: 1.0
-                default: 1.0
-                description: Decimal value with precision (10,2)
-              allowance:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  active:
-                    type: boolean
-                  code:
-                    type: string
-        docket:
-          type: object
-          properties:
-            id:
-              type: integer
-            number:
-              type: string
-            image:
-              type: string
-        asset_times:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-              asset_uses_timesheet_duration:
-                type: boolean
-                example: false
-                description: indicates whether asset was used for the duration of the timesheet; explicit start and end times not captured
-              start_at:
-                type: string
-                example: '2023-05-06T01:00:00.000Z'
-                description: start time in UTC
-              start_at_tz:
-                type: string
-                example: Australia/Sydney
-                description: start timezone - used to convert `start_at` to local timezone
-              end_at:
-                type: string
-                example: '2023-05-06T02:00:00.000Z'
-                description: end time in UTC
-              end_at_tz:
-                type: string
-                example: Australia/Sydney
-                description: end timezone - used to convert `end_at` to local timezone
-              asset_id:
-                type: integer
-              asset:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  external_id:
-                    type: string
-        client_signature_url:
-          $ref: '#/components/schemas/UrlAttachment'
-        signature_url:
-          $ref: '#/components/schemas/UrlAttachment'
-        site_diary:
-          type: object
-          properties:
-            id:
-              type: integer
-            client_signature_name:
-              type: string
-            client_signature_url:
-              $ref: '#/components/schemas/UrlAttachment'
-            supervisor_signature_name:
-              type: string
-            supervisor_signature_url:
-              $ref: '#/components/schemas/UrlAttachment'
-    UserReference:
-      type: object
-      properties:
-        user_id:
-          type: integer
-          example: 500
-        username:
-          type: string
-          example: jsmith
-        first_name:
-          type: string
-          example: John
-        last_name:
-          type: string
-          example: Smith
     TimesheetExpanded:
       type: object
       properties:
@@ -1225,55 +716,418 @@ components:
               $ref: '#/components/schemas/UrlAttachment'
             supervisor_signature_url:
               $ref: '#/components/schemas/UrlAttachment'
-    UrlAttachment:
+    AssetEntry:
       type: object
-      readOnly: true
       properties:
-        url:
-          type: string
-          format: url
-          description: Download URL for the file.
-        expiry:
+        id:
           type: integer
-          description: Expiry date of the download url in timestamp.
-      example:
-        url: https://url-to-attachment
-        expiry: 1742575641898
-    TimeCodeGroupVersion:
+          example: 3001
+        start_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2024-01-15T08:00:00.000Z'
+        start_at_tz:
+          type:
+          - string
+          - 'null'
+          example: Australia/Sydney
+        end_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2024-01-15T17:00:00.000Z'
+        end_at_tz:
+          type:
+          - string
+          - 'null'
+          example: Australia/Sydney
+        start_at_naive:
+          type:
+          - string
+          - 'null'
+          example: '2024-01-15T08:00:00'
+        end_at_naive:
+          type:
+          - string
+          - 'null'
+          example: '2024-01-15T17:00:00'
+        is_naive_datetime:
+          type: boolean
+          example: false
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-15T08:00:00.000Z'
+        modified_at:
+          type: string
+          format: date-time
+          example: '2024-01-15T17:00:00.000Z'
+        duration:
+          type: integer
+          description: Duration in minutes
+          example: 540
+        uses_whole_shift:
+          type: boolean
+          example: false
+        asset:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 6001
+            name:
+              type: string
+              example: Excavator Model X
+            external_id:
+              type: string
+              example: ASSET-EXC-001
+            description:
+              type: string
+              example: Large hydraulic excavator for earthmoving
+            make:
+              type: string
+              example: Caterpillar
+            model:
+              type: string
+              example: 320D
+            year:
+              type: string
+              example: '2020'
+            assetClass:
+              $ref: '#/components/schemas/AssetClass'
+        created_by:
+          $ref: '#/components/schemas/UserReference'
+        modified_by:
+          $ref: '#/components/schemas/UserReference'
+    UserReference:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 500
+        username:
+          type: string
+          example: jsmith
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
+    CodedTimesheet:
+      allOf:
+      - $ref: '#/components/schemas/Timesheet'
+      - type: object
+        properties:
+          timesheet_times:
+            type: array
+            items:
+              $ref: '#/components/schemas/TimesheetTime'
+    Timesheet:
+      type: object
+      required:
+      - client_id
+      - user_id
+      - task_id
+      - start_time
+      - end_time
+      - break_time
+      - travel_time_to
+      - travel_time_from
+      - total_time
+      - comments
+      - submitted_date
+      - date_of_creation
+      - checked
+      - locked
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client_id:
+          type: integer
+        user_id:
+          type: integer
+        project_id:
+          type: integer
+        task_id:
+          type: integer
+        location:
+          type: string
+        order_id:
+          type: integer
+        supplier_id:
+          type: integer
+        job_number:
+          type: string
+        start_time:
+          type: string
+        start_datetime:
+          type: string
+        end_time:
+          type: string
+        end_datetime:
+          type: string
+        break_time:
+          type: string
+        travel_time_to:
+          type: string
+        travel_time_from:
+          type: string
+        total_time:
+          type: string
+        comments:
+          type: string
+        office_use:
+          type: string
+        submitted_date:
+          type: string
+        date_of_creation:
+          type: string
+        created_by_id:
+          type: string
+        modified_time:
+          type: string
+        modified_by:
+          type: string
+        submitted_by:
+          type: string
+        checked:
+          type: boolean
+        locked:
+          type: boolean
+        latitude:
+          type: number
+        longitude:
+          type: number
+        latitude2:
+          type: number
+        longitude2:
+          type: number
+        signature_name:
+          type: string
+        signature:
+          type: string
+        client_signature_name:
+          type: string
+        completed_by_id:
+          type: integer
+        completed_at:
+          type: string
+        is_processed:
+          type: boolean
+        processed_by_id:
+          type: integer
+        processed_at:
+          type: string
+        deleted_time:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+        client:
+          type: object
+          properties:
+            name:
+              type: string
+            external_id:
+              type: string
+        project:
+          type: object
+          properties:
+            name:
+              type: string
+            external_id:
+              type: string
+        task:
+          type: object
+          properties:
+            name:
+              type: string
+            external_id:
+              type: string
+        user:
+          type: object
+          properties:
+            full_name:
+              type: string
+            username:
+              type: string
+            first_name:
+              type: string
+            last_name:
+              type: string
+            employee_id:
+              type: string
+        digitaldocket:
+          type: object
+          properties:
+            digital_docket_id:
+              type: integer
+        supplier:
+          type: object
+          properties:
+            name:
+              type: string
+            external_id:
+              type: string
+        assets:
+          type: array
+          items:
+            type: object
+            properties:
+              asset_id:
+                type: integer
+        allowances:
+          type: array
+          items:
+            type: object
+            properties:
+              allowance_id:
+                type: integer
+              quantity:
+                type: number
+                format: decimal
+                example: 1.0
+                default: 1.0
+                description: Decimal value with precision (10,2)
+              allowance:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  active:
+                    type: boolean
+                  code:
+                    type: string
+        docket:
+          type: object
+          properties:
+            id:
+              type: integer
+            number:
+              type: string
+            image:
+              type: string
+        asset_times:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              asset_uses_timesheet_duration:
+                type: boolean
+                example: false
+                description: indicates whether asset was used for the duration of the timesheet; explicit start and end times not captured
+              start_at:
+                type: string
+                example: '2023-05-06T01:00:00.000Z'
+                description: start time in UTC
+              start_at_tz:
+                type: string
+                example: Australia/Sydney
+                description: start timezone - used to convert `start_at` to local timezone
+              end_at:
+                type: string
+                example: '2023-05-06T02:00:00.000Z'
+                description: end time in UTC
+              end_at_tz:
+                type: string
+                example: Australia/Sydney
+                description: end timezone - used to convert `end_at` to local timezone
+              asset_id:
+                type: integer
+              asset:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  external_id:
+                    type: string
+        client_signature_url:
+          $ref: '#/components/schemas/UrlAttachment'
+        signature_url:
+          $ref: '#/components/schemas/UrlAttachment'
+        site_diary:
+          type: object
+          properties:
+            id:
+              type: integer
+            client_signature_name:
+              type: string
+            client_signature_url:
+              $ref: '#/components/schemas/UrlAttachment'
+            supervisor_signature_name:
+              type: string
+            supervisor_signature_url:
+              $ref: '#/components/schemas/UrlAttachment'
+    AssetClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Heavy Machinery
+        description:
+          type:
+          - string
+          - 'null'
+          example: Large construction equipment
+        code:
+          type:
+          - string
+          - 'null'
+          example: HEAVY-MACH
+    TimeCode:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        time_code_group_id:
-          type: integer
-        version:
-          type: integer
-        time_code_group:
-          $ref: '#/components/schemas/TimeCodeGroup'
-    CodedTimesheetWeeklyStatus:
+        code:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        is_default:
+          type: boolean
+    TimeCodeGroupPayCode:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        start_date:
+        time_code_id:
+          type: integer
+        pay_code_id:
+          type: integer
+        time_code:
+          $ref: '#/components/schemas/TimeCode'
+        pay_code:
+          $ref: '#/components/schemas/PayCode'
+    TimeCodeRule:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        time_code_id:
+          type: integer
+        description:
           type: string
-        end_date:
-          type: string
-        is_default_time_code_group_configured:
-          type: boolean
-        is_week_in_progress:
-          type: boolean
-        all_timesheets_approved:
-          type: boolean
-        has_processed_timesheets:
-          type: boolean
-        has_coded_timesheets:
-          type: boolean
-        has_manual_overrides:
-          type: boolean
-        has_uncoded_time:
+        is_active:
           type: boolean
     LeaveRequestEntry:
       type: object
@@ -1343,29 +1197,175 @@ components:
           $ref: '#/components/schemas/UserReference'
         modified_by:
           $ref: '#/components/schemas/UserReference'
-    CodedTimesheet:
-      allOf:
-      - $ref: '#/components/schemas/Timesheet'
-      - type: object
-        properties:
-          timesheet_times:
-            type: array
-            items:
-              $ref: '#/components/schemas/TimesheetTime'
-    TimeCodeGroupPayCode:
+    ActivityEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1001
+        start_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2024-01-15T08:00:00.000Z'
+        start_at_tz:
+          type:
+          - string
+          - 'null'
+          example: Australia/Sydney
+        end_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2024-01-15T12:00:00.000Z'
+        end_at_tz:
+          type:
+          - string
+          - 'null'
+          example: Australia/Sydney
+        start_at_naive:
+          type:
+          - string
+          - 'null'
+          example: '2024-01-15T08:00:00'
+        end_at_naive:
+          type:
+          - string
+          - 'null'
+          example: '2024-01-15T12:00:00'
+        is_naive_datetime:
+          type: boolean
+          example: false
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-01-15T08:05:00.000Z'
+        modified_at:
+          type: string
+          format: date-time
+          example: '2024-01-15T12:05:00.000Z'
+        duration:
+          type: integer
+          description: Duration in minutes
+          example: 240
+        activity:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 10
+            name:
+              type: string
+              example: Excavation
+            external_id:
+              type: string
+              example: ACT-EXCAV-001
+            is_payable:
+              type: boolean
+              example: true
+        created_by:
+          $ref: '#/components/schemas/UserReference'
+        modified_by:
+          $ref: '#/components/schemas/UserReference'
+        related_asset_entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedAssetEntry'
+    TimesheetExpandedAllowance:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 9001
+        timesheet_id:
+          type: integer
+          example: 12345
+        allowance_id:
+          type: integer
+          example: 20
+        quantity:
+          type: number
+          format: float
+          example: 2.5
+        allowance:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 20
+            name:
+              type: string
+              example: Meal Allowance
+            active:
+              type: boolean
+              example: true
+            code:
+              type: string
+              example: MEAL-ALLOW
+    CodedTime:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        time_code_id:
+        timesheet_id:
           type: integer
-        pay_code_id:
+        timesheet_time_id:
           type: integer
-        time_code:
-          $ref: '#/components/schemas/TimeCode'
-        pay_code:
-          $ref: '#/components/schemas/PayCode'
+        user_id:
+          type: integer
+        timesheet_date:
+          type: string
+        start_at:
+          type: string
+        end_at:
+          type: string
+        time_code_group_pay_code_id:
+          type: integer
+        time_code_group_version_id:
+          type: integer
+        time_code_rule_id:
+          type: integer
+        coded_by_id:
+          type: integer
+        coded_at:
+          type: string
+        override_pay_code_id:
+          type: integer
+        overriden_at:
+          type: string
+        overriden_by_id:
+          type: integer
+        created_at:
+          type: string
+        created_by_id:
+          type: integer
+        default_pay_code:
+          $ref: '#/components/schemas/TimeCodeGroupPayCode'
+        time_code_rule:
+          $ref: '#/components/schemas/TimeCodeRule'
+        created_by:
+          $ref: '#/components/schemas/UserCreateUpdate'
+        coded_by:
+          $ref: '#/components/schemas/UserCreateUpdate'
+        override_pay_code:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            code:
+              type: string
+            label:
+              type: string
+            override_pay_code_time_code:
+              $ref: '#/components/schemas/TimeCode'
+        overriden_by:
+          $ref: '#/components/schemas/UserCreateUpdate'
+        time_code_group_version:
+          $ref: '#/components/schemas/TimeCodeGroupVersion'
   securitySchemes:
     OAuth2:
       type: oauth2

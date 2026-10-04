@@ -98,54 +98,10 @@ paths:
         in: path
 components:
   schemas:
-    OrderResource:
-      title: OrderResource
-      type: object
-      description: ''
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        asset_id:
-          type: integer
-        user_id:
-          type: integer
-        order_id:
-          type: integer
-        order_task:
-          $ref: '#/components/schemas/OrderTaskWithOrderAndTask'
     Allocations:
       type: array
       items:
         $ref: '#/components/schemas/Allocation'
-    Allocation:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        resource_id:
-          type: integer
-        resource_date:
-          type: string
-        status_id:
-          type: integer
-        notified:
-          type: boolean
-        comments:
-          type: string
-        timesheet_id:
-          type: integer
-        resource:
-          $ref: '#/components/schemas/OrderResource'
-        status:
-          type: object
-          properties:
-            id:
-              type: integer
-              readOnly: true
-            name:
-              type: string
     OrderTaskWithOrderAndTask:
       type: object
       properties:
@@ -187,6 +143,50 @@ components:
           properties:
             id:
               type: integer
+            name:
+              type: string
+    OrderResource:
+      title: OrderResource
+      type: object
+      description: ''
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        asset_id:
+          type: integer
+        user_id:
+          type: integer
+        order_id:
+          type: integer
+        order_task:
+          $ref: '#/components/schemas/OrderTaskWithOrderAndTask'
+    Allocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        resource_id:
+          type: integer
+        resource_date:
+          type: string
+        status_id:
+          type: integer
+        notified:
+          type: boolean
+        comments:
+          type: string
+        timesheet_id:
+          type: integer
+        resource:
+          $ref: '#/components/schemas/OrderResource'
+        status:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
             name:
               type: string
   securitySchemes:

@@ -65,6 +65,43 @@ paths:
                     $ref: '#/components/schemas/DigitalDocket'
 components:
   schemas:
+    DigitalDockets:
+      type: object
+      properties:
+        id:
+          type: integer
+        docket_template_id:
+          type: integer
+        latitude:
+          type: number
+        longitude:
+          type: number
+        client_id:
+          type: integer
+        project_id:
+          type: integer
+        supervisor_id:
+          type: integer
+        order_id:
+          type: integer
+        signature_name:
+          type: string
+        signature:
+          type: string
+        created_time:
+          type: string
+          format: date-time
+        created_by:
+          type: string
+        modified_by:
+          type: string
+        modified_time:
+          type: string
+          format: date-time
+      required:
+      - id
+      - signature
+      - signature_name
     DigitalDocket:
       type: object
       properties:
@@ -100,43 +137,6 @@ components:
                     response:
                       type: object
                       description: key value pair of responses
-        signature_name:
-          type: string
-        signature:
-          type: string
-        created_time:
-          type: string
-          format: date-time
-        created_by:
-          type: string
-        modified_by:
-          type: string
-        modified_time:
-          type: string
-          format: date-time
-      required:
-      - id
-      - signature
-      - signature_name
-    DigitalDockets:
-      type: object
-      properties:
-        id:
-          type: integer
-        docket_template_id:
-          type: integer
-        latitude:
-          type: number
-        longitude:
-          type: number
-        client_id:
-          type: integer
-        project_id:
-          type: integer
-        supervisor_id:
-          type: integer
-        order_id:
-          type: integer
         signature_name:
           type: string
         signature:

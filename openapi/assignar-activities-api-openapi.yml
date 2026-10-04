@@ -131,10 +131,6 @@ paths:
           description: Success
 components:
   schemas:
-    Activities:
-      type: array
-      items:
-        $ref: '#/components/schemas/Activity'
     Activity:
       type: object
       required:
@@ -197,6 +193,10 @@ components:
               type: string
             label:
               type: string
+    Activities:
+      type: array
+      items:
+        $ref: '#/components/schemas/Activity'
   securitySchemes:
     OAuth2:
       type: oauth2

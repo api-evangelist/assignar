@@ -348,18 +348,42 @@ paths:
           description: Success
 components:
   schemas:
-    ChargeItems:
-      type: array
-      items:
-        $ref: '#/components/schemas/ChargeItem'
+    ChargeCodeRequest:
+      type: object
+      required:
+      - code
+      properties:
+        code:
+          type: string
+        label:
+          type: string
+        integration_id:
+          type: string
     PayCodes:
       type: array
       items:
         $ref: '#/components/schemas/PayCode'
-    ChargeCodes:
-      type: array
-      items:
-        $ref: '#/components/schemas/ChargeCodeResponse'
+    ChargeCodeResponse:
+      type: object
+      required:
+      - code
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+        label:
+          type: string
+        modified_by:
+          type: integer
+        modified_at:
+          type: string
+          format: date-time
+        integration_id:
+          type:
+          - string
+          - 'null'
     PayCode:
       type: object
       required:
@@ -401,17 +425,10 @@ components:
           - integer
           - 'null'
           readOnly: true
-    ChargeCodeRequest:
-      type: object
-      required:
-      - code
-      properties:
-        code:
-          type: string
-        label:
-          type: string
-        integration_id:
-          type: string
+    ChargeItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChargeItem'
     ChargeItem:
       type: object
       required:
@@ -427,27 +444,10 @@ components:
           type: string
         charge_code_id:
           type: integer
-    ChargeCodeResponse:
-      type: object
-      required:
-      - code
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        code:
-          type: string
-        label:
-          type: string
-        modified_by:
-          type: integer
-        modified_at:
-          type: string
-          format: date-time
-        integration_id:
-          type:
-          - string
-          - 'null'
+    ChargeCodes:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChargeCodeResponse'
   securitySchemes:
     OAuth2:
       type: oauth2

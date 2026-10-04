@@ -767,97 +767,6 @@ paths:
                     description: Use this value as `attachment` in your payload when creating a User Competency.
 components:
   schemas:
-    UserSkill:
-      type: object
-      required:
-      - skill_id
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        user_id:
-          type: integer
-        skill_id:
-          type: integer
-        created_time:
-          type: string
-        skill:
-          type: object
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-    EmploymentTypes:
-      type: array
-      items:
-        $ref: '#/components/schemas/EmploymentType'
-    Users:
-      type: array
-      items:
-        $ref: '#/components/schemas/User'
-    UserSkillUpdateCreate:
-      type: object
-      required:
-      - skill_id
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        user_id:
-          type: integer
-        skill_id:
-          type: integer
-        created_time:
-          type: string
-    UserCompetencies:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserCompetency'
-    UserCompetency:
-      type: object
-      required:
-      - id
-      - competency_id
-      - user_id
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        user_id:
-          type: integer
-        competency_id:
-          type: integer
-        active:
-          type: boolean
-        description:
-          type: string
-        created_time:
-          type: string
-          readOnly: true
-        issue_date:
-          type: string
-        expiry_time:
-          type: string
-        attachment:
-          type: string
-        competency:
-          type: object
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-    EmploymentType:
-      type: object
-      required:
-      - name
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
     UserCompetencyUpdateCreate:
       type: object
       required:
@@ -884,6 +793,14 @@ components:
           type: string
         attachment:
           type: string
+    UserTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserType'
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
     UserWithTagId:
       type: object
       required:
@@ -1009,10 +926,125 @@ components:
                 type: integer
                 description: Identifier of the supplier
                 example: 28
+    EmploymentType:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+    UserInductionUpdateCreate:
+      type: object
+      required:
+      - induction_id
+      - user_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        induction_id:
+          type: integer
+        active:
+          type: boolean
+        description:
+          type: string
+        created_time:
+          type: string
+          readOnly: true
+        issue_date:
+          type: string
+        expiry_time:
+          type: string
+        attachment:
+          type: string
+    UserType:
+      type: object
+      required:
+      - user_type
+      - label
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_type:
+          type: string
+        label:
+          type: string
+        modified_by:
+          type: string
+          readOnly: true
+        modified_time:
+          type: string
+          readOnly: true
+    UserInductions:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserInduction'
+    UserCompetency:
+      type: object
+      required:
+      - id
+      - competency_id
+      - user_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        competency_id:
+          type: integer
+        active:
+          type: boolean
+        description:
+          type: string
+        created_time:
+          type: string
+          readOnly: true
+        issue_date:
+          type: string
+        expiry_time:
+          type: string
+        attachment:
+          type: string
+        competency:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
     UserSkills:
       type: array
       items:
         $ref: '#/components/schemas/UserSkill'
+    EmploymentTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmploymentType'
+    UserCompetencies:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserCompetency'
+    UserSkillUpdateCreate:
+      type: object
+      required:
+      - skill_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_id:
+          type: integer
+        skill_id:
+          type: integer
+        created_time:
+          type: string
     UserInduction:
       type: object
       required:
@@ -1047,55 +1079,54 @@ components:
               type: integer
             name:
               type: string
-    UserType:
+    TagPart:
+      title: TagPart
+      x-stoplight:
+        id: epsk9hslhfq0q
       type: object
-      required:
-      - user_type
-      - label
+      description: ''
       properties:
-        id:
+        tag_id:
           type: integer
-          readOnly: true
-        user_type:
+          description: Identifier of the tag
+          example: 301
+        name:
           type: string
-        label:
-          type: string
-        modified_by:
-          type: string
-          readOnly: true
-        modified_time:
-          type: string
-          readOnly: true
-    UserInductionUpdateCreate:
+          description: Name of the tag
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the tag
+        color:
+          type:
+          - string
+          - 'null'
+          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
+          example: '#795548'
+      required:
+      - name
+    UserSkill:
       type: object
       required:
-      - induction_id
-      - user_id
+      - skill_id
       properties:
         id:
           type: integer
           readOnly: true
         user_id:
           type: integer
-        induction_id:
+        skill_id:
           type: integer
-        active:
-          type: boolean
-        description:
-          type: string
         created_time:
           type: string
-          readOnly: true
-        issue_date:
-          type: string
-        expiry_time:
-          type: string
-        attachment:
-          type: string
-    UserTypes:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserType'
+        skill:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
     User:
       type: object
       required:
@@ -1247,37 +1278,6 @@ components:
           - string
           - 'null'
           example: int_123456
-    TagPart:
-      title: TagPart
-      x-stoplight:
-        id: epsk9hslhfq0q
-      type: object
-      description: ''
-      properties:
-        tag_id:
-          type: integer
-          description: Identifier of the tag
-          example: 301
-        name:
-          type: string
-          description: Name of the tag
-        description:
-          type:
-          - string
-          - 'null'
-          description: Description of the tag
-        color:
-          type:
-          - string
-          - 'null'
-          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
-          example: '#795548'
-      required:
-      - name
-    UserInductions:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserInduction'
   requestBodies:
     CreateUpdateUserRequest:
       content:

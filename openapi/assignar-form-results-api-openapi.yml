@@ -64,6 +64,60 @@ paths:
                     $ref: '#/components/schemas/FormResult'
 components:
   schemas:
+    FormResultFields:
+      type: object
+      properties:
+        id:
+          type: integer
+        form_id:
+          type: integer
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        client_id:
+          type: integer
+        project_id:
+          type: integer
+        asset_id:
+          type: integer
+        worker_id:
+          type: integer
+        supplier_id:
+          type: integer
+        order_id:
+          type: integer
+        date_created:
+          type: string
+          format: date-time
+        submitted_time:
+          type: string
+          format: date-time
+        modified_time:
+          type: string
+          format: date-time
+        modified_by:
+          type: integer
+        creator_id:
+          type: integer
+        status_id:
+          type: integer
+        assignee_id:
+          type: integer
+        order_resource_id:
+          type: integer
+    FormResultListItem:
+      description: Same shape as a full form result except `result_data` is not included on list responses. Use the single-result endpoint for `result_data`.
+      allOf:
+      - $ref: '#/components/schemas/FormResultFields'
+      - $ref: '#/components/schemas/FormResultTail'
+    FormResults:
+      type: array
+      description: List responses intentionally omit `result_data` on each item to keep payloads lightweight. Use `GET /form-results/{formResultId}` to retrieve full field values including `result_data`.
+      items:
+        $ref: '#/components/schemas/FormResultListItem'
     FormResult:
       description: Full form result including `result_data`, as returned by `GET /form-results/{formResultId}`.
       allOf:
@@ -246,11 +300,6 @@ components:
                           items:
                             type: object
       - $ref: '#/components/schemas/FormResultTail'
-    FormResults:
-      type: array
-      description: List responses intentionally omit `result_data` on each item to keep payloads lightweight. Use `GET /form-results/{formResultId}` to retrieve full field values including `result_data`.
-      items:
-        $ref: '#/components/schemas/FormResultListItem'
     FormResultTail:
       type: object
       properties:
@@ -325,55 +374,6 @@ components:
               type: integer
             label:
               type: string
-    FormResultFields:
-      type: object
-      properties:
-        id:
-          type: integer
-        form_id:
-          type: integer
-        latitude:
-          type: number
-          format: double
-        longitude:
-          type: number
-          format: double
-        client_id:
-          type: integer
-        project_id:
-          type: integer
-        asset_id:
-          type: integer
-        worker_id:
-          type: integer
-        supplier_id:
-          type: integer
-        order_id:
-          type: integer
-        date_created:
-          type: string
-          format: date-time
-        submitted_time:
-          type: string
-          format: date-time
-        modified_time:
-          type: string
-          format: date-time
-        modified_by:
-          type: integer
-        creator_id:
-          type: integer
-        status_id:
-          type: integer
-        assignee_id:
-          type: integer
-        order_resource_id:
-          type: integer
-    FormResultListItem:
-      description: Same shape as a full form result except `result_data` is not included on list responses. Use the single-result endpoint for `result_data`.
-      allOf:
-      - $ref: '#/components/schemas/FormResultFields'
-      - $ref: '#/components/schemas/FormResultTail'
   securitySchemes:
     OAuth2:
       type: oauth2

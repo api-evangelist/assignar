@@ -323,6 +323,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
     LeaveRequest:
       type: object
       properties:
@@ -481,20 +495,6 @@ components:
             modified_by_id: 4555
         attachment_url:
           $ref: '#/components/schemas/UrlAttachment'
-    UrlAttachment:
-      type: object
-      readOnly: true
-      properties:
-        url:
-          type: string
-          format: url
-          description: Download URL for the file.
-        expiry:
-          type: integer
-          description: Expiry date of the download url in timestamp.
-      example:
-        url: https://url-to-attachment
-        expiry: 1742575641898
   securitySchemes:
     OAuth2:
       type: oauth2

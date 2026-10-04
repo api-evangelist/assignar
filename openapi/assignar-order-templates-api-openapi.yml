@@ -158,6 +158,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderTemplateTaskForm'
+    OrderTemplates:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTemplate'
     OrderTemplateTag:
       type: object
       properties:
@@ -176,6 +180,41 @@ components:
           type:
           - string
           - 'null'
+    OrderTemplateActivity:
+      type: object
+      properties:
+        id:
+          type: integer
+        activity_id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        external_id:
+          type:
+          - string
+          - 'null'
+        uom_code:
+          type:
+          - string
+          - 'null'
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Soft-delete timestamp on the underlying activity; null when the activity is not deleted
+        deleted_by_id:
+          type:
+          - integer
+          - 'null'
+          description: User id who soft-deleted the underlying activity; null when the activity is not deleted
+        integration_id:
+          type:
+          - string
+          - 'null'
+          description: External system identifier for the underlying activity
     OrderTemplateTaskForm:
       type: object
       properties:
@@ -197,10 +236,6 @@ components:
           - boolean
           - 'null'
           description: Whether the underlying form is archived; null if the form no longer resolves
-    OrderTemplates:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrderTemplate'
     OrderTemplate:
       type: object
       properties:
@@ -261,41 +296,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderTemplateTag'
-    OrderTemplateActivity:
-      type: object
-      properties:
-        id:
-          type: integer
-        activity_id:
-          type: integer
-        name:
-          type:
-          - string
-          - 'null'
-        external_id:
-          type:
-          - string
-          - 'null'
-        uom_code:
-          type:
-          - string
-          - 'null'
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Soft-delete timestamp on the underlying activity; null when the activity is not deleted
-        deleted_by_id:
-          type:
-          - integer
-          - 'null'
-          description: User id who soft-deleted the underlying activity; null when the activity is not deleted
-        integration_id:
-          type:
-          - string
-          - 'null'
-          description: External system identifier for the underlying activity
   securitySchemes:
     OAuth2:
       type: oauth2

@@ -166,73 +166,6 @@ paths:
                     $ref: '#/components/schemas/SiteDiaryTimesheet'
 components:
   schemas:
-    SiteDiaryChargeableItem:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        site_diary_id:
-          type: integer
-        chargeable_item:
-          type: object
-          properties:
-            id:
-              type: integer
-            material_id:
-              type: integer
-            order_id:
-              type: integer
-            quantity:
-              type: integer
-            rate:
-              type: number
-            supplier_id:
-              type: integer
-            asset_id:
-              type: integer
-            comments:
-              type: string
-            created_by:
-              type: integer
-            created_time:
-              type: string
-              format: date-time
-            modified_by:
-              type: integer
-            modified_time:
-              type: string
-              format: date-time
-            work_item_id:
-              type: integer
-        site_diary:
-          type: object
-          properties:
-            id:
-              type: integer
-              readOnly: true
-            client_id:
-              type: integer
-            project_id:
-              type: integer
-            order_id:
-              type: integer
-            site_diary_date:
-              type: string
-              format: date-time
-            client_signature_name:
-              type: string
-            client_signature_url:
-              type: object
-              readOnly: true
-              properties:
-                url:
-                  type: string
-                  format: url
-                  description: Download URL for the file.
-                expiry:
-                  type: integer
-                  description: Expiry date of the download url in timestamp.
     SiteDiary:
       type: object
       properties:
@@ -532,6 +465,10 @@ components:
                 expiry:
                   type: integer
                   description: Expiry date of the download url in timestamp.
+    SiteDiaryChargeableItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/SiteDiaryChargeableItem'
     SiteDiaryTimesheets:
       type: array
       items:
@@ -540,10 +477,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/SiteDiary'
-    SiteDiaryChargeableItems:
-      type: array
-      items:
-        $ref: '#/components/schemas/SiteDiaryChargeableItem'
     UrlAttachment:
       type: object
       readOnly: true
@@ -558,6 +491,73 @@ components:
       example:
         url: https://url-to-attachment
         expiry: 1742575641898
+    SiteDiaryChargeableItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        site_diary_id:
+          type: integer
+        chargeable_item:
+          type: object
+          properties:
+            id:
+              type: integer
+            material_id:
+              type: integer
+            order_id:
+              type: integer
+            quantity:
+              type: integer
+            rate:
+              type: number
+            supplier_id:
+              type: integer
+            asset_id:
+              type: integer
+            comments:
+              type: string
+            created_by:
+              type: integer
+            created_time:
+              type: string
+              format: date-time
+            modified_by:
+              type: integer
+            modified_time:
+              type: string
+              format: date-time
+            work_item_id:
+              type: integer
+        site_diary:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            client_id:
+              type: integer
+            project_id:
+              type: integer
+            order_id:
+              type: integer
+            site_diary_date:
+              type: string
+              format: date-time
+            client_signature_name:
+              type: string
+            client_signature_url:
+              type: object
+              readOnly: true
+              properties:
+                url:
+                  type: string
+                  format: url
+                  description: Download URL for the file.
+                expiry:
+                  type: integer
+                  description: Expiry date of the download url in timestamp.
   securitySchemes:
     OAuth2:
       type: oauth2

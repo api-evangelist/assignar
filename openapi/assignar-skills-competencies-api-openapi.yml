@@ -527,46 +527,38 @@ paths:
           description: Success
 components:
   schemas:
-    Inductions:
-      type: array
-      items:
-        $ref: '#/components/schemas/Induction'
+    SkillCreate:
+      description: The same body as an update, except that `name` is required.
+      allOf:
+      - $ref: '#/components/schemas/SkillUpdate'
+      - type: object
+        required:
+        - name
     Skills:
       type: array
       items:
         $ref: '#/components/schemas/Skill'
-    SkillUpdate:
+    Competency:
       type: object
-      description: 'Every field is optional — send only what you want to change, and anything omitted is left as it is. A skill can be renamed without touching its sub-skill, and its sub-skill can be set or removed without renaming it.
-
-
-        The body itself must not be empty: `{}` is rejected with `[400] Missing payload.`'
+      required:
+      - name
+      - exp_req
+      - comp_date_req
+      - issue_req
       properties:
+        id:
+          type: integer
+          readOnly: true
         name:
           type: string
-        subskill_id:
-          type:
-          - integer
-          - 'null'
-          description: 'Sets or removes this skill''s sub-skill: a skill that this skill also covers, so a worker holding this skill is treated as holding the sub-skill too. The relationship is transitive, and a skill has at most one sub-skill. Responses return it as `subskill`, an object.
-
-
-            | Payload | Effect |
-
-            | --- | --- |
-
-            | key omitted | existing sub-skill untouched |
-
-            | `null` | sub-skill removed |
-
-            | a positive integer | sub-skill set, replacing any existing one |
-
-
-            Setting one replaces the existing sub-skill rather than adding to it, since a skill has at most one.
-
-
-            Accepts an integer or a digit-only string (`123` and `"123"` both work), but loose numeric forms are rejected rather than coerced — `"1e1"`, `"0x3"`, `" 123 "`, `"+5"` and `"123.0"` are all `400`. `-1` is not a removal sentinel on this API and is rejected; use `null`.'
-          example: 123
+        exp_req:
+          type: boolean
+        comp_date_req:
+          type: integer
+        licence_number:
+          type: string
+        issue_req:
+          type: boolean
     Skill:
       type: object
       required:
@@ -599,34 +591,38 @@ components:
             name:
               type: string
               example: Rigger Intermediate
-    SkillCreate:
-      description: The same body as an update, except that `name` is required.
-      allOf:
-      - $ref: '#/components/schemas/SkillUpdate'
-      - type: object
-        required:
-        - name
-    Competency:
+    SkillUpdate:
       type: object
-      required:
-      - name
-      - exp_req
-      - comp_date_req
-      - issue_req
+      description: 'Every field is optional — send only what you want to change, and anything omitted is left as it is. A skill can be renamed without touching its sub-skill, and its sub-skill can be set or removed without renaming it.
+
+
+        The body itself must not be empty: `{}` is rejected with `[400] Missing payload.`'
       properties:
-        id:
-          type: integer
-          readOnly: true
         name:
           type: string
-        exp_req:
-          type: boolean
-        comp_date_req:
-          type: integer
-        licence_number:
-          type: string
-        issue_req:
-          type: boolean
+        subskill_id:
+          type:
+          - integer
+          - 'null'
+          description: 'Sets or removes this skill''s sub-skill: a skill that this skill also covers, so a worker holding this skill is treated as holding the sub-skill too. The relationship is transitive, and a skill has at most one sub-skill. Responses return it as `subskill`, an object.
+
+
+            | Payload | Effect |
+
+            | --- | --- |
+
+            | key omitted | existing sub-skill untouched |
+
+            | `null` | sub-skill removed |
+
+            | a positive integer | sub-skill set, replacing any existing one |
+
+
+            Setting one replaces the existing sub-skill rather than adding to it, since a skill has at most one.
+
+
+            Accepts an integer or a digit-only string (`123` and `"123"` both work), but loose numeric forms are rejected rather than coerced — `"1e1"`, `"0x3"`, `" 123 "`, `"+5"` and `"123.0"` are all `400`. `-1` is not a removal sentinel on this API and is rejected; use `null`.'
+          example: 123
     Competencies:
       type: array
       items:
@@ -647,6 +643,10 @@ components:
           type: boolean
         issue_required:
           type: boolean
+    Inductions:
+      type: array
+      items:
+        $ref: '#/components/schemas/Induction'
   securitySchemes:
     OAuth2:
       type: oauth2

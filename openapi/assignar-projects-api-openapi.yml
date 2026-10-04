@@ -467,181 +467,6 @@ paths:
                     description: Use this value as `attachment` in the payload when creating a Project Document.
 components:
   schemas:
-    ProjectDocuments:
-      type: array
-      items:
-        $ref: '#/components/schemas/ProjectDocument'
-    ProjectDocument:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        project_id:
-          type: integer
-        document_id:
-          type: integer
-        project:
-          type: object
-          readOnly: true
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-        document:
-          type: object
-          readOnly: true
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-        label:
-          type: string
-        comments:
-          type: string
-        external_id:
-          type: string
-        active:
-          type: boolean
-        disabled:
-          type: boolean
-        attachment:
-          type: string
-          description: (See instructions how to upload files.)
-        attachment_url:
-          $ref: '#/components/schemas/UrlAttachment'
-        expiry_date:
-          type: string
-          format: date
-        expiry_date_alert:
-          type: string
-          format: date
-        expiry_number:
-          type: integer
-        expiry_number_alert:
-          type: integer
-        created_time:
-          type: string
-          format: date-time
-          readOnly: true
-        modified_time:
-          type: string
-          format: date-time
-          readOnly: true
-    ProjectContactsResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-          project_id:
-            type: integer
-          contact_id:
-            type: integer
-          project:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-          contact:
-            type: object
-            properties:
-              id:
-                type: integer
-                readOnly: true
-              first_name:
-                type: string
-              last_name:
-                type: string
-              company:
-                type: string
-              office_phone:
-                type: string
-              mobile:
-                type: string
-              email:
-                type: string
-              job_title:
-                type: string
-              address_1:
-                type: string
-              address_2:
-                type: string
-              city:
-                type: string
-              state:
-                type: string
-              postcode:
-                type: string
-              comments:
-                type: string
-              external_id:
-                type: string
-    ProjectRequest:
-      type: object
-      properties:
-        client_id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-        address:
-          type: string
-          description: A full address (street, city/suburb, state, postal code, country)
-        address_geo:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - Point
-            coordinates:
-              type: array
-              items:
-                type: number
-              example:
-              - 39.757776
-              - -105.0071
-        suburb:
-          type: string
-        state:
-          type: string
-        postcode:
-          type: string
-        external_id:
-          type: string
-        integration_id:
-          type:
-          - string
-          - 'null'
-        active:
-          type: boolean
-        parent_id:
-          type: integer
-        charge_code_id:
-          type: integer
-        tags:
-          type: array
-          items:
-            type: object
-            properties:
-              tag_id:
-                type: integer
-              tag:
-                $ref: '#/components/schemas/Tag'
-        activities:
-          type: array
-          items:
-            type: object
-            properties:
-              activity_id:
-                type: integer
     ProjectCreateResponse:
       type: object
       properties:
@@ -708,6 +533,17 @@ components:
             properties:
               activity_id:
                 type: integer
+    ProjectContactsPayload:
+      type: object
+      properties:
+        project_id:
+          type: integer
+        contact_id:
+          type: integer
+    ProjectDocuments:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProjectDocument'
     ProjectResponse:
       type: object
       properties:
@@ -843,6 +679,66 @@ components:
                 type: string
               employee_id:
                 type: string
+    ProjectRequest:
+      type: object
+      properties:
+        client_id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+          description: A full address (street, city/suburb, state, postal code, country)
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+              example:
+              - 39.757776
+              - -105.0071
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        external_id:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+        active:
+          type: boolean
+        parent_id:
+          type: integer
+        charge_code_id:
+          type: integer
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: integer
+              tag:
+                $ref: '#/components/schemas/Tag'
+        activities:
+          type: array
+          items:
+            type: object
+            properties:
+              activity_id:
+                type: integer
     Tag:
       type: object
       properties:
@@ -866,28 +762,117 @@ components:
       required:
       - taxonomy
       - name
-    ProjectContactCreated:
+    ProjectContactsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          project_id:
+            type: integer
+          contact_id:
+            type: integer
+          project:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+          contact:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              first_name:
+                type: string
+              last_name:
+                type: string
+              company:
+                type: string
+              office_phone:
+                type: string
+              mobile:
+                type: string
+              email:
+                type: string
+              job_title:
+                type: string
+              address_1:
+                type: string
+              address_2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              postcode:
+                type: string
+              comments:
+                type: string
+              external_id:
+                type: string
+    ProjectDocument:
       type: object
-      description: A project/contact association as returned when created.
       properties:
         id:
           type: integer
           readOnly: true
         project_id:
           type: integer
-        contact_id:
+        document_id:
           type: integer
-    ProjectContactsPayload:
-      type: object
-      properties:
-        project_id:
+        project:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        document:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        label:
+          type: string
+        comments:
+          type: string
+        external_id:
+          type: string
+        active:
+          type: boolean
+        disabled:
+          type: boolean
+        attachment:
+          type: string
+          description: (See instructions how to upload files.)
+        attachment_url:
+          $ref: '#/components/schemas/UrlAttachment'
+        expiry_date:
+          type: string
+          format: date
+        expiry_date_alert:
+          type: string
+          format: date
+        expiry_number:
           type: integer
-        contact_id:
+        expiry_number_alert:
           type: integer
-    Projects:
-      type: array
-      items:
-        $ref: '#/components/schemas/ProjectResponse'
+        created_time:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          readOnly: true
     UrlAttachment:
       type: object
       readOnly: true
@@ -902,6 +887,21 @@ components:
       example:
         url: https://url-to-attachment
         expiry: 1742575641898
+    Projects:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProjectResponse'
+    ProjectContactCreated:
+      type: object
+      description: A project/contact association as returned when created.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        project_id:
+          type: integer
+        contact_id:
+          type: integer
   securitySchemes:
     OAuth2:
       type: oauth2

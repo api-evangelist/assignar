@@ -244,21 +244,29 @@ components:
                 code: HEAVY-MACH
       description: ''
   schemas:
-    UserReference:
+    AssetClasses:
+      type: array
+      items:
+        $ref: '#/components/schemas/AssetClassDetail'
+    AssetClass:
       type: object
       properties:
-        user_id:
+        id:
           type: integer
-          example: 500
-        username:
+          example: 5
+        name:
           type: string
-          example: jsmith
-        first_name:
-          type: string
-          example: John
-        last_name:
-          type: string
-          example: Smith
+          example: Heavy Machinery
+        description:
+          type:
+          - string
+          - 'null'
+          example: Large construction equipment
+        code:
+          type:
+          - string
+          - 'null'
+          example: HEAVY-MACH
     AssetClassDetail:
       description: An asset class as returned by the `/asset-classes` collection. Extends the `AssetClass` summary — the four fields the `assetClass` relation selects when embedded in an asset or a site diary entry — with the audit columns and their hydrated user objects.
       allOf:
@@ -303,29 +311,21 @@ components:
             - $ref: '#/components/schemas/UserReference'
             description: The user named by `modified_by_id`, hydrated by default with no `relations` query parameter. When `modified_by_id` is null the object is still present with every field set to null, rather than the object itself being null.
             readOnly: true
-    AssetClass:
+    UserReference:
       type: object
       properties:
-        id:
+        user_id:
           type: integer
-          example: 5
-        name:
+          example: 500
+        username:
           type: string
-          example: Heavy Machinery
-        description:
-          type:
-          - string
-          - 'null'
-          example: Large construction equipment
-        code:
-          type:
-          - string
-          - 'null'
-          example: HEAVY-MACH
-    AssetClasses:
-      type: array
-      items:
-        $ref: '#/components/schemas/AssetClassDetail'
+          example: jsmith
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
   securitySchemes:
     OAuth2:
       type: oauth2
