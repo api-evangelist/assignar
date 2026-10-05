@@ -1,0 +1,87 @@
+slug: assignar
+provider: Assignar
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 7
+edges:
+- tag: Leave Requests
+  spec_file: assignar-leave-requests-api-openapi.yml
+  capability_id: BC-300.70
+  capability_id_l1: BC-300
+  capability_name: HR Operations Management
+  confidence: 0.85
+  evidence: POST /leave-requests 'Create new leave requests for multiple users'; PUT /leave-requests/{leaveRequestId}/approve
+    'Approve a leave request'; .../decline; .../cancel
+  reason: Full absence-request lifecycle with approve/decline/cancel workflow over employee users. Leave/absence
+    administration is core HR Operations Management regardless of the construction setting.
+- tag: Projects
+  spec_file: assignar-projects-api-openapi.yml
+  capability_id: BC-900.30
+  capability_id_l1: BC-900
+  capability_name: Project Management
+  confidence: 0.8
+  evidence: POST /projects/ 'Create a new project'; POST /projects/{projectId}/task-groups 'Assign a task
+    group to a project'; GET /projects/{projectId}/documents
+  reason: Project records with task groups, attached documents, contacts and rate groups — the execution
+    and tracking structures of construction project delivery, which maps to Project Management.
+- tag: Skills & Competencies
+  spec_file: assignar-skills-competencies-api-openapi.yml
+  capability_id: BC-300
+  capability_id_l1: BC-300
+  capability_name: Human Capital Management
+  confidence: 0.8
+  evidence: POST /skills 'Create a new skill'; POST /competencies 'Create a new competency'; POST /inductions
+    'Create a new induction'
+  reason: Maintains the catalogue of worker skills, competencies and inductions — workforce capability
+    and qualification data, squarely Human Capital Management. Ambiguous between Talent Management (competency
+    frameworks) and Learning & Development (inductions/certifications), so no L2 asserted.
+- tag: Clients
+  spec_file: assignar-clients-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.75
+  evidence: POST /clients/ 'Create a new client'; GET /clients/{clientId}/contacts 'List Client Contacts';
+    schemas 'Client', 'ClientContactsResponse'
+  reason: Full lifecycle CRUD over client records plus client contacts — maintenance of the customer master
+    record for the contractor. Some residual ambiguity because client-linked inductions and task-groups
+    also serve compliance and work assignment, so held below 0.8.
+- tag: Leave Types
+  spec_file: assignar-leave-types-api-openapi.yml
+  capability_id: BC-300.70
+  capability_id_l1: BC-300
+  capability_name: HR Operations Management
+  confidence: 0.7
+  evidence: 'GET /leave-types ''List all leave types''; schemas: LeaveType'
+  reason: Reference data for the leave/absence administration surface (companion to Leave Requests), which
+    is HR Operations. Read-only configuration data only, hence moderate confidence.
+- tag: Timesheets
+  spec_file: assignar-timesheets-api-openapi.yml
+  capability_id: BC-300.70
+  capability_id_l1: BC-300
+  capability_name: HR Operations Management
+  confidence: 0.7
+  evidence: GET /timesheets/coded-worker-times "Retrieve the coded timesheets for workers"; PUT /timesheets/{timesheetId}/process
+    "Sets a timesheet's status to processed"; schemas PayCode, TimeCode
+  reason: Worker time capture, pay-code coding and timesheet processing is time-and-attendance feeding
+    payroll, i.e. HR operations. Some ambiguity because the same data also drives job costing.
+- tag: Users
+  spec_file: assignar-users-api-openapi.yml
+  capability_id: BC-300.70
+  capability_id_l1: BC-300
+  capability_name: HR Operations Management
+  confidence: 0.7
+  evidence: GET /employment-types "List all existing employment types"; schemas UserCompetencies, UserInduction,
+    UserSkills
+  reason: The 'users' here are workers with employment types, skills, competencies and inductions — workforce
+    records maintenance rather than application accounts, so HR operations/employee records is the best
+    fit; could partly touch learning records.
