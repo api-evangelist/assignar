@@ -136,6 +136,10 @@ paths:
           description: Success
 components:
   schemas:
+    Contacts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Contact'
     Contact:
       type: object
       required:
@@ -189,10 +193,6 @@ components:
             properties:
               tag_id:
                 type: integer
-    Contacts:
-      type: array
-      items:
-        $ref: '#/components/schemas/Contact'
   securitySchemes:
     OAuth2:
       type: oauth2

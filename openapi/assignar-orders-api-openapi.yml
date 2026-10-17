@@ -899,14 +899,112 @@ paths:
                     description: Use this value as `attachment` in your payload when creating an Order Attachment.
 components:
   schemas:
-    OrderTypes:
+    OrderAttachment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        order_id:
+          type: integer
+        name:
+          type: string
+        size:
+          type: string
+          description: File size in KB rounded to 2 decimal places.
+        attachment:
+          type: string
+          description: (See instructions how to upload files.)
+        attachment_url:
+          $ref: '#/components/schemas/UrlAttachment'
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+    OrderContactsResponse:
       type: array
       items:
-        $ref: '#/components/schemas/OrderType'
-    OrderTaskChargeItems:
+        type: object
+        properties:
+          id:
+            type: integer
+          order_id:
+            type: integer
+          contact_id:
+            type: integer
+          order:
+            type: object
+            properties:
+              id:
+                type: integer
+              client_id:
+                type: integer
+              project_id:
+                type: integer
+              start_date:
+                type: date
+              end_date:
+                type: date
+          contact:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              first_name:
+                type: string
+              last_name:
+                type: string
+              company:
+                type: string
+              office_phone:
+                type: string
+              mobile:
+                type: string
+              email:
+                type: string
+              job_title:
+                type: string
+              address_1:
+                type: string
+              address_2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              postcode:
+                type: string
+              comments:
+                type: string
+              external_id:
+                type: string
+    OrderActivityUpdate:
+      type: object
+      required:
+      - order_activity_id
+      properties:
+        order_activity_id:
+          type: integer
+          description: The ID of the order activity to update
+        quantity:
+          type: integer
+          description: The new quantity for the order activity
+    Orders:
       type: array
       items:
-        $ref: '#/components/schemas/OrderTaskChargeItem'
+        $ref: '#/components/schemas/Order'
+    OrderActivityCreate:
+      type: object
+      required:
+      - activity_id
+      properties:
+        activity_id:
+          type: integer
+          description: The ID of the activity to add to the order
+        quantity:
+          type: integer
+          description: Optional quantity for the activity
     Tag:
       type: object
       properties:
@@ -944,48 +1042,21 @@ components:
       example:
         url: https://url-to-attachment
         expiry: 1742575641898
-    OrderAttachment:
+    OrderStatus:
       type: object
       properties:
         id:
           type: integer
-          readOnly: true
-        order_id:
-          type: integer
         name:
           type: string
-        size:
-          type: string
-          description: File size in KB rounded to 2 decimal places.
-        attachment:
-          type: string
-          description: (See instructions how to upload files.)
-        attachment_url:
-          $ref: '#/components/schemas/UrlAttachment'
-        date_created:
-          type: string
-          format: date-time
-          readOnly: true
-    OrderTask:
-      type: object
-      properties:
-        task_id:
-          type: integer
-        task_quantity:
-          type: integer
-        shift_date:
-          type: string
-          description: items should be a date string in "YYYY-MM-DD" format
-        start_time:
-          type: string
-        end_time:
-          type: string
-        description:
-          type: string
-      required:
-      - task_id
-      - task_quantity
-      x-examples: {}
+    OrderTasks:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTask'
+    OrderTaskChargeItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTaskChargeItem'
     Order:
       type: object
       properties:
@@ -1089,56 +1160,6 @@ components:
       - order_owner
       - start_date
       - end_date
-    OrderTaskShiftDate:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        date:
-          type: string
-          readOnly: true
-    OrderStatus:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-    OrderTasksCreated:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrderTaskCreated'
-    OrderStatuses:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrderStatus'
-    OrderActivityCreate:
-      type: object
-      required:
-      - activity_id
-      properties:
-        activity_id:
-          type: integer
-          description: The ID of the activity to add to the order
-        quantity:
-          type: integer
-          description: Optional quantity for the activity
-    OrderTaskShiftDates:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrderTaskShiftDate'
-    OrderActivityUpdate:
-      type: object
-      required:
-      - order_activity_id
-      properties:
-        order_activity_id:
-          type: integer
-          description: The ID of the order activity to update
-        quantity:
-          type: integer
-          description: The new quantity for the order activity
     OrderTaskChargeItemCreated:
       type: object
       description: An order task charge item as returned when created.
@@ -1173,139 +1194,6 @@ components:
         modified_by:
           type: integer
           readOnly: true
-    Orders:
-      type: array
-      items:
-        $ref: '#/components/schemas/Order'
-    OrderContactsPayload:
-      type: object
-      properties:
-        order_id:
-          type: integer
-        contact_id:
-          type: integer
-    OrderContactsResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-          order_id:
-            type: integer
-          contact_id:
-            type: integer
-          order:
-            type: object
-            properties:
-              id:
-                type: integer
-              client_id:
-                type: integer
-              project_id:
-                type: integer
-              start_date:
-                type: date
-              end_date:
-                type: date
-          contact:
-            type: object
-            properties:
-              id:
-                type: integer
-                readOnly: true
-              first_name:
-                type: string
-              last_name:
-                type: string
-              company:
-                type: string
-              office_phone:
-                type: string
-              mobile:
-                type: string
-              email:
-                type: string
-              job_title:
-                type: string
-              address_1:
-                type: string
-              address_2:
-                type: string
-              city:
-                type: string
-              state:
-                type: string
-              postcode:
-                type: string
-              comments:
-                type: string
-              external_id:
-                type: string
-    OrderActivity:
-      type: object
-      properties:
-        id:
-          type: integer
-        activity_id:
-          type: integer
-        name:
-          type: string
-        external_id:
-          type: string
-        uom_code:
-          type: string
-        quantity:
-          type:
-          - number
-          - 'null'
-      required:
-      - id
-      - activity_id
-      - name
-      - external_id
-      - uom_code
-    OrderTasks:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrderTask'
-    OrderContactCreated:
-      type: object
-      description: An order/contact association as returned when created.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        order_id:
-          type: integer
-        contact_id:
-          type: integer
-    OrderTaskChargeItem:
-      type: object
-      required:
-      - charge_item_id
-      - rate
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        charge_item_id:
-          type: integer
-        units:
-          type: number
-        rate:
-          type: number
-        asset_id:
-          type: integer
-        comments:
-          type: string
-    OrderType:
-      type: object
-      properties:
-        id:
-          type: integer
-        label:
-          type: string
     OrderTaskCreated:
       type: object
       description: A single order task row as returned when created. One row is created for each shift date supplied in `dates`, so a create returns an array of these rather than a single object.
@@ -1334,6 +1222,118 @@ components:
           type:
           - integer
           - 'null'
+    OrderTaskChargeItem:
+      type: object
+      required:
+      - charge_item_id
+      - rate
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        charge_item_id:
+          type: integer
+        units:
+          type: number
+        rate:
+          type: number
+        asset_id:
+          type: integer
+        comments:
+          type: string
+    OrderTask:
+      type: object
+      properties:
+        task_id:
+          type: integer
+        task_quantity:
+          type: integer
+        shift_date:
+          type: string
+          description: items should be a date string in "YYYY-MM-DD" format
+        start_time:
+          type: string
+        end_time:
+          type: string
+        description:
+          type: string
+      required:
+      - task_id
+      - task_quantity
+      x-examples: {}
+    OrderTaskShiftDate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          readOnly: true
+    OrderActivity:
+      type: object
+      properties:
+        id:
+          type: integer
+        activity_id:
+          type: integer
+        name:
+          type: string
+        external_id:
+          type: string
+        uom_code:
+          type: string
+        quantity:
+          type:
+          - number
+          - 'null'
+      required:
+      - id
+      - activity_id
+      - name
+      - external_id
+      - uom_code
+    OrderStatuses:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderStatus'
+    OrderContactsPayload:
+      type: object
+      properties:
+        order_id:
+          type: integer
+        contact_id:
+          type: integer
+    OrderType:
+      type: object
+      properties:
+        id:
+          type: integer
+        label:
+          type: string
+    OrderTasksCreated:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTaskCreated'
+    OrderContactCreated:
+      type: object
+      description: An order/contact association as returned when created.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        order_id:
+          type: integer
+        contact_id:
+          type: integer
+    OrderTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderType'
+    OrderTaskShiftDates:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderTaskShiftDate'
   requestBodies:
     CreateOrderTask:
       content:

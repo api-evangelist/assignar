@@ -64,6 +64,16 @@ paths:
                     $ref: '#/components/schemas/FormResult'
 components:
   schemas:
+    FormResults:
+      type: array
+      description: List responses intentionally omit `result_data` on each item to keep payloads lightweight. Use `GET /form-results/{formResultId}` to retrieve full field values including `result_data`.
+      items:
+        $ref: '#/components/schemas/FormResultListItem'
+    FormResultListItem:
+      description: Same shape as a full form result except `result_data` is not included on list responses. Use the single-result endpoint for `result_data`.
+      allOf:
+      - $ref: '#/components/schemas/FormResultFields'
+      - $ref: '#/components/schemas/FormResultTail'
     FormResultFields:
       type: object
       properties:
@@ -108,16 +118,80 @@ components:
           type: integer
         order_resource_id:
           type: integer
-    FormResultListItem:
-      description: Same shape as a full form result except `result_data` is not included on list responses. Use the single-result endpoint for `result_data`.
-      allOf:
-      - $ref: '#/components/schemas/FormResultFields'
-      - $ref: '#/components/schemas/FormResultTail'
-    FormResults:
-      type: array
-      description: List responses intentionally omit `result_data` on each item to keep payloads lightweight. Use `GET /form-results/{formResultId}` to retrieve full field values including `result_data`.
-      items:
-        $ref: '#/components/schemas/FormResultListItem'
+    FormResultTail:
+      type: object
+      properties:
+        creator_name:
+          type: string
+        assignee_name:
+          type: string
+        form:
+          type: object
+          properties:
+            display_meta:
+              type: object
+              properties:
+                fields:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      id:
+                        type: number
+                      is_required:
+                        type: boolean
+                      question:
+                        type: string
+                      is_conditional:
+                        type: boolean
+                      has_url:
+                        type: boolean
+            id:
+              type: integer
+            title:
+              type: string
+        creator:
+          type: object
+          properties:
+            full_name:
+              type: string
+            user_id:
+              type: integer
+            first_name:
+              type: string
+            last_name:
+              type: string
+        modifier:
+          type: object
+          properties:
+            full_name:
+              type: string
+            user_id:
+              type: integer
+            first_name:
+              type: string
+            last_name:
+              type: string
+        assignee:
+          type: object
+          properties:
+            full_name:
+              type: string
+            user_id:
+              type: integer
+            first_name:
+              type: string
+            last_name:
+              type: string
+        status:
+          type: object
+          properties:
+            id:
+              type: integer
+            label:
+              type: string
     FormResult:
       description: Full form result including `result_data`, as returned by `GET /form-results/{formResultId}`.
       allOf:
@@ -300,80 +374,6 @@ components:
                           items:
                             type: object
       - $ref: '#/components/schemas/FormResultTail'
-    FormResultTail:
-      type: object
-      properties:
-        creator_name:
-          type: string
-        assignee_name:
-          type: string
-        form:
-          type: object
-          properties:
-            display_meta:
-              type: object
-              properties:
-                fields:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      id:
-                        type: number
-                      is_required:
-                        type: boolean
-                      question:
-                        type: string
-                      is_conditional:
-                        type: boolean
-                      has_url:
-                        type: boolean
-            id:
-              type: integer
-            title:
-              type: string
-        creator:
-          type: object
-          properties:
-            full_name:
-              type: string
-            user_id:
-              type: integer
-            first_name:
-              type: string
-            last_name:
-              type: string
-        modifier:
-          type: object
-          properties:
-            full_name:
-              type: string
-            user_id:
-              type: integer
-            first_name:
-              type: string
-            last_name:
-              type: string
-        assignee:
-          type: object
-          properties:
-            full_name:
-              type: string
-            user_id:
-              type: integer
-            first_name:
-              type: string
-            last_name:
-              type: string
-        status:
-          type: object
-          properties:
-            id:
-              type: integer
-            label:
-              type: string
   securitySchemes:
     OAuth2:
       type: oauth2

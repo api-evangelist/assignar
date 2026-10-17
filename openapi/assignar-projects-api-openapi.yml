@@ -467,12 +467,20 @@ paths:
                     description: Use this value as `attachment` in the payload when creating a Project Document.
 components:
   schemas:
-    ProjectCreateResponse:
+    Projects:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProjectResponse'
+    ProjectContactsPayload:
       type: object
       properties:
-        id:
+        project_id:
           type: integer
-          readOnly: true
+        contact_id:
+          type: integer
+    ProjectRequest:
+      type: object
+      properties:
         client_id:
           type: integer
         name:
@@ -505,18 +513,13 @@ components:
         external_id:
           type: string
         integration_id:
-          type: string
+          type:
+          - string
+          - 'null'
         active:
           type: boolean
         parent_id:
           type: integer
-        modified_by:
-          type: string
-          readOnly: true
-        modified_time:
-          type: string
-          format: date-time
-          readOnly: true
         charge_code_id:
           type: integer
         tags:
@@ -526,6 +529,8 @@ components:
             properties:
               tag_id:
                 type: integer
+              tag:
+                $ref: '#/components/schemas/Tag'
         activities:
           type: array
           items:
@@ -533,13 +538,43 @@ components:
             properties:
               activity_id:
                 type: integer
-    ProjectContactsPayload:
+    UrlAttachment:
+      type: object
+      readOnly: true
+      properties:
+        url:
+          type: string
+          format: url
+          description: Download URL for the file.
+        expiry:
+          type: integer
+          description: Expiry date of the download url in timestamp.
+      example:
+        url: https://url-to-attachment
+        expiry: 1742575641898
+    Tag:
       type: object
       properties:
-        project_id:
+        id:
           type: integer
-        contact_id:
-          type: integer
+          readOnly: true
+        taxonomy:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        integration_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+          description: Nullable varchar(255) with uniqueness constraint. Used for external system integration identifiers.
+      required:
+      - taxonomy
+      - name
     ProjectDocuments:
       type: array
       items:
@@ -679,89 +714,6 @@ components:
                 type: string
               employee_id:
                 type: string
-    ProjectRequest:
-      type: object
-      properties:
-        client_id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-        address:
-          type: string
-          description: A full address (street, city/suburb, state, postal code, country)
-        address_geo:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - Point
-            coordinates:
-              type: array
-              items:
-                type: number
-              example:
-              - 39.757776
-              - -105.0071
-        suburb:
-          type: string
-        state:
-          type: string
-        postcode:
-          type: string
-        external_id:
-          type: string
-        integration_id:
-          type:
-          - string
-          - 'null'
-        active:
-          type: boolean
-        parent_id:
-          type: integer
-        charge_code_id:
-          type: integer
-        tags:
-          type: array
-          items:
-            type: object
-            properties:
-              tag_id:
-                type: integer
-              tag:
-                $ref: '#/components/schemas/Tag'
-        activities:
-          type: array
-          items:
-            type: object
-            properties:
-              activity_id:
-                type: integer
-    Tag:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        taxonomy:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        color:
-          type: string
-        integration_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-          description: Nullable varchar(255) with uniqueness constraint. Used for external system integration identifiers.
-      required:
-      - taxonomy
-      - name
     ProjectContactsResponse:
       type: array
       items:
@@ -873,24 +825,6 @@ components:
           type: string
           format: date-time
           readOnly: true
-    UrlAttachment:
-      type: object
-      readOnly: true
-      properties:
-        url:
-          type: string
-          format: url
-          description: Download URL for the file.
-        expiry:
-          type: integer
-          description: Expiry date of the download url in timestamp.
-      example:
-        url: https://url-to-attachment
-        expiry: 1742575641898
-    Projects:
-      type: array
-      items:
-        $ref: '#/components/schemas/ProjectResponse'
     ProjectContactCreated:
       type: object
       description: A project/contact association as returned when created.
@@ -902,6 +836,72 @@ components:
           type: integer
         contact_id:
           type: integer
+    ProjectCreateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        client_id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+          description: A full address (street, city/suburb, state, postal code, country)
+        address_geo:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+              example:
+              - 39.757776
+              - -105.0071
+        suburb:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        external_id:
+          type: string
+        integration_id:
+          type: string
+        active:
+          type: boolean
+        parent_id:
+          type: integer
+        modified_by:
+          type: string
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          readOnly: true
+        charge_code_id:
+          type: integer
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              tag_id:
+                type: integer
+        activities:
+          type: array
+          items:
+            type: object
+            properties:
+              activity_id:
+                type: integer
   securitySchemes:
     OAuth2:
       type: oauth2

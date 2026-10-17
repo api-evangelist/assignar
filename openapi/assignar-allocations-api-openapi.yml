@@ -98,6 +98,34 @@ paths:
         in: path
 components:
   schemas:
+    Allocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        resource_id:
+          type: integer
+        resource_date:
+          type: string
+        status_id:
+          type: integer
+        notified:
+          type: boolean
+        comments:
+          type: string
+        timesheet_id:
+          type: integer
+        resource:
+          $ref: '#/components/schemas/OrderResource'
+        status:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            name:
+              type: string
     Allocations:
       type: array
       items:
@@ -161,34 +189,6 @@ components:
           type: integer
         order_task:
           $ref: '#/components/schemas/OrderTaskWithOrderAndTask'
-    Allocation:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        resource_id:
-          type: integer
-        resource_date:
-          type: string
-        status_id:
-          type: integer
-        notified:
-          type: boolean
-        comments:
-          type: string
-        timesheet_id:
-          type: integer
-        resource:
-          $ref: '#/components/schemas/OrderResource'
-        status:
-          type: object
-          properties:
-            id:
-              type: integer
-              readOnly: true
-            name:
-              type: string
   securitySchemes:
     OAuth2:
       type: oauth2

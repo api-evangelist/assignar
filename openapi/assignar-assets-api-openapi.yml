@@ -660,10 +660,141 @@ components:
             $ref: '#/components/schemas/AssetAttachmentSummary'
       required:
       - name
+    TagPart:
+      title: TagPart
+      x-stoplight:
+        id: epsk9hslhfq0q
+      type: object
+      description: ''
+      properties:
+        tag_id:
+          type: integer
+          description: Identifier of the tag
+          example: 301
+        name:
+          type: string
+          description: Name of the tag
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the tag
+        color:
+          type:
+          - string
+          - 'null'
+          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
+          example: '#795548'
+      required:
+      - name
     AssetDocuments:
       type: array
       items:
         $ref: '#/components/schemas/AssetDocument'
+    AssetDocument:
+      type: object
+      description: A document definition attached to an asset, with the uploaded file.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        asset_id:
+          type: integer
+        document_id:
+          type: integer
+          description: The attached document definition. See `GET /documents`.
+        asset:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        document:
+          type: object
+          readOnly: true
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        label:
+          type: string
+        comments:
+          type: string
+        active:
+          type: boolean
+        disabled:
+          type: boolean
+        attachment:
+          type: string
+          description: (See instructions how to upload files.)
+        attachment_url:
+          allOf:
+          - $ref: '#/components/schemas/UrlAttachment'
+          description: Signed download URL, valid for two hours. Null when the record has no attachment.
+        expiry_date:
+          type: string
+          format: date
+        expiry_date_alert:
+          type: string
+          format: date
+        expiry_number:
+          type: integer
+        expiry_number_alert:
+          type: integer
+        created_time:
+          type: string
+          format: date-time
+          readOnly: true
+        modified_time:
+          type: string
+          format: date-time
+          readOnly: true
+      example:
+        id: 1
+        asset_id: 165
+        document_id: 25
+        asset:
+          id: 165
+          name: Medium Dozer
+        document:
+          id: 25
+          name: Vehicle Registration
+        label: Registration Certificate
+        comments: Registration papers
+        active: true
+        disabled: false
+        attachment: /fileupload/asset-documents/user_93/1737331200000/registration.pdf
+        attachment_url:
+          url: https://url-to-attachment
+          expiry: 1742575641898
+        expiry_date: '2025-01-01'
+        expiry_date_alert: null
+        expiry_number: null
+        expiry_number_alert: null
+        created_time: '2024-01-01T10:00:00Z'
+        modified_time: '2024-01-01T10:00:00Z'
+    AssetClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: Heavy Machinery
+        description:
+          type:
+          - string
+          - 'null'
+          example: Large construction equipment
+        code:
+          type:
+          - string
+          - 'null'
+          example: HEAVY-MACH
     AssetWithTagId:
       title: Asset
       type: object
@@ -811,110 +942,6 @@ components:
       example:
         url: https://url-to-attachment
         expiry: 1742575641898
-    AssetClass:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 5
-        name:
-          type: string
-          example: Heavy Machinery
-        description:
-          type:
-          - string
-          - 'null'
-          example: Large construction equipment
-        code:
-          type:
-          - string
-          - 'null'
-          example: HEAVY-MACH
-    AssetDocument:
-      type: object
-      description: A document definition attached to an asset, with the uploaded file.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        asset_id:
-          type: integer
-        document_id:
-          type: integer
-          description: The attached document definition. See `GET /documents`.
-        asset:
-          type: object
-          readOnly: true
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-        document:
-          type: object
-          readOnly: true
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-        label:
-          type: string
-        comments:
-          type: string
-        active:
-          type: boolean
-        disabled:
-          type: boolean
-        attachment:
-          type: string
-          description: (See instructions how to upload files.)
-        attachment_url:
-          allOf:
-          - $ref: '#/components/schemas/UrlAttachment'
-          description: Signed download URL, valid for two hours. Null when the record has no attachment.
-        expiry_date:
-          type: string
-          format: date
-        expiry_date_alert:
-          type: string
-          format: date
-        expiry_number:
-          type: integer
-        expiry_number_alert:
-          type: integer
-        created_time:
-          type: string
-          format: date-time
-          readOnly: true
-        modified_time:
-          type: string
-          format: date-time
-          readOnly: true
-      example:
-        id: 1
-        asset_id: 165
-        document_id: 25
-        asset:
-          id: 165
-          name: Medium Dozer
-        document:
-          id: 25
-          name: Vehicle Registration
-        label: Registration Certificate
-        comments: Registration papers
-        active: true
-        disabled: false
-        attachment: /fileupload/asset-documents/user_93/1737331200000/registration.pdf
-        attachment_url:
-          url: https://url-to-attachment
-          expiry: 1742575641898
-        expiry_date: '2025-01-01'
-        expiry_date_alert: null
-        expiry_number: null
-        expiry_number_alert: null
-        created_time: '2024-01-01T10:00:00Z'
-        modified_time: '2024-01-01T10:00:00Z'
     AssetAttachmentSummary:
       title: Asset attachment on an asset
       type: object
@@ -958,33 +985,6 @@ components:
           type: boolean
           description: Whether the attachment itself is active. Links to inactive attachments are returned — filter on this client-side if you only want current ones.
           example: true
-    TagPart:
-      title: TagPart
-      x-stoplight:
-        id: epsk9hslhfq0q
-      type: object
-      description: ''
-      properties:
-        tag_id:
-          type: integer
-          description: Identifier of the tag
-          example: 301
-        name:
-          type: string
-          description: Name of the tag
-        description:
-          type:
-          - string
-          - 'null'
-          description: Description of the tag
-        color:
-          type:
-          - string
-          - 'null'
-          description: 'Color to render the tag formated as Hex color code. Ex #0000FF'
-          example: '#795548'
-      required:
-      - name
   requestBodies:
     CreateUpdateAssetRequest:
       content:

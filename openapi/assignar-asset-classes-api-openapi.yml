@@ -208,46 +208,7 @@ paths:
       security:
       - Assignar Tenant Auth: []
 components:
-  requestBodies:
-    CreateUpdateAssetClassRequest:
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              name:
-                type: string
-                description: Name of the asset class. Not unique — two asset classes may share a name.
-                maxLength: 100
-                example: Heavy Machinery
-              description:
-                type:
-                - string
-                - 'null'
-                description: Description of the asset class
-                maxLength: 255
-                example: Large construction equipment
-              code:
-                type:
-                - string
-                - 'null'
-                description: Short code for the asset class. Unique across asset classes — reusing an existing code is rejected with `[400] Unique Constraint Error - unique_asset_class_code`. May be omitted or null, and any number of asset classes may have no code.
-                maxLength: 50
-                example: HEAVY-MACH
-            required:
-            - name
-          examples:
-            Request:
-              value:
-                name: Heavy Machinery
-                description: Large construction equipment
-                code: HEAVY-MACH
-      description: ''
   schemas:
-    AssetClasses:
-      type: array
-      items:
-        $ref: '#/components/schemas/AssetClassDetail'
     AssetClass:
       type: object
       properties:
@@ -267,6 +228,25 @@ components:
           - string
           - 'null'
           example: HEAVY-MACH
+    UserReference:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 500
+        username:
+          type: string
+          example: jsmith
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
+    AssetClasses:
+      type: array
+      items:
+        $ref: '#/components/schemas/AssetClassDetail'
     AssetClassDetail:
       description: An asset class as returned by the `/asset-classes` collection. Extends the `AssetClass` summary — the four fields the `assetClass` relation selects when embedded in an asset or a site diary entry — with the audit columns and their hydrated user objects.
       allOf:
@@ -311,21 +291,41 @@ components:
             - $ref: '#/components/schemas/UserReference'
             description: The user named by `modified_by_id`, hydrated by default with no `relations` query parameter. When `modified_by_id` is null the object is still present with every field set to null, rather than the object itself being null.
             readOnly: true
-    UserReference:
-      type: object
-      properties:
-        user_id:
-          type: integer
-          example: 500
-        username:
-          type: string
-          example: jsmith
-        first_name:
-          type: string
-          example: John
-        last_name:
-          type: string
-          example: Smith
+  requestBodies:
+    CreateUpdateAssetClassRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the asset class. Not unique — two asset classes may share a name.
+                maxLength: 100
+                example: Heavy Machinery
+              description:
+                type:
+                - string
+                - 'null'
+                description: Description of the asset class
+                maxLength: 255
+                example: Large construction equipment
+              code:
+                type:
+                - string
+                - 'null'
+                description: Short code for the asset class. Unique across asset classes — reusing an existing code is rejected with `[400] Unique Constraint Error - unique_asset_class_code`. May be omitted or null, and any number of asset classes may have no code.
+                maxLength: 50
+                example: HEAVY-MACH
+            required:
+            - name
+          examples:
+            Request:
+              value:
+                name: Heavy Machinery
+                description: Large construction equipment
+                code: HEAVY-MACH
+      description: ''
   securitySchemes:
     OAuth2:
       type: oauth2
