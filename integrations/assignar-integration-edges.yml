@@ -25,8 +25,26 @@ edges:
     builder: unknown (not in the directory record)
   detected_by: sweep-workflow-automation.py
   first_seen: '2026-10-15'
+- partner_name: Autodesk (own)
+  partner: autodesk
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.autodesk.com/apps/254a47ff-adf8-422f-bdf4-3e29bf2a7e78
+  mirror_of: autodesk/integrations/autodesk-integration-edges.yml
+  apps:
+  - Assignar
+  listing_count: 1
+  detected: '2026-10-19'
+  detected_by: mirror-platform-listings.py
+  category: ACCBD5K/BIM360/BM36DP
 method: searched
 checked:
+- https://marketplace.autodesk.com/sitemap.xml
 - https://zapier.com/api/v4/apps/
 source:
 - https://zapier.com/api/v4/apps/

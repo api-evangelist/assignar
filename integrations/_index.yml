@@ -28,3 +28,16 @@
     builder: unknown (not in the directory record)
   status: not-a-workflow
   arazzo: null
+- slug: assignar-autodesk-own
+  label: Autodesk (own)
+  partner: autodesk
+  partner_name: Autodesk (own)
+  category: ACCBD5K/BIM360/BM36DP
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.autodesk.com/apps/254a47ff-adf8-422f-bdf4-3e29bf2a7e78
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
