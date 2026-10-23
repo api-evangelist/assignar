@@ -921,3 +921,9 @@ components:
             The scope ''target-entity:b816a5d3-40c3-477f-a551-1d066d7211cc:api_access'' is required to access the API.
 
             '
+x-provenance:
+  method: harvested
+  publisher: Assignar
+  source: https://apidocs.assignar.com/api-docs/swagger.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
