@@ -64,5 +64,170 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Assignar is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+Assignar provides construction software that gives real‑time visibility and operational control for civil contractors, helping manage crews, equipment, compliance, and project performance. The platform supports pay rates, job costing, scheduling, time tracking, safety, AI‑driven insights, reporting, and integrations, aiming to protect margins from field to bottom line.
+
+**Areas:** Construction · Software · Cloud · Project Management
+
+## Assignar on APIs.io
+
+Everything profiled for Assignar is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/assignar/](https://apis.io/providers/assignar/)** — or go straight to one of the APIs or properties below.
+
+### APIs (25)
+
+- [Assignar Activities API](https://apis.io/apis/assignar/assignar-activities-api/) — The Activities API from Assignar — 2 operation(s) for activities.
+- [Assignar Allocations API](https://apis.io/apis/assignar/assignar-allocations-api/) — The Allocations API from Assignar — 3 operation(s) for allocations.
+- [Assignar Allowances API](https://apis.io/apis/assignar/assignar-allowances-api/) — The Allowances API from Assignar — 2 operation(s) for allowances.
+- [Assignar Asset Attachments API](https://apis.io/apis/assignar/assignar-asset-attachments-api/) — The Asset Attachments API from Assignar — 2 operation(s) for asset attachments.
+- [Assignar Asset Classes API](https://apis.io/apis/assignar/assignar-asset-classes-api/) — The Asset Classes API from Assignar — 2 operation(s) for asset classes.
+- [Assignar Assets API](https://apis.io/apis/assignar/assignar-assets-api/) — The Assets API from Assignar — 5 operation(s) for assets.
+- [Assignar Clients API](https://apis.io/apis/assignar/assignar-clients-api/) — The Clients API from Assignar — 7 operation(s) for clients.
+- [Assignar Contacts API](https://apis.io/apis/assignar/assignar-contacts-api/) — The Contacts API from Assignar — 2 operation(s) for contacts.
+- [Assignar Digital Dockets API](https://apis.io/apis/assignar/assignar-digitaldockets-api/) — The DigitalDockets API from Assignar — 2 operation(s) for digitaldockets.
+- [Assignar Documents API](https://apis.io/apis/assignar/assignar-documents-api/) — The Documents API from Assignar — 2 operation(s) for documents.
+- [Assignar Form Results API](https://apis.io/apis/assignar/assignar-form-results-api/) — The Form Results API from Assignar — 2 operation(s) for form results.
+- [Assignar Invoices API](https://apis.io/apis/assignar/assignar-invoices-api/) — The Invoices API from Assignar — 6 operation(s) for invoices.
+- [Assignar Leave Requests API](https://apis.io/apis/assignar/assignar-leave-requests-api/) — The Leave Requests API from Assignar — 5 operation(s) for leave requests.
+- [Assignar Leave Types API](https://apis.io/apis/assignar/assignar-leave-types-api/) — The Leave Types API from Assignar — 2 operation(s) for leave types.
+- [Assignar Order Templates API](https://apis.io/apis/assignar/assignar-order-templates-api/) — The Order Templates API from Assignar — 2 operation(s) for order templates.
+- [Assignar Orders API](https://apis.io/apis/assignar/assignar-orders-api/) — The Orders API from Assignar — 19 operation(s) for orders.
+- [Assignar Projects API](https://apis.io/apis/assignar/assignar-projects-api/) — The Projects API from Assignar — 11 operation(s) for projects.
+- [Assignar Site Diary API](https://apis.io/apis/assignar/assignar-site-diary-api/) — The Site Diary API from Assignar — 5 operation(s) for site diary.
+- [Assignar Skills & Competencies API](https://apis.io/apis/assignar/assignar-skills-competencies-api/) — The Skills & Competencies API from Assignar — 8 operation(s) for skills & competencies.
+- [Assignar Suppliers API](https://apis.io/apis/assignar/assignar-suppliers-api/) — The Suppliers API from Assignar — 2 operation(s) for suppliers.
+- [Assignar Tags API](https://apis.io/apis/assignar/assignar-tags-api/) — The Tags API from Assignar — 2 operation(s) for tags.
+- [Assignar Task Groups API](https://apis.io/apis/assignar/assignar-taskgroups-api/) — The TaskGroups API from Assignar — 3 operation(s) for taskgroups.
+- [Assignar Tasks API](https://apis.io/apis/assignar/assignar-tasks-api/) — The Tasks API from Assignar — 7 operation(s) for tasks.
+- [Assignar Timesheets API](https://apis.io/apis/assignar/assignar-timesheets-api/) — The Timesheets API from Assignar — 5 operation(s) for timesheets.
+- [Assignar Users API](https://apis.io/apis/assignar/assignar-users-api/) — The Users API from Assignar — 17 operation(s) for users.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [assignar-mcp.yml](https://apis.io/servers/assignar/assignar-mcp-yml/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Assignar Agentic Access](https://apis.io/agentic-access/assignar/assignar-agentic-access/)
+
+#### JSON Schema (6)
+
+The data models the API reads and writes.
+
+- [Asset](https://apis.io/schemas/assignar/assignar-asset-with-tag-id/)
+- [Asset](https://apis.io/schemas/assignar/assignar-asset-with-tag-part/)
+- [FormResult](https://apis.io/schemas/assignar/assignar-form-result/)
+- [SiteDiary](https://apis.io/schemas/assignar/assignar-site-diary/)
+- [TimesheetExpanded](https://apis.io/schemas/assignar/assignar-timesheet-expanded/)
+- [User](https://apis.io/schemas/assignar/assignar-user/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Assignar Context](https://apis.io/jsonld/assignar/assignar-context/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Assignar Openapi Overlay](https://apis.io/overlays/assignar/assignar-openapi-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Assignar API Rules](https://apis.io/rules/assignar/assignar-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Assignar Authentication](https://apis.io/security/assignar/assignar-authentication/)
+- [Assignar Domain Security](https://apis.io/security/assignar/assignar-domain-security/)
+- [Assignar Trust Center](https://apis.io/security/assignar/assignar-trust-center/)
+- [Assignar Vulnerability Disclosure](https://apis.io/security/assignar/assignar-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Assignar Scopes](https://apis.io/scopes/assignar/assignar-scopes/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://assignar.com/)
+- [Documentation](https://apidocs.assignar.com/api-docs/)
+- [Getting started](https://support.assignar.com/hc/en-au/categories/4406587316879-Getting-Started)
+- [Pricing](https://assignar.com/pricing/)
+- [Support](https://support.assignar.com/hc/en-au)
+- [Blog](https://assignar.com/category/articles/)
+- [Security](https://assignar.com/security/)
+- [Compliance](https://trust.assignar.com/)
+- [Terms of service](https://assignar.com/legal/terms-and-conditions)
+- [Privacy policy](https://trust.assignar.com/)
+- [GitHub](https://github.com/assignar)
+- [Status](https://status.assignar.com/)
+
+## API Evangelist rating
+
+**Kin Score 53.1** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 67.9 |
+| Contract quality | 60.2 |
+| Contract governance | 22.0 |
+| Operational transparency | 31.6 |
+| Developer ergonomics | 42.3 |
+| Access clarity | 47.4 |
+
+**Agent readiness 39.2** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/assignar/](https://apis.io/providers/assignar/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Assignar: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/assignar/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
